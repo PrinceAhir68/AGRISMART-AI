@@ -178,6 +178,25 @@ class TestRealIoTHardware(unittest.TestCase):
             self.assertEqual(resp.headers.get("content-type"), "audio/mpeg")
             self.assertGreater(len(resp.content), 1000)
 
+    def test_system_network_ip_endpoint(self):
+        """Verify that /api/system/network-ip returns host LAN IP and telemetry ingest URL."""
+        resp = self.client.get("/api/system/network-ip")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertIn("ip", data)
+        self.assertIn("port", data)
+        self.assertIn("telemetry_url", data)
+        self.assertTrue(data["telemetry_url"].endswith("/api/iot/ingest"))
+
+    def test_weather_intelligence_endpoint(self):
+        """Verify that /api/weather returns agrometeorology for given GPS coordinates."""
+        resp = self.client.get("/api/weather?lat=23.0225&lon=72.5714&name=Ahmedabad")
+        self.assertEqual(resp.status_code, 200)
+        data = resp.json()
+        self.assertIn("current_weather", data)
+        self.assertIn("temperature_c", data["current_weather"])
+        self.assertIn("disease_risk_index", data)
+
 
 if __name__ == "__main__":
     unittest.main()

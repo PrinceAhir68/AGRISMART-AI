@@ -212,6 +212,12 @@ const TRANSLATIONS = {
     "btn_register_submit": "Create My Farm Account",
     "btn_back_home": "⬅ Back to Scanner",
     "btn_back_scanner": "⬅ Scan Another Plant",
+    "btn_browse_photos": "Browse Photos",
+    "btn_take_photo": "Open Camera",
+    "camera_modal_title": "Live Camera Leaf Scanner",
+    "camera_frame_guide": "Center the leaf inside the frame",
+    "btn_flip_camera": "Flip Camera",
+    "btn_snap_photo": "Snap & Diagnose",
     "btn_download_pdf_file": "📥 Download Report (HTML/PDF)",
     "btn_print_pdf": "🖨 Print Official Certificate",
     "print_modal_title": "📄 Official Plant Diagnostic Certificate",
@@ -415,6 +421,12 @@ const TRANSLATIONS = {
     "btn_register_submit": "मेरा किसान खाता बनाएं",
     "btn_back_home": "⬅ मुख्य स्कैनर पर वापस",
     "btn_back_scanner": "⬅ नया पौधा / पत्ती जांचें",
+    "btn_browse_photos": "फ़ोटो चुनें",
+    "btn_take_photo": "कैमरा खोलें",
+    "camera_modal_title": "लाइव कैमरा पत्ती स्कैनर",
+    "camera_frame_guide": "पत्ती को फ्रेम के बीच में रखें",
+    "btn_flip_camera": "कैमरा बदलें",
+    "btn_snap_photo": "फोटो लें और जांचें",
     "btn_download_pdf_file": "📥 प्रमाण पत्र डाउनलोड करें (HTML/PDF)",
     "btn_print_pdf": "🖨 प्रमाण पत्र प्रिंट करें",
     "print_modal_title": "📄 आधिकारिक पादप रोग प्रमाण पत्र",
@@ -618,6 +630,12 @@ const TRANSLATIONS = {
     "btn_register_submit": "મારું ખેડૂત ખાતું બનાવો",
     "btn_back_home": "⬅ મુખ્ય સ્કેનર પર પાછા",
     "btn_back_scanner": "⬅ નવું પર્ણ / પાક તપાસો",
+    "btn_browse_photos": "ફોટા પસંદ કરો",
+    "btn_take_photo": "કૅમેરો ખોલો",
+    "camera_modal_title": "લાઈવ કૅમેરા પાન સ્કેનર",
+    "camera_frame_guide": "પાનને ફ્રેમની વચ્ચે રાખો",
+    "btn_flip_camera": "કૅમેરો બદલો",
+    "btn_snap_photo": "ફોટો લો અને તપાસો",
     "btn_download_pdf_file": "📥 પ્રમાણપત્ર ડાઉનલોડ કરો (HTML/PDF)",
     "btn_print_pdf": "🖨 પ્રમાણપત્ર પ્રિન્ટ કરો",
     "print_modal_title": "📄 સત્તાવાર પાક રોગ નિદાન પ્રમાણપત્ર",
@@ -821,6 +839,12 @@ const TRANSLATIONS = {
     "btn_register_submit": "माझे शेतकरी खाते उघडा",
     "btn_back_home": "⬅ मुख्य स्कॅनरवर परत",
     "btn_back_scanner": "⬅ नवीन रोप / पान तपासा",
+    "btn_browse_photos": "फोटो निवडा",
+    "btn_take_photo": "कॅमेरा उघडा",
+    "camera_modal_title": "लाइव्ह कॅमेरा पान स्कॅनर",
+    "camera_frame_guide": "पानाला फ्रेमच्या मध्यभागी ठेवा",
+    "btn_flip_camera": "कॅमेरा बदला",
+    "btn_snap_photo": "फोटो घ्या आणि तपासा",
     "btn_download_pdf_file": "📥 प्रमाणपत्र डाउनलोड करा (HTML/PDF)",
     "btn_print_pdf": "🖨 प्रमाणपत्र प्रिंट करा",
     "print_modal_title": "📄 अधिकृत पीक रोग निदान प्रमाणपत्र",
@@ -957,6 +981,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchIoTTelemetry();
   refreshComPorts();
   loadArduinoSketch();
+  fetchNetworkIp();
   setInterval(checkIoTStatusAndTelemetry, 3000);
 
   // 6. Drag & drop support
@@ -998,6 +1023,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // 4. GLOBAL LANGUAGE TRANSLATION ENGINE (i18n)
 // =================================================================
 function changeGlobalLanguage(lang, save = true) {
+  stopAudio();
   currentLanguage = lang;
   if (save) localStorage.setItem('agrismart_lang', lang);
 
@@ -1398,6 +1424,105 @@ function updateSpeakerButtonState(active) {
 // =================================================================
 // 7. CORE TASK: LEAF DISEASE DETECTION WITH CROP SELECTOR
 // =================================================================
+
+// =================================================================
+// 6.1 FIELD CAMERA / WEBCAM LEAF SCANNER
+// =================================================================
+let cameraStream = null;
+let currentFacingMode = 'environment';
+
+async function openCameraModal() {
+  const modal = document.getElementById('camera-modal');
+  if (!modal) return;
+  modal.classList.add('active');
+  await startCameraStream();
+}
+
+async function startCameraStream() {
+  stopCameraStream();
+  const video = document.getElementById('camera-video-feed');
+  if (!video) return;
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    showToast("Camera access is not supported by your browser or environment.", "error");
+    closeCameraModal();
+    return;
+  }
+
+  try {
+    const constraints = {
+      video: {
+        facingMode: currentFacingMode,
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    };
+    cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+    video.srcObject = cameraStream;
+    await video.play();
+  } catch (err) {
+    console.warn("Could not start camera with constraints, attempting fallback:", err);
+    try {
+      cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+      video.srcObject = cameraStream;
+      await video.play();
+    } catch (e) {
+      showToast("Unable to access camera. Please check permissions.", "error");
+      closeCameraModal();
+    }
+  }
+}
+
+function stopCameraStream() {
+  if (cameraStream) {
+    try {
+      cameraStream.getTracks().forEach(track => track.stop());
+    } catch (e) {}
+    cameraStream = null;
+  }
+  const video = document.getElementById('camera-video-feed');
+  if (video) video.srcObject = null;
+}
+
+function closeCameraModal() {
+  stopCameraStream();
+  const modal = document.getElementById('camera-modal');
+  if (modal) modal.classList.remove('active');
+}
+
+async function switchCameraFacingMode() {
+  currentFacingMode = (currentFacingMode === 'environment') ? 'user' : 'environment';
+  await startCameraStream();
+}
+
+function captureCameraPhoto() {
+  const video = document.getElementById('camera-video-feed');
+  const canvas = document.getElementById('camera-capture-canvas');
+  if (!video || !canvas || !video.videoWidth) {
+    showToast("Camera is not ready yet. Please wait a moment.", "warning");
+    return;
+  }
+
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  canvas.toBlob((blob) => {
+    if (!blob) {
+      showToast("Failed to capture image from camera.", "error");
+      return;
+    }
+    const filename = `field_leaf_${Date.now()}.jpg`;
+    const file = new File([blob], filename, { type: 'image/jpeg' });
+    closeCameraModal();
+    processSelectedFile(file);
+    showToast("Photo captured successfully! Starting AI diagnosis...", "success");
+    setTimeout(runAnalysis, 250);
+  }, 'image/jpeg', 0.92);
+}
+
 function handleFileUpload(event) {
   if (event.target.files && event.target.files[0]) {
     processSelectedFile(event.target.files[0]);
@@ -2541,15 +2666,21 @@ async function sendChatMessage() {
 
     botDiv.innerHTML = `
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong>🌱 ${data.topic}</strong>
-        <button class="btn-tts" onclick="speakRaw('${data.answer.replace(/'/g, "\\'")}')">🔊 Voice</button>
+        <strong>🌱 ${escapeHtml(data.topic)}</strong>
+        <button class="btn-tts" type="button">🔊 Voice</button>
       </div>
-      <p style="white-space: pre-line; line-height: 1.5;">${data.answer}</p>
+      <p style="white-space: pre-line; line-height: 1.5;">${escapeHtml(data.answer)}</p>
       ${consensusBarHtml}
       <div style="font-size:0.75rem; color:#64748b; margin-top:6px; border-top:1px dashed #cbd5e1; padding-top:4px;">
-        <em>Verified Source: ${data.grounded_source}</em>
+        <em>Verified Source: ${escapeHtml(data.grounded_source)}</em>
       </div>
     `;
+    const ttsBtn = botDiv.querySelector('.btn-tts');
+    if (ttsBtn) {
+      ttsBtn.addEventListener('click', () => {
+        speakRaw(data.answer, currentLanguage);
+      });
+    }
     windowEl.appendChild(botDiv);
     windowEl.scrollTop = windowEl.scrollHeight;
   } catch (e) {
@@ -3042,6 +3173,20 @@ async function disconnectIoTHardware() {
 }
 
 // 15.10 Load and Copy Arduino Sketch
+
+// 15.0 Fetch Dynamic Local Network IP for ESP32 and Wi-Fi Nodes
+async function fetchNetworkIp() {
+  try {
+    const res = await fetch('/api/system/network-ip');
+    if (!res.ok) return;
+    const data = await res.json();
+    const ipSpan = document.getElementById('wifi-local-ip');
+    if (ipSpan && data.ip) {
+      ipSpan.innerText = data.ip;
+    }
+  } catch (e) {}
+}
+
 async function loadArduinoSketch() {
   const display = document.getElementById('arduino-code-display');
   if (!display) return;

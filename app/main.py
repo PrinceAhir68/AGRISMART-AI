@@ -539,6 +539,32 @@ def api_iot_arduino_sketch():
     return {"sketch": iot_manager.get_arduino_sketch()}
 
 
+@app.get("/api/system/network-ip")
+def api_system_network_ip():
+    """
+    Return local network IP so external IoT microcontrollers (ESP32/ESP8266/Arduino)
+    can push sensor telemetry directly over Wi-Fi without hardcoding 127.0.0.1.
+    """
+    import socket
+    local_ip = "127.0.0.1"
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.settimeout(0.5)
+        s.connect(("8.8.8.8", 80))
+        local_ip = s.getsockname()[0]
+        s.close()
+    except Exception:
+        try:
+            local_ip = socket.gethostbyname(socket.gethostname())
+        except Exception:
+            local_ip = "127.0.0.1"
+    return {
+        "ip": local_ip,
+        "port": 8000,
+        "telemetry_url": f"http://{local_ip}:8000/api/iot/ingest"
+    }
+
+
 # -------------------------------------------------------------
 # MULTILINGUAL TEXT-TO-SPEECH (TTS) ENDPOINT
 # -------------------------------------------------------------

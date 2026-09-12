@@ -155,6 +155,14 @@
             <div class="upload-icon">📸</div>
             <p><strong data-i18n="upload_prompt">Click to browse</strong> <span data-i18n="upload_drag">or drag & drop leaf photo</span></p>
             <span class="file-hint" data-i18n="upload_hint">Supports real camera photos or field leaf images (JPG, PNG, WEBP)</span>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;" onclick="event.stopPropagation();">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('file-input').click();">
+                📁 <span data-i18n="btn_browse_photos">Browse Photos</span>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" onclick="openCameraModal();" id="btn-camera-capture">
+                📷 <span data-i18n="btn_take_photo">Open Camera</span>
+              </button>
+            </div>
             <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(event)">
           </div>
 
@@ -944,6 +952,40 @@
         </div>
       </div>
     </section>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 0: LIVE FIELD CAMERA VIEWFINDER (Mobile / Webcam)   -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="camera-modal">
+    <div class="modal-card" style="max-width: 540px; text-align: center;">
+      <div class="modal-header">
+        <h3 style="display:flex; align-items:center; gap:8px; margin:0;" data-i18n="camera_modal_title">
+          <span>📷</span> <span>Live Camera Leaf Scanner</span>
+        </h3>
+        <button class="modal-close" onclick="closeCameraModal()" title="Close Camera">✕</button>
+      </div>
+      <div style="position:relative; background:#0f172a; border-radius:10px; overflow:hidden; margin:14px 0; min-height:280px; display:flex; align-items:center; justify-content:center;">
+        <video id="camera-video-feed" autoplay playsinline muted style="width:100%; max-height:360px; object-fit:cover; border-radius:8px;"></video>
+        <div id="camera-reticle" style="position:absolute; inset:20px; border:2px dashed rgba(255,255,255,0.7); border-radius:8px; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; padding-bottom:8px;">
+          <span style="background:rgba(0,0,0,0.65); color:#a7f3d0; font-size:0.75rem; padding:3px 10px; border-radius:4px;" data-i18n="camera_frame_guide">Center the leaf inside the frame</span>
+        </div>
+        <canvas id="camera-capture-canvas" style="display:none;"></canvas>
+      </div>
+      <div class="modal-actions" style="display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;">
+        <button type="button" class="btn btn-secondary" onclick="switchCameraFacingMode()" id="btn-flip-camera" title="Switch camera">
+          🔄 <span data-i18n="btn_flip_camera">Flip Camera</span>
+        </button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeCameraModal()">
+            <span data-i18n="btn_cancel">Cancel</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="captureCameraPhoto()" id="btn-snap-photo">
+            📸 <span data-i18n="btn_snap_photo">Snap & Diagnose</span>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ======================================================== -->
