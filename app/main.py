@@ -514,7 +514,43 @@ def api_model_report():
     return {"message": "Run python model/evaluate.py to compile report metrics."}
 
 
+def _is_port_in_use(port: int) -> bool:
+    import socket
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.settimeout(0.5)
+        return s.connect_ex(('127.0.0.1', port)) == 0
+
+
+def _free_port_if_occupied(port: int):
+    if not _is_port_in_use(port):
+        return
+    import subprocess
+    import time
+    try:
+        res = subprocess.run(
+            f'powershell -Command "Get-NetTCPConnection -LocalPort {port} -State Listen -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess"',
+            capture_output=True, text=True, shell=True
+        )
+        pids = [p.strip() for p in res.stdout.strip().split() if p.strip().isdigit()]
+        curr_pid = os.getpid()
+        for pid in pids:
+            if int(pid) != curr_pid:
+                subprocess.run(f"taskkill /F /PID {pid}", shell=True, capture_output=True)
+        time.sleep(0.8)
+    except Exception:
+        pass
+
+
 if __name__ == "__main__":
     import uvicorn
-    print("Starting AgriSmart AI Server on http://127.0.0.1:8000 ...")
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=False)
+    target_port = 8000
+    if _is_port_in_use(target_port):
+        print(f"[Port Check] Port {target_port} is busy. Releasing previous instance...")
+        _free_port_if_occupied(target_port)
+
+    if _is_port_in_use(target_port):
+        target_port = 8001
+        print(f"[Port Fallback] Port 8000 still in use. Starting on alternative port: http://127.0.0.1:{target_port}")
+
+    print(f"Starting AgriSmart AI Server on http://127.0.0.1:{target_port} ...")
+    uvicorn.run("app.main:app", host="127.0.0.1", port=target_port, reload=False)
