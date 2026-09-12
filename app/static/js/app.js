@@ -261,7 +261,73 @@ const TRANSLATIONS = {
     "code_title": "Arduino IDE / PlatformIO Ready Sketch:",
     "btn_copy_code": "📋 Copy Code",
     "sim_notice": "Optional virtual simulator for hackathon judge presentations when physical sensors are not available:",
-    "iot_terminal_title": "LIVE HARDWARE SERIAL MONITOR"
+    "iot_terminal_title": "LIVE HARDWARE SERIAL MONITOR",
+    "nav_settings": "Settings",
+    "tab_settings": "⚙️ Settings & Profile",
+    "settings_title": "Settings & Farm Profile",
+    "settings_subtitle": "Manage your personal farmer identity, land records, regional preferences, visual display mode, and IoT edge hardware settings.",
+    "tag_farmer_identity": "Farmer Identity",
+    "tag_accessibility": "Accessibility & Display",
+    "tag_sensors": "Sensors & Gateways",
+    "tag_privacy": "Privacy & Backup",
+    "set_card1_title": "Personal Details & Farm Profile",
+    "set_card1_desc": "Personal and agronomic details help AgriSmart AI personalize disease remedies, irrigation advice, and crop recommendations for your specific field.",
+    "set_label_name": "Farmer Name",
+    "set_label_contact": "Phone Number or Email",
+    "set_label_state": "State / Region",
+    "set_label_district": "District",
+    "set_label_village": "Village / Taluka / Landmark",
+    "set_label_farm_size": "Land Area & Unit",
+    "set_label_crops": "Primary Cultivated Crops (Click to select)",
+    "set_label_soil": "Dominant Soil Type",
+    "set_label_water": "Primary Water Source",
+    "btn_save_profile": "💾 Save Farm Profile",
+    "set_card2_title": "Display, Language & Voice Settings",
+    "set_card2_desc": "Customize platform visual appearance, contrast for daylight field inspection, speech narration speed, and audio alerts.",
+    "set_label_platform_lang": "Platform Language (Default)",
+    "set_label_theme": "Visual Display Mode",
+    "theme_standard": "Farm Green",
+    "theme_standard_sub": "Standard Balanced",
+    "theme_sunlight": "Sunlight Mode",
+    "theme_sunlight_sub": "High Contrast Field",
+    "theme_night": "Night Mode",
+    "theme_night_sub": "Dark Low-Glare",
+    "set_label_fontsize": "Font Readability Size",
+    "font_normal": "Standard (100%)",
+    "font_large": "Senior / Large (115%)",
+    "set_label_voice_rate": "Voice Narration Speed",
+    "set_label_auto_voice": "Auto-Voice Readout",
+    "set_sub_auto_voice": "Speaks disease diagnosis out loud immediately upon image scan",
+    "set_label_chime": "Disease Alert Audio Chime",
+    "set_sub_chime": "Plays sound chime when high-risk crop pathology is discovered",
+    "btn_save_pref": "💾 Save Display Preferences",
+    "set_card3_title": "IoT Hardware & Sensor Settings",
+    "set_card3_desc": "Configure field microcontrollers, data ingestion polling frequency, and verify non-IoT Bluetooth device rejection.",
+    "set_label_iot_interval": "Telemetry Monitor Polling Frequency",
+    "set_ble_filter_title": "Intelligent BLE Non-IoT Filter: ACTIVE",
+    "set_ble_filter_desc": "Strictly rejects smart watches, audio speakers, headphones, and non-agricultural gadgets during Web Bluetooth pairing.",
+    "set_label_local_ip": "AgriSmart AI Gateway Local IP (For ESP32 / Arduino HTTP Push)",
+    "btn_copy_url": "Copy URL",
+    "set_sub_local_ip": "Flash this URL into your ESP32 or Wi-Fi Arduino firmware to stream live soil data.",
+    "set_status_label": "Hardware Gateway Status:",
+    "btn_open_iot_tab": "Open IoT Panel",
+    "set_card4_title": "Account Security & Data Management",
+    "set_card4_desc": "Manage your password, export diagnostic logs and recommendations, and clear offline browser caches.",
+    "set_header_pwd": "Change Account Password",
+    "set_guest_pwd_notice": "You are using a Guest Session. Create or sign into an account to set a password.",
+    "set_label_old_pwd": "Current Password",
+    "set_label_new_pwd": "New Password",
+    "set_label_confirm_pwd": "Confirm New Password",
+    "btn_change_pwd": "Update Password",
+    "set_label_export": "Export Farm Diagnostic Data",
+    "set_sub_export": "Download complete JSON archive of all leaf scans, remedies, and recommendations",
+    "btn_export_data": "Export JSON",
+    "set_label_cache": "Clear Scanner Media Cache",
+    "set_sub_cache": "Frees device memory by removing cached test leaf samples and temporary canvases",
+    "btn_clear_cache": "Clear Cache",
+    "set_label_logout": "Farmer Account Session",
+    "set_sub_logout": "Currently running as Guest Session",
+    "btn_login_or_register": "Log In / Register"
   },
   "hi": {
     "app_title": "एग्रीस्मार्ट एआई (AgriSmart AI)",
@@ -470,7 +536,73 @@ const TRANSLATIONS = {
     "code_title": "Arduino IDE / PlatformIO के लिए तैयार कोड:",
     "btn_copy_code": "📋 कोड कॉपी करें",
     "sim_notice": "वैकल्पिक वर्चुअल सिम्युलेटर (जब भौतिक हार्डवेयर उपलब्ध न हो):",
-    "iot_terminal_title": "लाइव हार्डवेयर सीरियल मॉनिटर"
+    "iot_terminal_title": "लाइव हार्डवेयर सीरियल मॉनिटर",
+    "nav_settings": "सेटिंग्स",
+    "tab_settings": "⚙️ सेटिंग्स और प्रोफ़ाइल",
+    "settings_title": "सेटिंग्स और कृषि प्रोफ़ाइल",
+    "settings_subtitle": "अपनी किसान पहचान, भूमि विवरण, भाषा, दृश्य मोड और IoT हार्डवेयर सेटिंग्स प्रबंधित करें।",
+    "tag_farmer_identity": "किसान पहचान",
+    "tag_accessibility": "सुलभता एवं प्रदर्शन",
+    "tag_sensors": "सेंसर और गेटवे",
+    "tag_privacy": "सुरक्षा और बैकअप",
+    "set_card1_title": "व्यक्तिगत विवरण और कृषि प्रोफ़ाइल",
+    "set_card1_desc": "व्यक्तिगत और कृषि संबंधी विवरण एग्रीस्मार्ट एआई को आपके खेत के लिए उपचार, सिंचाई और फसल सलाह को अनुकूलित करने में मदद करते हैं।",
+    "set_label_name": "किसान का नाम",
+    "set_label_contact": "फोन नंबर या ईमेल",
+    "set_label_state": "राज्य / क्षेत्र",
+    "set_label_district": "ज़िला",
+    "set_label_village": "गाँव / तहसील / लैंडमार्क",
+    "set_label_farm_size": "भूमि क्षेत्र और इकाई",
+    "set_label_crops": "मुख्य उगाई जाने वाली फसलें (चुनने के लिए क्लिक करें)",
+    "set_label_soil": "प्रमुख मिट्टी का प्रकार",
+    "set_label_water": "मुख्य सिंचाई स्रोत",
+    "btn_save_profile": "💾 प्रोफ़ाइल सुरक्षित करें",
+    "set_card2_title": "प्रदर्शन, भाषा एवं आवाज़ सेटिंग्स",
+    "set_card2_desc": "वेबसाइट का दृश्य स्वरूप, तेज धूप हेतु कंट्रास्ट, बोलकर सुनाने की गति और ध्वनि अलर्ट कस्टमाइज़ करें।",
+    "set_label_platform_lang": "वेबसाइट की भाषा (डिफ़ॉल्ट)",
+    "set_label_theme": "दृश्य डिस्प्ले थीम",
+    "theme_standard": "फार्म ग्रीन",
+    "theme_standard_sub": "मानक संतुलित हरा",
+    "theme_sunlight": "धूप मोड (हाई-कंट्रास्ट)",
+    "theme_sunlight_sub": "खेत में तेज धूप हेतु",
+    "theme_night": "नाइट मोड (डार्क)",
+    "theme_night_sub": "रात में कम चमक",
+    "set_label_fontsize": "अक्षर आकार (फॉन्ट साइज़)",
+    "font_normal": "मानक (100%)",
+    "font_large": "बड़ा आकार (115% वरिष्ठ)",
+    "set_label_voice_rate": "आवाज़ बोलने की गति",
+    "set_label_auto_voice": "स्वचालित आवाज़ वाचन",
+    "set_sub_auto_voice": "फोटो स्कैन करते ही रोग का नाम तुरंत बोलकर सुनाए",
+    "set_label_chime": "रोग चेतावनी बीप/ध्वनि",
+    "set_sub_chime": "गंभीर रोग का पता चलने पर चेतावनी ध्वनि बजाए",
+    "btn_save_pref": "💾 प्रदर्शन सेटिंग्स सुरक्षित करें",
+    "set_card3_title": "IoT हार्डवेयर और सेंसर सेटिंग्स",
+    "set_card3_desc": "खेत के माइक्रोकंट्रोलर, डेटा पोलिंग दर और गैर-कृषि ब्लूटूथ डिवाइस अस्वीकृति प्रबंधित करें।",
+    "set_label_iot_interval": "सेंसर डेटा अपडेट दर",
+    "set_ble_filter_title": "इंटेलिजेंट ब्लूटूथ गैर-कृषि फ़िल्टर: सक्रिय",
+    "set_ble_filter_desc": "वेब ब्लूटूथ पेयरिंग में स्मार्ट वॉच, ऑडियो स्पीकर व हेडफ़ोन को खारिज करता है।",
+    "set_label_local_ip": "गेटवे लोकल आईपी (ESP32/Arduino डेटा पुश हेतु)",
+    "btn_copy_url": "URL कॉपी करें",
+    "set_sub_local_ip": "लाइव मिट्टी डेटा भेजने हेतु इस URL को अपने ESP32 में फ़्लैश करें।",
+    "set_status_label": "हार्डवेयर गेटवे स्थिति:",
+    "btn_open_iot_tab": "IoT पैनल खोलें",
+    "set_card4_title": "खाता सुरक्षा एवं डेटा प्रबंधन",
+    "set_card4_desc": "पासवर्ड बदलें, निदान लॉग और सिफ़ारिशें डाउनलोड करें और ऑफ़लाइन कैश साफ़ करें।",
+    "set_header_pwd": "खाता पासवर्ड बदलें",
+    "set_guest_pwd_notice": "आप अतिथि सत्र का उपयोग कर रहे हैं। पासवर्ड बदलने हेतु खाता बनाएँ।",
+    "set_label_old_pwd": "वर्तमान पासवर्ड",
+    "set_label_new_pwd": "नया पासवर्ड",
+    "set_label_confirm_pwd": "नए पासवर्ड की पुष्टि करें",
+    "btn_change_pwd": "पासवर्ड अपडेट करें",
+    "set_label_export": "कृषि डायग्नोस्टिक डेटा निर्यात करें",
+    "set_sub_export": "सभी स्कैन, उपचार व सिफ़ारिशों की पूरी JSON बैकअप फ़ाइल डाउनलोड करें",
+    "btn_export_data": "JSON निर्यात करें",
+    "set_label_cache": "स्कैनर मीडिया कैश साफ़ करें",
+    "set_sub_cache": "कैश की गई पत्तियों की फोटो साफ़ करके मेमोरी मुक्त करें",
+    "btn_clear_cache": "कैश साफ़ करें",
+    "set_label_logout": "किसान खाता सत्र",
+    "set_sub_logout": "वर्तमान में अतिथि सत्र सक्रिय है",
+    "btn_login_or_register": "लॉगिन / खाता बनाएँ"
   },
   "gu": {
     "app_title": "એગ્રીસ્માર્ટ એઆઈ (AgriSmart AI)",
@@ -679,7 +811,73 @@ const TRANSLATIONS = {
     "code_title": "Arduino IDE માટે તૈયાર કોડ:",
     "btn_copy_code": "📋 કોડ કોપી કરો",
     "sim_notice": "પરીક્ષણ માટે વૈકલ્પિક સિમ્યુલેટર:",
-    "iot_terminal_title": "લાઈવ હાર્ડવેર સિરિયલ મોનિટર"
+    "iot_terminal_title": "લાઈવ હાર્ડવેર સિરિયલ મોનિટર",
+    "nav_settings": "સેટિંગ્સ",
+    "tab_settings": "⚙️ સેટિંગ્સ અને પ્રોફાઇલ",
+    "settings_title": "સેટિંગ્સ અને ખેડૂત પ્રોફાઇલ",
+    "settings_subtitle": "તમારી ખેડૂત ઓળખ, જમીન વિગતો, પ્રાદેશિક ભાષા, ડિસ્પ્લે મોડ અને IoT હાર્ડવેર સેટિંગ્સ મેનેજ કરો.",
+    "tag_farmer_identity": "ખેડૂત ઓળખ",
+    "tag_accessibility": "સુલભતા અને પ્રદર્શન",
+    "tag_sensors": "સેન્સર્સ અને ગેટવે",
+    "tag_privacy": "સુરક્ષા અને બેકઅપ",
+    "set_card1_title": "વ્યક્તિગત વિગતો અને ફાર્મ પ્રોફાઇલ",
+    "set_card1_desc": "વ્યક્તિગત અને કૃષિ વિગતો એગ્રીસ્માર્ટ એઆઈને તમારા ખેતર માટે રોગના ઉપાયો અને પાકની ભલામણો વ્યક્તિગત બનાવવામાં મદદ કરે છે.",
+    "set_label_name": "ખેડૂતનું નામ",
+    "set_label_contact": "ફોન નંબર અથવા ઈમેલ",
+    "set_label_state": "રાજ્ય / પ્રદેશ",
+    "set_label_district": "જિલ્લો",
+    "set_label_village": "ગામ / તાલુકો / લેન્ડમાર્ક",
+    "set_label_farm_size": "જમીન વિસ્તાર અને એકમ",
+    "set_label_crops": "મુખ્ય વવાતા પાકો (પસંદ કરવા ક્લિક કરો)",
+    "set_label_soil": "મુખ્ય જમીનનો પ્રકાર",
+    "set_label_water": "મુખ્ય પિયત સ્ત્રોત",
+    "btn_save_profile": "💾 પ્રોફાઇલ સાચવો",
+    "set_card2_title": "ડિસ્પ્લે, ભાષા અને અવાજ સેટિંગ્સ",
+    "set_card2_desc": "પ્લેટફોર્મનો દેખાવ, ખેતરમાં સૂર્યપ્રકાશ માટે હાઇ કોન્ટ્રાસ્ટ, બોલવાની ગતિ અને ઑડિઓ ચેતવણી કસ્ટમાઇઝ કરો.",
+    "set_label_platform_lang": "પ્લેટફોર્મ ભાષા (ડિફૉલ્ટ)",
+    "set_label_theme": "વિઝ્યુઅલ ડિસ્પ્લે થીમ",
+    "theme_standard": "ફાર્મ ગ્રીન",
+    "theme_standard_sub": "માનક સંતુલિત લીલો",
+    "theme_sunlight": "સનલાઇટ મોડ (હાઇ કોન્ટ્રાસ્ટ)",
+    "theme_sunlight_sub": "ખેતરમાં તેજ તડકા માટે",
+    "theme_night": "નાઇટ મોડ (ડાર્ક)",
+    "theme_night_sub": "ઓછી ચમકવાળો અંધકાર મોડ",
+    "set_label_fontsize": "ફોન્ટ વાંચન કદ",
+    "font_normal": "સામાન્ય (100%)",
+    "font_large": "મોટું કદ (115% વરિષ્ઠ)",
+    "set_label_voice_rate": "અવાજ બોલવાની ગતિ",
+    "set_label_auto_voice": "ઓટો-વોઇસ રીડઆઉટ",
+    "set_sub_auto_voice": "ફોટો સ્કેન થતાં જ રોગનું નામ તરત જ બોલીને જણાવો",
+    "set_label_chime": "રોગ ચેતવણી સાઉન્ડ ચાઇમ",
+    "set_sub_chime": "જોખમી રોગ જણાય ત્યારે ચેતવણી અવાજ વગાડો",
+    "btn_save_pref": "💾 ડિસ્પ્લે સેટિંગ્સ સાચવો",
+    "set_card3_title": "IoT હાર્ડવેર અને સેન્સર સેટિંગ્સ",
+    "set_card3_desc": "ખેતરના માઇક્રોકન્ટ્રોલર્સ, ડેટા સેમ્પલિંગ આવર્તન અને બિન-કૃષિ બ્લૂટૂથ ડિવાઇસ ફિલ્ટરિંગ મેનેજ કરો.",
+    "set_label_iot_interval": "સેન્સર ડેટા પોલિંગ આવર્તન",
+    "set_ble_filter_title": "ઇન્ટેલિજન્ટ BLE નોન-IoT ફિલ્ટર: સક્રિય",
+    "set_ble_filter_desc": "બ્લૂટૂથ પેરિંગ વખતે સ્માર્ટ ઘડિયાળો અને સ્પીકર્સને નકારી કાઢે છે.",
+    "set_label_local_ip": "ગેટવે લોકલ આઇપી (ESP32 ડેટા પુશ માટે)",
+    "btn_copy_url": "URL કૉપિ કરો",
+    "set_sub_local_ip": "જીવંત જમીન ડેટા મોકલવા માટે આ URL તમારા ESP32 માં ફ્લેશ કરો.",
+    "set_status_label": "હાર્ડવેર ગેટવે સ્થિતિ:",
+    "btn_open_iot_tab": "IoT પેનલ ખોલો",
+    "set_card4_title": "ખાતાની સુરક્ષા અને ડેટા મેનેજમેન્ટ",
+    "set_card4_desc": "પાસવર્ડ મેનેજ કરો, ડાયગ્નોસ્ટિક લૉગ્સ નિકાસ કરો અને ઑફલાઇન કેશ સાફ કરો.",
+    "set_header_pwd": "એકાઉન્ટ પાસવર્ડ બદલો",
+    "set_guest_pwd_notice": "તમે ગેસ્ટ સેશન વાપરી રહ્યા છો. પાસવર્ડ બદલવા એકાઉન્ટ બનાવો.",
+    "set_label_old_pwd": "વર્તમાન પાસવર્ડ",
+    "set_label_new_pwd": "નવો પાસવર્ડ",
+    "set_label_confirm_pwd": "નવા પાસવર્ડની પુષ્ટિ કરો",
+    "btn_change_pwd": "પાસવર્ડ અપડેટ કરો",
+    "set_label_export": "ફાર્મ ડાયગ્નોસ્ટિક ડેટા નિકાસ કરો",
+    "set_sub_export": "બધા પાંદડા સ્કેન અને ભલામણોની સંપૂર્ણ JSON બેકઅપ ફાઇલ ડાઉનલોડ કરો",
+    "btn_export_data": "JSON નિકાસ કરો",
+    "set_label_cache": "સ્કેનર મીડિયા કેશ સાફ કરો",
+    "set_sub_cache": "કેશ કરેલ પાંદડાના સેમ્પલ સાફ કરીને મેમરી મુક્ત કરો",
+    "btn_clear_cache": "કેશ સાફ કરો",
+    "set_label_logout": "ખેડૂત એકાઉન્ટ સત્ર",
+    "set_sub_logout": "હાલમાં ગેસ્ટ સેશન ચાલી રહ્યું છે",
+    "btn_login_or_register": "લૉગ ઇન / રજીસ્ટર"
   },
   "mr": {
     "app_title": "ॲग्रीस्मार्ट एआय (AgriSmart AI)",
@@ -888,7 +1086,73 @@ const TRANSLATIONS = {
     "code_title": "Arduino IDE साठी तयार कोड:",
     "btn_copy_code": "📋 कोड कॉपी करा",
     "sim_notice": "चाचणीसाठी ऐच्छिक सिम्युलेटर:",
-    "iot_terminal_title": "थेट हार्डवेअर सिरियल मॉनिटर"
+    "iot_terminal_title": "थेट हार्डवेअर सिरियल मॉनिटर",
+    "nav_settings": "सेटिंग्ज",
+    "tab_settings": "⚙️ सेटिंग्ज व प्रोफाइल",
+    "settings_title": "सेटिंग्ज आणि शेतकरी प्रोफाइल",
+    "settings_subtitle": "आपली शेतकरी ओळख, जमीन तपशील, प्रादेशिक भाषा, दृश्य मोड आणि IoT हार्डवेअर सेटिंग्ज व्यवस्थापित करा.",
+    "tag_farmer_identity": "शेतकरी ओळख",
+    "tag_accessibility": "सुलभता व प्रदर्शन",
+    "tag_sensors": "सेन्सर्स आणि गेटवे",
+    "tag_privacy": "सुरक्षा आणि बॅकअप",
+    "set_card1_title": "वैयक्तिक तपशील आणि शेती प्रोफाइल",
+    "set_card1_desc": "वैयक्तिक व कृषी तपशील ॲग्रीस्मार्ट एआयला आपल्या शेतासाठी रोग नियंत्रण व खत सल्ला वैयक्तिकृत करण्यास मदत करतात.",
+    "set_label_name": "शेतकऱ्याचे नाव",
+    "set_label_contact": "फोन नंबर किंवा ईमेल",
+    "set_label_state": "राज्य / प्रदेश",
+    "set_label_district": "जिल्हा",
+    "set_label_village": "गाव / तालुका / लँडमार्क",
+    "set_label_farm_size": "जमीन क्षेत्र व एकक",
+    "set_label_crops": "प्रमुख लागवड केलेली पिके (निवडण्यासाठी क्लिक करा)",
+    "set_label_soil": "मातीचा प्रमुख प्रकार",
+    "set_label_water": "प्रमुख सिंचन स्रोत",
+    "btn_save_profile": "💾 प्रोफाइल जतन करा",
+    "set_card2_title": "प्रदर्शन, भाषा आणि आवाज सेटिंग्ज",
+    "set_card2_desc": "प्लॅटफॉर्मचे स्वरूप, शेतात कडक उन्हासाठी उच्च कॉन्ट्रास्ट, बोलण्याचा वेग व ऑडिओ अलर्ट कस्टमाइझ करा.",
+    "set_label_platform_lang": "प्लॅटफॉर्म भाषा (डिफॉल्ट)",
+    "set_label_theme": "दृश्य प्रदर्शन थीम",
+    "theme_standard": "फार्म ग्रीन",
+    "theme_standard_sub": "मानक संतुलित हिरवा",
+    "theme_sunlight": "सनलाइट मोड (हाय कॉन्ट्रास्ट)",
+    "theme_sunlight_sub": "शेतात कडक उन्हासाठी",
+    "theme_night": "नाईट मोड (डार्क)",
+    "theme_night_sub": "कमी प्रकाशाचा गडद मोड",
+    "set_label_fontsize": "फॉन्ट आकार (वाचनीयता)",
+    "font_normal": "मानक (100%)",
+    "font_large": "मोठा आकार (115% ज्येष्ठ)",
+    "set_label_voice_rate": "आवाज बोलण्याचा वेग",
+    "set_label_auto_voice": "स्वयंचलित आवाज वाचन",
+    "set_sub_auto_voice": "फोटो स्कॅन होताच रोगाचे नाव लगेच मोठ्याने ऐकवा",
+    "set_label_chime": "रोग चेतावणी ऑडिओ चाइम",
+    "set_sub_chime": "गंभीर रोग आढळल्यास अलर्ट आवाज वाजवा",
+    "btn_save_pref": "💾 प्रदर्शन सेटिंग्ज जतन करा",
+    "set_card3_title": "IoT हार्डवेअर व सेन्सर सेटिंग्ज",
+    "set_card3_desc": "शेतातील मायक्रोकंट्रोलर्स, डेटा अपडेट वारंवारता व गैर-कृषी ब्लूटूथ डिव्हाइस फिल्टरिंग व्यवस्थापित करा.",
+    "set_label_iot_interval": "सेन्सर डेटा अपडेट वारंवारता",
+    "set_ble_filter_title": "स्मार्ट BLE गैर-कृषी फिल्टर: सक्रिय",
+    "set_ble_filter_desc": "ब्लूटूथ पेअरिंग दरम्यान स्मार्ट घड्याळे व स्पीकर्स नाकारते.",
+    "set_label_local_ip": "गेटवे लोकल आयपी (ESP32 डेटा पुशसाठी)",
+    "btn_copy_url": "URL कॉपी करा",
+    "set_sub_local_ip": "थेट माती डेटा पाठवण्यासाठी हा URL आपल्या ESP32 मध्ये फ्लॅश करा.",
+    "set_status_label": "हार्डवेअर गेटवे स्थिती:",
+    "btn_open_iot_tab": "IoT पॅनेल उघडा",
+    "set_card4_title": "खाते सुरक्षा व डेटा व्यवस्थापन",
+    "set_card4_desc": "पासवर्ड बदला, निदान नोंदी निर्यात करा व ऑफलाइन कॅशे साफ करा.",
+    "set_header_pwd": "खाते पासवर्ड बदला",
+    "set_guest_pwd_notice": "तुम्ही अतिथी सत्र वापरत आहात. पासवर्ड बदलण्यासाठी खाते तयार करा.",
+    "set_label_old_pwd": "सध्याचा पासवर्ड",
+    "set_label_new_pwd": "नवीन पासवर्ड",
+    "set_label_confirm_pwd": "नवीन पासवर्डची पुष्टी करा",
+    "btn_change_pwd": "पासवर्ड अपडेट करा",
+    "set_label_export": "शेती डायग्नोस्टिक डेटा निर्यात करा",
+    "set_sub_export": "सर्व पानांचे स्कॅन व शिफारसींची संपूर्ण JSON बॅकअप फाइल डाउनलोड करा",
+    "btn_export_data": "JSON निर्यात करा",
+    "set_label_cache": "स्कॅनर मीडिया कॅशे साफ करा",
+    "set_sub_cache": "कॅशे केलेले नमुने साफ करून मेमरी मोकळी करा",
+    "btn_clear_cache": "कॅशे साफ करा",
+    "set_label_logout": "शेतकरी खाते सत्र",
+    "set_sub_logout": "सध्या अतिथी सत्र सुरू आहे",
+    "btn_login_or_register": "लॉग इन / नोंदणी करा"
   }
 };
 
@@ -975,6 +1239,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 4. Update Auth Button State
   updateAuthUI();
+  initSettingsTab();
 
   // 5. Load live weather & Initialize Real IoT Hardware Monitor
   fetchLiveWeather();
@@ -1062,6 +1327,10 @@ function switchTab(tabId) {
 
   const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
   if (activeBtn) activeBtn.classList.add('active');
+
+  if (tabId === 'tab-settings') {
+    populateSettingsForm();
+  }
 }
 
 // =================================================================
@@ -1809,6 +2078,18 @@ function renderDiagnosis(data) {
         <button class="btn-feedback-dismiss" onclick="dismissFeedback('diag-feedback-box')" title="Dismiss">✕</button>
       </div>
     `;
+  }
+
+  // Auto-Voice readout & Sound Chime (from Settings Preferences)
+  try {
+    if (currentPreferences.audio_chime !== false && data.is_disease) {
+      playDiseaseAlertChime();
+    }
+    if (currentPreferences.auto_voice && !isSpeaking) {
+      setTimeout(() => speakDiagnosisText(), 600);
+    }
+  } catch (e) {
+    console.log('Audio alert trigger:', e);
   }
 }
 
@@ -3184,6 +3465,10 @@ async function fetchNetworkIp() {
     if (ipSpan && data.ip) {
       ipSpan.innerText = data.ip;
     }
+    const settingsIp = document.getElementById('set-iot-lan-ip');
+    if (settingsIp && data.telemetry_url) {
+      settingsIp.value = data.telemetry_url;
+    }
   } catch (e) {}
 }
 
@@ -3274,5 +3559,444 @@ async function triggerAgentCycle() {
     `;
   } catch (e) {
     console.error('Agent cycle error:', e);
+  }
+}
+
+
+// =================================================================
+// 15. SETTINGS & FARM PROFILE MANAGEMENT ENGINE
+// =================================================================
+
+let activeFarmerCrops = ['Tomato'];
+let currentPreferences = {
+  theme: 'standard',
+  font_scale: 'normal',
+  voice_rate: 1.0,
+  auto_voice: false,
+  audio_chime: true,
+  iot_interval: 3000
+};
+
+function initSettingsTab() {
+  // Load stored preferences
+  try {
+    const savedPref = JSON.parse(localStorage.getItem('agrismart_preferences') || '{}');
+    currentPreferences = { ...currentPreferences, ...savedPref };
+  } catch (e) {
+    console.error('Error loading preferences:', e);
+  }
+
+  // Apply saved theme and font scale immediately
+  applyTheme(currentPreferences.theme || 'standard', false);
+  applyFontScale(currentPreferences.font_scale || 'normal', false);
+
+  // Populate form fields
+  populateSettingsForm();
+}
+
+function populateSettingsForm() {
+  if (!currentUser) return;
+
+  // Name
+  const nameInput = document.getElementById('set-farmer-name');
+  if (nameInput) nameInput.value = currentUser.name || "Kisan Mitra";
+
+  // Contact
+  const contactInput = document.getElementById('set-farmer-contact');
+  if (contactInput) {
+    contactInput.value = currentUser.email_or_phone || (currentUser.is_guest ? "Guest Mode (Local Session)" : "Not Set");
+  }
+
+  // Pill badge in banner
+  const pillName = document.getElementById('settings-pill-name');
+  if (pillName) {
+    pillName.innerText = currentUser.is_guest ? "Guest Farmer (Local)" : (currentUser.name || "Farmer");
+  }
+
+  // State & District
+  let userState = "Gujarat";
+  let userDistrict = "Ahmedabad";
+  if (currentUser.location && currentUser.location.includes(',')) {
+    const parts = currentUser.location.split(',').map(s => s.trim());
+    if (parts.length >= 2) {
+      userDistrict = parts[0];
+      userState = parts[1];
+    }
+  }
+  const stateSelect = document.getElementById('set-farmer-state');
+  if (stateSelect) {
+    stateSelect.value = userState;
+    onSettingsStateChanged(userState);
+    const distSelect = document.getElementById('set-farmer-district');
+    if (distSelect) distSelect.value = userDistrict;
+  }
+
+  // Village
+  const villageInput = document.getElementById('set-farmer-village');
+  if (villageInput) villageInput.value = currentUser.village || "";
+
+  // Farm Size & Unit
+  const farmSizeInput = document.getElementById('set-farmer-farm-size');
+  const farmUnitSelect = document.getElementById('set-farmer-farm-unit');
+  if (currentUser.farm_size) {
+    const sizeParts = currentUser.farm_size.split(' ');
+    if (farmSizeInput) farmSizeInput.value = sizeParts[0] || "";
+    if (farmUnitSelect && sizeParts[1]) farmUnitSelect.value = sizeParts[1];
+  }
+
+  // Primary Crops chips
+  if (currentUser.primary_crop) {
+    activeFarmerCrops = currentUser.primary_crop.split(',').map(c => c.trim()).filter(Boolean);
+  }
+  if (activeFarmerCrops.length === 0) activeFarmerCrops = ['Tomato'];
+  refreshCropChipsUI();
+
+  // Soil Type
+  const soilSelect = document.getElementById('set-farmer-soil-type');
+  if (soilSelect && currentUser.soil_type) soilSelect.value = currentUser.soil_type;
+
+  // Water Source
+  const waterSelect = document.getElementById('set-farmer-water-source');
+  if (waterSelect && currentUser.water_source) waterSelect.value = currentUser.water_source;
+
+  // Preferences: Language
+  const prefLang = document.getElementById('set-pref-language');
+  if (prefLang) prefLang.value = currentLanguage;
+
+  // Preferences: Theme radio
+  const themeRadios = document.querySelectorAll('input[name="display-theme"]');
+  themeRadios.forEach(r => {
+    r.checked = (r.value === currentPreferences.theme);
+  });
+
+  // Preferences: Font Scale radio
+  const fontRadios = document.querySelectorAll('input[name="font-scale"]');
+  fontRadios.forEach(r => {
+    r.checked = (r.value === currentPreferences.font_scale);
+  });
+
+  // Preferences: Voice Rate
+  const voiceRateSlider = document.getElementById('set-pref-voice-rate');
+  const voiceRateDisp = document.getElementById('voice-rate-display');
+  if (voiceRateSlider) {
+    voiceRateSlider.value = currentPreferences.voice_rate || 1.0;
+    if (voiceRateDisp) voiceRateDisp.innerText = (currentPreferences.voice_rate || 1.0) + 'x';
+  }
+
+  // Preferences: Auto-Voice
+  const autoVoiceCheck = document.getElementById('set-pref-auto-voice');
+  if (autoVoiceCheck) autoVoiceCheck.checked = Boolean(currentPreferences.auto_voice);
+
+  // Preferences: Audio Chime
+  const audioChimeCheck = document.getElementById('set-pref-audio-chime');
+  if (audioChimeCheck) audioChimeCheck.checked = currentPreferences.audio_chime !== false;
+
+  // IoT Polling
+  const iotSelect = document.getElementById('set-iot-interval');
+  if (iotSelect && currentPreferences.iot_interval) iotSelect.value = currentPreferences.iot_interval;
+
+  // Local IP display
+  fetchNetworkIp();
+
+  // Session box info
+  const sessionDesc = document.getElementById('settings-session-desc');
+  const authSwitchBtnText = document.getElementById('btn-settings-auth-switch-text');
+  const pwdGuestAlert = document.getElementById('pwd-change-guest-alert');
+  const pwdSubmitBtn = document.getElementById('btn-submit-change-pwd');
+
+  if (currentUser.is_guest) {
+    if (sessionDesc) sessionDesc.innerText = "Running as Guest Farmer (Saved locally on device)";
+    if (authSwitchBtnText) authSwitchBtnText.innerText = "Log In / Register";
+    if (pwdGuestAlert) pwdGuestAlert.style.display = 'block';
+    if (pwdSubmitBtn) pwdSubmitBtn.disabled = true;
+  } else {
+    if (sessionDesc) sessionDesc.innerText = `Active Account: ${currentUser.email_or_phone} (Synced with Cloud DB)`;
+    if (authSwitchBtnText) authSwitchBtnText.innerText = "Sign Out / Switch";
+    if (pwdGuestAlert) pwdGuestAlert.style.display = 'none';
+    if (pwdSubmitBtn) pwdSubmitBtn.disabled = false;
+  }
+}
+
+function onSettingsStateChanged(stateName) {
+  const distSelect = document.getElementById('set-farmer-district');
+  if (!distSelect) return;
+  distSelect.innerHTML = '';
+  const districts = DISTRICT_DATA[stateName] || {};
+  Object.keys(districts).forEach(dist => {
+    const opt = document.createElement('option');
+    opt.value = dist;
+    opt.innerText = dist;
+    distSelect.appendChild(opt);
+  });
+}
+
+function toggleCropChip(btn) {
+  const crop = btn.getAttribute('data-crop');
+  if (!crop) return;
+  const idx = activeFarmerCrops.indexOf(crop);
+  if (idx > -1) {
+    if (activeFarmerCrops.length > 1) {
+      activeFarmerCrops.splice(idx, 1);
+      btn.classList.remove('active');
+    } else {
+      showToast('Please keep at least one primary crop selected.', 'warning');
+    }
+  } else {
+    activeFarmerCrops.push(crop);
+    btn.classList.add('active');
+  }
+}
+
+function refreshCropChipsUI() {
+  document.querySelectorAll('.crop-chip').forEach(btn => {
+    const crop = btn.getAttribute('data-crop');
+    if (activeFarmerCrops.includes(crop)) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+async function saveProfileSettings() {
+  const name = document.getElementById('set-farmer-name').value.trim();
+  const state = document.getElementById('set-farmer-state').value;
+  const district = document.getElementById('set-farmer-district').value;
+  const village = document.getElementById('set-farmer-village').value.trim();
+  const sizeVal = document.getElementById('set-farmer-farm-size').value.trim();
+  const sizeUnit = document.getElementById('set-farmer-farm-unit').value;
+  const soilType = document.getElementById('set-farmer-soil-type').value;
+  const waterSource = document.getElementById('set-farmer-water-source').value;
+
+  if (!name) {
+    showToast('Please enter your farmer name.', 'error');
+    return;
+  }
+
+  const farmSizeStr = sizeVal ? `${sizeVal} ${sizeUnit}` : "";
+  const locationStr = `${district}, ${state}`;
+  const cropsStr = activeFarmerCrops.join(', ');
+
+  currentUser.name = name;
+  currentUser.location = locationStr;
+  currentUser.village = village;
+  currentUser.farm_size = farmSizeStr;
+  currentUser.primary_crop = cropsStr;
+  currentUser.soil_type = soilType;
+  currentUser.water_source = waterSource;
+
+  localStorage.setItem('agrismart_user', JSON.stringify(currentUser));
+
+  // If user is authenticated in database, sync via API
+  if (currentUser.id && !currentUser.is_guest) {
+    try {
+      const res = await fetch('/api/user/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: currentUser.id,
+          name: name,
+          location: locationStr,
+          village: village,
+          primary_crop: cropsStr,
+          farm_size: farmSizeStr,
+          soil_type: soilType,
+          water_source: waterSource,
+          language: currentLanguage,
+          settings_json: JSON.stringify(currentPreferences)
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'Failed to update profile');
+      showToast('✅ Farm profile updated & synced with cloud database!', 'success');
+    } catch (e) {
+      console.error(e);
+      showToast('Saved locally. Cloud sync pending.', 'info');
+    }
+  } else {
+    showToast('✅ Farm profile saved successfully!', 'success');
+  }
+
+  updateAuthUI();
+  populateSettingsForm();
+}
+
+function saveWebsitePreferences() {
+  const theme = document.querySelector('input[name="display-theme"]:checked')?.value || 'standard';
+  const fontScale = document.querySelector('input[name="font-scale"]:checked')?.value || 'normal';
+  const voiceRate = parseFloat(document.getElementById('set-pref-voice-rate')?.value || '1.0');
+  const autoVoice = document.getElementById('set-pref-auto-voice')?.checked || false;
+  const audioChime = document.getElementById('set-pref-audio-chime')?.checked !== false;
+  const iotInterval = parseInt(document.getElementById('set-iot-interval')?.value || '3000');
+
+  currentPreferences = {
+    theme,
+    font_scale: fontScale,
+    voice_rate: voiceRate,
+    auto_voice: autoVoice,
+    audio_chime: audioChime,
+    iot_interval: iotInterval
+  };
+
+  localStorage.setItem('agrismart_preferences', JSON.stringify(currentPreferences));
+  applyTheme(theme, true);
+  applyFontScale(fontScale, true);
+
+  showToast('✅ Display & audio preferences saved successfully!', 'success');
+}
+
+function applyTheme(theme, showFeedback = false) {
+  currentPreferences.theme = theme;
+  document.body.classList.remove('dark-mode', 'high-contrast');
+
+  if (theme === 'dark') {
+    document.body.classList.add('dark-mode');
+  } else if (theme === 'high-contrast') {
+    document.body.classList.add('high-contrast');
+  }
+
+  localStorage.setItem('agrismart_theme', theme);
+  if (showFeedback) {
+    showToast(`Theme updated to ${theme.replace('-', ' ')}`, 'info');
+  }
+}
+
+function applyFontScale(scale, showFeedback = false) {
+  currentPreferences.font_scale = scale;
+  if (scale === 'large') {
+    document.body.classList.add('large-text');
+  } else {
+    document.body.classList.remove('large-text');
+  }
+  localStorage.setItem('agrismart_font_scale', scale);
+  if (showFeedback) {
+    showToast(`Font scale updated to ${scale}`, 'info');
+  }
+}
+
+function updateIotPollingInterval(val) {
+  currentPreferences.iot_interval = parseInt(val);
+  localStorage.setItem('agrismart_preferences', JSON.stringify(currentPreferences));
+  showToast(`IoT polling interval set to ${parseInt(val)/1000}s`, 'info');
+}
+
+function copyIotGatewayUrl() {
+  const input = document.getElementById('set-iot-lan-ip');
+  if (!input) return;
+  navigator.clipboard.writeText(input.value).then(() => {
+    showToast('📋 Gateway URL copied for ESP32 firmware!', 'success');
+  }).catch(() => {
+    showToast('Failed to copy URL', 'error');
+  });
+}
+
+async function handleChangePassword() {
+  if (currentUser.is_guest) {
+    showToast('Guest users do not have a password. Create an account first.', 'warning');
+    openAuthModal();
+    return;
+  }
+
+  const oldPwd = document.getElementById('set-old-password').value;
+  const newPwd = document.getElementById('set-new-password').value;
+  const confirmPwd = document.getElementById('set-confirm-password').value;
+
+  if (newPwd.length < 6) {
+    showToast('New password must be at least 6 characters long.', 'error');
+    return;
+  }
+
+  if (newPwd !== confirmPwd) {
+    showToast('New password and confirm password do not match.', 'error');
+    return;
+  }
+
+  try {
+    const res = await fetch('/api/user/change-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        user_id: currentUser.id,
+        old_password: oldPwd,
+        new_password: newPwd
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Password change failed');
+
+    showToast('🔒 Password updated successfully!', 'success');
+    document.getElementById('form-change-password').reset();
+  } catch (e) {
+    showToast(`Error: ${e.message}`, 'error');
+  }
+}
+
+async function exportFarmDataBackup() {
+  try {
+    showToast('📦 Preparing farm data archive...', 'info');
+    const userId = currentUser ? currentUser.id : 1;
+    const res = await fetch(`/api/user/export-data?user_id=${userId}`);
+    const data = await res.json();
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data, null, 2));
+    const dlAnchor = document.createElement('a');
+    dlAnchor.setAttribute("href", dataStr);
+    const dateStr = new Date().toISOString().split('T')[0];
+    dlAnchor.setAttribute("download", `agrismart_farm_backup_${dateStr}.json`);
+    document.body.appendChild(dlAnchor);
+    dlAnchor.click();
+    dlAnchor.remove();
+
+    showToast('✅ Farm diagnostic archive downloaded!', 'success');
+  } catch (e) {
+    showToast('Failed to export farm data', 'error');
+  }
+}
+
+function resetScannerCache() {
+  currentDiagnosisData = null;
+  currentSelectedImageFile = null;
+  const preview = document.getElementById('image-preview');
+  if (preview) preview.src = '';
+  const diagCard = document.getElementById('diagnosis-card');
+  if (diagCard) diagCard.style.display = 'none';
+
+  showToast('🧹 Scanner cache & temporary images cleared!', 'success');
+}
+
+function handleSettingsAuthSwitch() {
+  if (currentUser.is_guest) {
+    openAuthModal();
+  } else {
+    if (confirm("Are you sure you want to sign out and switch to Guest Mode?")) {
+      logoutUser();
+      populateSettingsForm();
+    }
+  }
+}
+
+function playDiseaseAlertChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(880.0, ctx.currentTime + 0.15);
+    osc.frequency.exponentialRampToValueAtTime(1174.66, ctx.currentTime + 0.3);
+
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  } catch (e) {
+    console.log('Audio chime not supported:', e);
   }
 }

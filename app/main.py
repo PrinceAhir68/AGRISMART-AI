@@ -45,7 +45,8 @@ from app.modules.iot_manager import iot_manager
 from app.modules.agentic_advisor import run_agent_loop
 from app.database import (
     register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history,
-    save_crop_recommendation, save_feedback, get_feedback_summary
+    save_crop_recommendation, save_feedback, get_feedback_summary,
+    update_user_profile, change_user_password, export_user_data
 )
 from app.supabase_client import (
     get_supabase_status, sync_user_to_supabase, sync_diagnosis_to_supabase
@@ -131,6 +132,61 @@ def api_login(req: LoginRequest):
 @app.get("/api/history")
 def api_history(user_id: Optional[int] = None):
     return {"history": get_diagnosis_history(user_id=user_id)}
+
+
+class UpdateProfileRequest(BaseModel):
+    user_id: int
+    name: str
+    location: str = "Gujarat, India"
+    village: str = ""
+    primary_crop: str = "Tomato"
+    farm_size: str = ""
+    soil_type: str = "Loamy"
+    water_source: str = "Borewell"
+    language: str = "en"
+    settings_json: str = "{}"
+
+
+@app.post("/api/user/profile")
+def api_update_profile(req: UpdateProfileRequest):
+    res = update_user_profile(
+        user_id=req.user_id,
+        name=req.name,
+        location=req.location,
+        village=req.village,
+        primary_crop=req.primary_crop,
+        farm_size=req.farm_size,
+        soil_type=req.soil_type,
+        water_source=req.water_source,
+        language=req.language,
+        settings_json=req.settings_json
+    )
+    if not res.get("success"):
+        raise HTTPException(status_code=400, detail=res.get("error", "Failed to update profile"))
+    return res
+
+
+class ChangePasswordRequest(BaseModel):
+    user_id: int
+    old_password: str
+    new_password: str
+
+
+@app.post("/api/user/change-password")
+def api_change_password(req: ChangePasswordRequest):
+    res = change_user_password(
+        user_id=req.user_id,
+        old_password=req.old_password,
+        new_password=req.new_password
+    )
+    if not res.get("success"):
+        raise HTTPException(status_code=400, detail=res.get("error", "Failed to change password"))
+    return res
+
+
+@app.get("/api/user/export-data")
+def api_export_data(user_id: Optional[int] = None):
+    return export_user_data(user_id=user_id)
 
 
 @app.get("/api/supabase/status")

@@ -106,6 +106,9 @@
       <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
         <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
       </button>
+      <button class="btn btn-auth" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings" style="background:#047857;">
+        <span>⚙️</span> <span data-i18n="nav_settings">सेटिंग्स</span>
+      </button>
     </div>
   </header>
 
@@ -120,6 +123,7 @@
       <button class="tab-btn" onclick="switchTab('tab-assistant')" data-i18n="tab_assistant">💬 Agronomy AI Advisor</button>
       <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 Edge IoT & Smart Actuation</button>
       <button class="tab-btn" onclick="switchTab('tab-report')" data-i18n="tab_report">📊 Benchmark & Field Validation</button>
+      <button class="tab-btn" onclick="switchTab('tab-settings')" data-i18n="tab_settings">⚙️ Settings & Profile</button>
     </nav>
 
     <!-- ======================================================== -->
@@ -949,6 +953,379 @@
         <div style="margin-top:25px; text-align:center;">
           <h4 data-i18n="cm_title">Held-Out Field Test Set Confusion Matrix</h4>
           <img src="/report-assets/confusion_matrix.png" alt="AgriSmart AI Confusion Matrix" style="max-width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); margin-top:10px;">
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 8: Settings & Farm Profile Management                -->
+    <!-- ======================================================== -->
+    <section id="tab-settings" class="tab-content">
+      <div class="settings-header-banner" style="background: linear-gradient(135deg, #064e3b 0%, #047857 100%); color: white; padding: 22px 26px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(6, 78, 59, 0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="margin:0 0 6px 0; font-size:1.6rem; display:flex; align-items:center; gap:10px;">
+              <span>⚙️</span> <span data-i18n="settings_title">Settings & Farm Profile</span>
+            </h2>
+            <p style="margin:0; opacity:0.9; font-size:0.95rem;" data-i18n="settings_subtitle">
+              Manage your personal farmer identity, land records, regional preferences, visual display mode, and IoT edge hardware settings.
+            </p>
+          </div>
+          <div id="settings-user-badge-pill" style="background:rgba(255,255,255,0.2); padding:8px 16px; border-radius:20px; font-size:0.9rem; font-weight:600; backdrop-filter:blur(4px);">
+            👤 <span id="settings-pill-name">Guest Farmer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- CARD 1: Personal Details & Farm Profile -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>👤</span> <span data-i18n="set_card1_title">Personal Details & Farm Profile</span>
+            </h3>
+            <span class="tag tag-core" data-i18n="tag_farmer_identity">Farmer Identity</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card1_desc">
+            Personal and agronomic details help AgriSmart AI personalize disease remedies, irrigation advice, and crop recommendations for your specific field.
+          </p>
+
+          <form id="form-profile-settings" onsubmit="event.preventDefault(); saveProfileSettings();">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-name" data-i18n="set_label_name">Farmer Name</label>
+                <input type="text" id="set-farmer-name" class="form-control" placeholder="e.g. Ramesh Patel" required>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-contact" data-i18n="set_label_contact">Phone Number or Email</label>
+                <input type="text" id="set-farmer-contact" class="form-control" placeholder="10-digit mobile or email" readonly style="background:#f1f5f9; cursor:not-allowed;" title="Contact ID is linked to your login identity">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-state" data-i18n="set_label_state">State / Region</label>
+                <select id="set-farmer-state" class="form-control" onchange="onSettingsStateChanged(this.value)">
+                  <option value="Gujarat">Gujarat (ગુજરાત)</option>
+                  <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+                  <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
+                  <option value="Haryana">Haryana (हरियाणा)</option>
+                  <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+                  <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-district" data-i18n="set_label_district">District</label>
+                <select id="set-farmer-district" class="form-control">
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-village" data-i18n="set_label_village">Village / Taluka / Landmark</label>
+                <input type="text" id="set-farmer-village" class="form-control" placeholder="e.g. Anand, Borsad, Sanand">
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-farm-size" data-i18n="set_label_farm_size">Land Area & Unit</label>
+                <div style="display:flex; gap:8px;">
+                  <input type="number" id="set-farmer-farm-size" class="form-control" placeholder="5" step="0.1" min="0" style="flex:1;">
+                  <select id="set-farmer-farm-unit" class="form-control" style="width:110px;">
+                    <option value="Acres">Acres</option>
+                    <option value="Bigha">Bigha</option>
+                    <option value="Hectares">Hectares</option>
+                    <option value="Guntha">Guntha</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px;">
+              <label style="font-weight:700; margin-bottom:6px; display:block;" data-i18n="set_label_crops">Primary Cultivated Crops (Click to select)</label>
+              <div id="crop-chips-container" class="crop-chips-container">
+                <!-- Selectable crop tags -->
+                <button type="button" class="crop-chip" data-crop="Tomato" onclick="toggleCropChip(this)">🍅 Tomato</button>
+                <button type="button" class="crop-chip" data-crop="Potato" onclick="toggleCropChip(this)">🥔 Potato</button>
+                <button type="button" class="crop-chip" data-crop="Corn" onclick="toggleCropChip(this)">🌽 Corn (Maize)</button>
+                <button type="button" class="crop-chip" data-crop="Wheat" onclick="toggleCropChip(this)">🌾 Wheat</button>
+                <button type="button" class="crop-chip" data-crop="Rice" onclick="toggleCropChip(this)">🍚 Rice (Paddy)</button>
+                <button type="button" class="crop-chip" data-crop="Cotton" onclick="toggleCropChip(this)">🪴 Cotton</button>
+                <button type="button" class="crop-chip" data-crop="Soybean" onclick="toggleCropChip(this)">🌱 Soybean</button>
+                <button type="button" class="crop-chip" data-crop="Mustard" onclick="toggleCropChip(this)">🌼 Mustard</button>
+                <button type="button" class="crop-chip" data-crop="Chickpea" onclick="toggleCropChip(this)">🧆 Chickpea (Gram)</button>
+                <button type="button" class="crop-chip" data-crop="Onion" onclick="toggleCropChip(this)">🧅 Onion</button>
+                <button type="button" class="crop-chip" data-crop="Garlic" onclick="toggleCropChip(this)">🧄 Garlic</button>
+                <button type="button" class="crop-chip" data-crop="Chilli" onclick="toggleCropChip(this)">🌶️ Chilli</button>
+                <button type="button" class="crop-chip" data-crop="Bell Pepper" onclick="toggleCropChip(this)">🫑 Bell Pepper</button>
+                <button type="button" class="crop-chip" data-crop="Sugarcane" onclick="toggleCropChip(this)">🎋 Sugarcane</button>
+                <button type="button" class="crop-chip" data-crop="Apple" onclick="toggleCropChip(this)">🍎 Apple</button>
+                <button type="button" class="crop-chip" data-crop="Grape" onclick="toggleCropChip(this)">🍇 Grape</button>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-soil-type" data-i18n="set_label_soil">Dominant Soil Type</label>
+                <select id="set-farmer-soil-type" class="form-control">
+                  <option value="Loamy">Loamy Soil (দোআঁশ / દોમટ)</option>
+                  <option value="Clay">Clay Soil (चिकनी मिट्टी)</option>
+                  <option value="Sandy">Sandy Soil (रेतीली मिट्टी)</option>
+                  <option value="Black Cotton">Black Cotton Soil (काली मिट्टी)</option>
+                  <option value="Red Soil">Red Soil (लाल मिट्टी)</option>
+                  <option value="Alluvial">Alluvial Soil (जलोढ़ मिट्टी)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-water-source" data-i18n="set_label_water">Primary Water Source</label>
+                <select id="set-farmer-water-source" class="form-control">
+                  <option value="Borewell">Borewell / Tube well</option>
+                  <option value="Canal">Canal Irrigation (नहर)</option>
+                  <option value="Drip/Sprinkler">Drip / Micro-Sprinkler</option>
+                  <option value="Rainfed">Rainfed (Monsoon Dependent)</option>
+                  <option value="River/Pond">River / Farm Pond</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary" id="btn-save-profile" style="padding:10px 22px;">
+                <span data-i18n="btn_save_profile">💾 Save Farm Profile</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- CARD 2: Website Display & Voice Preferences -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>🎨</span> <span data-i18n="set_card2_title">Display, Language & Voice Settings</span>
+            </h3>
+            <span class="tag tag-bonus" data-i18n="tag_accessibility">Accessibility & Display</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card2_desc">
+            Customize platform visual appearance, contrast for daylight field inspection, speech narration speed, and audio alerts.
+          </p>
+
+          <form id="form-pref-settings" onsubmit="event.preventDefault(); saveWebsitePreferences();">
+            <div class="form-group">
+              <label for="set-pref-language" data-i18n="set_label_platform_lang">Platform Language (Default)</label>
+              <select id="set-pref-language" class="form-control" onchange="changeGlobalLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+                <option value="mr">मराठी (Marathi)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label style="font-weight:700; margin-bottom:8px; display:block;" data-i18n="set_label_theme">Visual Display Mode</label>
+              <div class="theme-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+                <label class="theme-option-card" style="border:2px solid #059669; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#f0fdf4;">
+                  <input type="radio" name="display-theme" value="standard" checked onchange="applyTheme(this.value)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌿</span>
+                  <strong style="font-size:0.85rem; color:#065f46;" data-i18n="theme_standard">Farm Green</strong>
+                  <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_standard_sub">Standard Balanced</span>
+                </label>
+
+                <label class="theme-option-card" style="border:2px solid #e2e8f0; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#ffffff;">
+                  <input type="radio" name="display-theme" value="high-contrast" onchange="applyTheme(this.value)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">☀️</span>
+                  <strong style="font-size:0.85rem; color:#0f172a;" data-i18n="theme_sunlight">Sunlight Mode</strong>
+                  <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_sunlight_sub">High Contrast Field</span>
+                </label>
+
+                <label class="theme-option-card" style="border:2px solid #e2e8f0; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#1e293b; color:white;">
+                  <input type="radio" name="display-theme" value="dark" onchange="applyTheme(this.value)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌙</span>
+                  <strong style="font-size:0.85rem; color:#f8fafc;" data-i18n="theme_night">Night Mode</strong>
+                  <span style="font-size:0.75rem; color:#94a3b8;" data-i18n="theme_night_sub">Dark Low-Glare</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label style="font-weight:700; margin-bottom:6px; display:block;" data-i18n="set_label_fontsize">Font Readability Size</label>
+              <div style="display:flex; gap:12px;">
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.9rem; cursor:pointer;">
+                  <input type="radio" name="font-scale" value="normal" checked onchange="applyFontScale(this.value)">
+                  <span data-i18n="font_normal">Standard (100%)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.9rem; cursor:pointer;">
+                  <input type="radio" name="font-scale" value="large" onchange="applyFontScale(this.value)">
+                  <span data-i18n="font_large">Senior / Large (115%)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <label for="set-pref-voice-rate" style="margin:0; font-weight:700;" data-i18n="set_label_voice_rate">Voice Narration Speed</label>
+                <span id="voice-rate-display" style="font-weight:700; color:#047857;">1.0x</span>
+              </div>
+              <input type="range" id="set-pref-voice-rate" min="0.75" max="1.3" step="0.05" value="1.0" class="form-control" style="padding:0; accent-color:#047857;" oninput="document.getElementById('voice-rate-display').textContent = this.value + 'x'">
+            </div>
+
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div>
+                  <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_auto_voice">Auto-Voice Readout</strong>
+                  <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_auto_voice">Speaks disease diagnosis out loud immediately upon image scan</span>
+                </div>
+                <input type="checkbox" id="set-pref-auto-voice" style="width:20px; height:20px; accent-color:#047857;">
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_chime">Disease Alert Audio Chime</strong>
+                  <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_chime">Plays sound chime when high-risk crop pathology is discovered</span>
+                </div>
+                <input type="checkbox" id="set-pref-audio-chime" checked style="width:20px; height:20px; accent-color:#047857;">
+              </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary" id="btn-save-pref" style="padding:10px 22px;">
+                <span data-i18n="btn_save_pref">💾 Save Display Preferences</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- CARD 3: IoT Edge & Telemetry Configuration -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>📡</span> <span data-i18n="set_card3_title">IoT Hardware & Sensor Settings</span>
+            </h3>
+            <span class="tag tag-iot" data-i18n="tag_sensors">Sensors & Gateways</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card3_desc">
+            Configure field microcontrollers, data ingestion polling frequency, and verify non-IoT Bluetooth device rejection.
+          </p>
+
+          <div class="form-group">
+            <label for="set-iot-interval" data-i18n="set_label_iot_interval">Telemetry Monitor Polling Frequency</label>
+            <select id="set-iot-interval" class="form-control" onchange="updateIotPollingInterval(this.value)">
+              <option value="2000">2 Seconds (High-Responsiveness Field Mode)</option>
+              <option value="3000" selected>3 Seconds (Recommended Standard)</option>
+              <option value="5000">5 Seconds (Low-Bandwidth Rural 2G/3G)</option>
+              <option value="10000">10 Seconds (Eco / Solar Power Conserve)</option>
+            </select>
+          </div>
+
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px; margin-top:14px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.5rem;">🛡️</span>
+              <div>
+                <strong style="color:#065f46; font-size:0.9rem;" data-i18n="set_ble_filter_title">Intelligent BLE Non-IoT Filter: ACTIVE</strong>
+                <p style="margin:2px 0 0 0; font-size:0.8rem; color:#047857;" data-i18n="set_ble_filter_desc">
+                  Strictly rejects smart watches, audio speakers, headphones, and non-agricultural gadgets during Web Bluetooth pairing.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:14px;">
+            <label data-i18n="set_label_local_ip">AgriSmart AI Gateway Local IP (For ESP32 / Arduino HTTP Push)</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="set-iot-lan-ip" class="form-control" readonly value="Loading local IP..." style="background:#f8fafc; font-family:monospace; font-size:0.9rem;">
+              <button type="button" class="btn btn-secondary" onclick="copyIotGatewayUrl()" style="white-space:nowrap;">
+                📋 <span data-i18n="btn_copy_url">Copy URL</span>
+              </button>
+            </div>
+            <small style="color:#64748b; margin-top:4px; display:block;" data-i18n="set_sub_local_ip">Flash this URL into your ESP32 or Wi-Fi Arduino firmware to stream live soil data.</small>
+          </div>
+
+          <div style="margin-top:14px; padding:12px; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span style="font-size:0.85rem; font-weight:600; color:#334155;" data-i18n="set_status_label">Hardware Gateway Status:</span>
+              <span id="set-iot-status-badge" class="badge badge-success" style="margin-left:6px;">Ready to Connect</span>
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="switchTab('tab-iot')" style="padding:4px 12px; font-size:0.85rem;">
+              <span data-i18n="btn_open_iot_tab">Open IoT Panel</span> ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 4: Security, Privacy & Data Management -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>🛡️</span> <span data-i18n="set_card4_title">Account Security & Data Management</span>
+            </h3>
+            <span class="tag tag-bonus" data-i18n="tag_privacy">Privacy & Backup</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card4_desc">
+            Manage your password, export diagnostic logs and recommendations, and clear offline browser caches.
+          </p>
+
+          <!-- Change Password Section -->
+          <div id="settings-password-box" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px;">
+            <h4 style="margin:0 0 10px 0; font-size:0.95rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+              <span>🔒</span> <span data-i18n="set_header_pwd">Change Account Password</span>
+            </h4>
+            <div id="pwd-change-guest-alert" style="display:none; color:#b45309; font-size:0.85rem; margin-bottom:8px;">
+              ℹ️ <span data-i18n="set_guest_pwd_notice">You are using a Guest Session. Create or sign into an account to set a password.</span>
+            </div>
+            <form id="form-change-password" onsubmit="event.preventDefault(); handleChangePassword();">
+              <div class="form-group" style="margin-bottom:10px;">
+                <label for="set-old-password" style="font-size:0.85rem;" data-i18n="set_label_old_pwd">Current Password</label>
+                <input type="password" id="set-old-password" class="form-control" placeholder="Enter current password" required>
+              </div>
+              <div class="form-row" style="margin-bottom:10px;">
+                <div class="form-group">
+                  <label for="set-new-password" style="font-size:0.85rem;" data-i18n="set_label_new_pwd">New Password</label>
+                  <input type="password" id="set-new-password" class="form-control" placeholder="Min 6 characters" required>
+                </div>
+                <div class="form-group">
+                  <label for="set-confirm-password" style="font-size:0.85rem;" data-i18n="set_label_confirm_pwd">Confirm New Password</label>
+                  <input type="password" id="set-confirm-password" class="form-control" placeholder="Repeat new password" required>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary" id="btn-submit-change-pwd" style="padding:6px 16px; font-size:0.85rem;">
+                  <span data-i18n="btn_change_pwd">Update Password</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Data Backup & Reset Actions -->
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #e2e8f0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_export">Export Farm Diagnostic Data</strong>
+                <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_export">Download complete JSON archive of all leaf scans, remedies, and recommendations</span>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="exportFarmDataBackup()" style="white-space:nowrap; padding:8px 14px;">
+                📥 <span data-i18n="btn_export_data">Export JSON</span>
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #e2e8f0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_cache">Clear Scanner Media Cache</strong>
+                <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_cache">Frees device memory by removing cached test leaf samples and temporary canvases</span>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="resetScannerCache()" style="white-space:nowrap; padding:8px 14px; color:#b91c1c; border-color:#fecaca;">
+                🧹 <span data-i18n="btn_clear_cache">Clear Cache</span>
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #fed7aa; background:#fffaf0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#9a3412;" data-i18n="set_label_logout">Farmer Account Session</strong>
+                <span id="settings-session-desc" style="font-size:0.8rem; color:#b45309;" data-i18n="set_sub_logout">Currently running as Guest Session</span>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-settings-auth-switch" onclick="handleSettingsAuthSwitch()" style="white-space:nowrap; padding:8px 14px;">
+                <span id="btn-settings-auth-switch-text" data-i18n="btn_login_or_register">Log In / Register</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>

@@ -115,6 +115,19 @@ def init_database():
     )
     """)
 
+    # Safely migrate optional user profile and settings columns
+    for col, col_type in [
+        ("village", "TEXT DEFAULT ''"),
+        ("farm_size", "TEXT DEFAULT ''"),
+        ("soil_type", "TEXT DEFAULT 'Loamy'"),
+        ("water_source", "TEXT DEFAULT 'Borewell'"),
+        ("settings_json", "TEXT DEFAULT '{}'")
+    ]:
+        try:
+            cursor.execute(f"ALTER TABLE users ADD COLUMN {col} {col_type}")
+        except Exception:
+            pass
+
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")
@@ -207,9 +220,131 @@ def authenticate_user(email_or_phone: str, password: str) -> Dict[str, Any]:
             "name": row["name"],
             "email_or_phone": row["email_or_phone"],
             "location": row["location"],
+            "village": row["village"] if "village" in row.keys() else "",
             "primary_crop": row["primary_crop"],
-            "language": row["language"]
+            "farm_size": row["farm_size"] if "farm_size" in row.keys() else "",
+            "soil_type": row["soil_type"] if "soil_type" in row.keys() else "Loamy",
+            "water_source": row["water_source"] if "water_source" in row.keys() else "Borewell",
+            "language": row["language"],
+            "settings_json": row["settings_json"] if "settings_json" in row.keys() else "{}"
         }
+    }
+
+
+def update_user_profile(
+    user_id: int,
+    name: str,
+    location: str = "Gujarat, India",
+    village: str = "",
+    primary_crop: str = "Tomato",
+    farm_size: str = "",
+    soil_type: str = "Loamy",
+    water_source: str = "Borewell",
+    language: str = "en",
+    settings_json: str = "{}"
+) -> Dict[str, Any]:
+    """Updates user profile details and website preferences."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute("""
+    UPDATE users SET
+        name = ?,
+        location = ?,
+        village = ?,
+        primary_crop = ?,
+        farm_size = ?,
+        soil_type = ?,
+        water_source = ?,
+        language = ?,
+        settings_json = ?
+    WHERE id = ?
+    """, (name, location, village, primary_crop, farm_size, soil_type, water_source, language, settings_json, user_id))
+    conn.commit()
+
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    row = cursor.fetchone()
+    conn.close()
+
+    if not row:
+        return {"success": False, "error": "User account not found."}
+
+    return {
+        "success": True,
+        "user": {
+            "id": row["id"],
+            "name": row["name"],
+            "email_or_phone": row["email_or_phone"],
+            "location": row["location"],
+            "village": row["village"] if "village" in row.keys() else "",
+            "primary_crop": row["primary_crop"],
+            "farm_size": row["farm_size"] if "farm_size" in row.keys() else "",
+            "soil_type": row["soil_type"] if "soil_type" in row.keys() else "Loamy",
+            "water_source": row["water_source"] if "water_source" in row.keys() else "Borewell",
+            "language": row["language"],
+            "settings_json": row["settings_json"] if "settings_json" in row.keys() else "{}"
+        }
+    }
+
+
+def change_user_password(user_id: int, old_password: str, new_password: str) -> Dict[str, Any]:
+    """Securely verifies old password and updates to new password."""
+    if len(new_password) < 4:
+        return {"success": False, "error": "New password must be at least 4 characters long."}
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+    row = cursor.fetchone()
+
+    if not row:
+        conn.close()
+        return {"success": False, "error": "User account not found."}
+
+    if not verify_password(old_password, row["password_salt"], row["password_hash"]):
+        conn.close()
+        return {"success": False, "error": "Current password is incorrect. Please try again."}
+
+    new_hash, new_salt = hash_password(new_password)
+    cursor.execute("UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?", (new_hash, new_salt, user_id))
+    conn.commit()
+    conn.close()
+    return {"success": True, "message": "Password updated successfully!"}
+
+
+def export_user_data(user_id: Optional[int] = None) -> Dict[str, Any]:
+    """Exports user profile, diagnostic history, crop recommendations, and feedback."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    user_info = None
+    if user_id:
+        cursor.execute("SELECT id, name, email_or_phone, location, village, primary_crop, farm_size, soil_type, water_source, language, created_at FROM users WHERE id = ?", (user_id,))
+        u_row = cursor.fetchone()
+        if u_row:
+            user_info = dict(u_row)
+
+    cursor.execute("SELECT * FROM diagnoses WHERE user_id = ? ORDER BY id DESC LIMIT 50", (user_id or 1,))
+    diag_rows = [dict(r) for r in cursor.fetchall()]
+
+    cursor.execute("SELECT * FROM crop_recommendations WHERE user_id = ? ORDER BY id DESC LIMIT 20", (user_id or 1,))
+    rec_rows = [dict(r) for r in cursor.fetchall()]
+
+    cursor.execute("SELECT * FROM feedback WHERE user_id = ? ORDER BY id DESC LIMIT 20", (user_id or 1,))
+    fb_rows = [dict(r) for r in cursor.fetchall()]
+
+    conn.close()
+    return {
+        "export_timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "user_profile": user_info or {
+            "name": "Kisan Mitra",
+            "role": "Farmer / Agricultural Producer",
+            "note": "Local / Guest Farmer Session"
+        },
+        "diagnoses_history": diag_rows,
+        "crop_recommendations": rec_rows,
+        "feedback_history": fb_rows,
+        "platform": "AgriSmart AI v2.0.0"
     }
 
 

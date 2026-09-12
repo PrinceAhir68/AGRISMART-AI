@@ -1626,4 +1626,159 @@ body {
   white-space: pre;
 }
 
+/* ======================================================== */
+/* TAB 8: Settings & Farm Profile Styles                    */
+/* ======================================================== */
+
+.crop-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.crop-chip {
+  background: #f1f5f9;
+  border: 1.5px solid #cbd5e1;
+  color: #334155;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.crop-chip:hover {
+  background: #e2e8f0;
+  border-color: #94a3b8;
+}
+
+.crop-chip.active {
+  background: #ecfdf5;
+  border-color: #059669;
+  color: #065f46;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.15);
+}
+
+.theme-option-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.theme-option-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ======================================================== */
+/* Accessibility: Senior / Large Text Readability Mode     */
+/* ======================================================== */
+body.large-text {
+  font-size: 1.12rem;
+}
+
+body.large-text .card p,
+body.large-text .form-group label,
+body.large-text .form-control,
+body.large-text .btn,
+body.large-text .tab-btn {
+  font-size: 1.05rem !important;
+}
+
+body.large-text .card-desc {
+  font-size: 0.98rem !important;
+}
+
+/* ======================================================== */
+/* Visual Modes: Dark Night Mode & Sunlight Field Mode     */
+/* ======================================================== */
+body.dark-mode {
+  --bg: #090d16;
+  --surface: #111827;
+  --text-main: #f9fafb;
+  --text-muted: #9ca3af;
+  --border: #1f2937;
+  background-color: #090d16;
+  color: #f9fafb;
+}
+
+body.dark-mode .navbar {
+  background: #111827;
+  border-bottom: 1px solid #1f2937;
+}
+
+body.dark-mode .card {
+  background: #111827;
+  border-color: #1f2937;
+  color: #f9fafb;
+}
+
+body.dark-mode .form-control,
+body.dark-mode select.form-control {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+body.dark-mode .crop-chip {
+  background: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark-mode .crop-chip.active {
+  background: #064e3b;
+  border-color: #10b981;
+  color: #a7f3d0;
+}
+
+body.dark-mode #settings-password-box,
+body.dark-mode div[style*="background:#f8fafc"],
+body.dark-mode div[style*="background: #f8fafc"] {
+  background: #1f2937 !important;
+  border-color: #374151 !important;
+}
+
+body.dark-mode .tab-btn {
+  background: #1f2937;
+  color: #9ca3af;
+  border-color: #374151;
+}
+
+body.dark-mode .tab-btn.active {
+  background: #047857;
+  color: #ffffff;
+}
+
+/* Sunlight High-Contrast Field Mode */
+body.high-contrast {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --text-main: #000000;
+  --text-muted: #1e293b;
+  --border: #000000;
+}
+
+body.high-contrast .card {
+  border: 2px solid #000000 !important;
+  box-shadow: none !important;
+}
+
+body.high-contrast .form-control {
+  border: 2px solid #000000 !important;
+  color: #000000 !important;
+  font-weight: 600;
+}
+
+body.high-contrast .tab-btn {
+  border: 2px solid #000000 !important;
+  color: #000000;
+  font-weight: 700;
+}
+
+body.high-contrast .tab-btn.active {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
 
