@@ -8,6 +8,7 @@ import os
 import sys
 import shutil
 import tempfile
+import httpx
 from typing import Optional, Dict, Any, List
 from pydantic import BaseModel
 
@@ -25,11 +26,11 @@ if hasattr(sys.stdout, "reconfigure"):
 
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Query, Depends
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 
 # Import core and bonus modules
-from model.predict import predict
+from model.predict import predict, InvalidPlantImageError
 from app.modules.crop_recommender import recommend_crops
 from app.modules.smart_irrigation import calculate_smart_irrigation
 from app.modules.weather_service import get_weather_intelligence
@@ -145,6 +146,7 @@ async def predict_disease(
     symptoms, immediate cultural precautions, organic remedies, and chemical controls.
     Automatically saves record to SQLite database and syncs to Supabase.
     """
+    tmp_path = None
     try:
         suffix = os.path.splitext(file.filename)[1] or ".jpg"
         with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
@@ -152,7 +154,6 @@ async def predict_disease(
             tmp_path = tmp.name
 
         result = predict(tmp_path)
-        os.remove(tmp_path)
 
         # Save to SQLite database
         rec_id = save_diagnosis_record(
@@ -182,8 +183,67 @@ async def predict_disease(
         })
 
         return result
+    except InvalidPlantImageError as e:
+        raise HTTPException(
+            status_code=400,
+            detail={
+                "error": "NOT_A_PLANT_IMAGE",
+                "message": str(e),
+                "user_guidance": "The uploaded photo is not recognized as a plant leaf, crop, tree, fruit, or vegetable. Please upload a clear photo of an agricultural crop, leaf, or plant part."
+            }
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")
+    finally:
+        if tmp_path and os.path.exists(tmp_path):
+            try:
+                os.remove(tmp_path)
+            except Exception:
+                pass
+
+
+# -------------------------------------------------------------
+# MULTILINGUAL TTS AUDIO PROXY (Hindi, Gujarati, Marathi, English)
+# -------------------------------------------------------------
+_TTS_CACHE: Dict[str, bytes] = {}
+
+@app.get("/api/tts")
+async def api_text_to_speech(text: str = Query(...), lang: str = Query("en")):
+    """
+    Multilingual audio streaming proxy for Indian languages (Hindi, Gujarati, Marathi)
+    and English, solving lack of local Indian voice packs on Windows OS.
+    """
+    clean_text = text.strip()[:250]
+    if not clean_text:
+        raise HTTPException(status_code=400, detail="Text parameter cannot be empty.")
+
+    cache_key = f"{lang}:{clean_text}"
+    if cache_key in _TTS_CACHE:
+        return Response(content=_TTS_CACHE[cache_key], media_type="audio/mpeg")
+
+    url = "https://translate.google.com/translate_tts"
+    params = {
+        "ie": "UTF-8",
+        "tl": lang,
+        "client": "tw-ob",
+        "q": clean_text
+    }
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+
+    try:
+        async with httpx.AsyncClient(timeout=6.0) as client:
+            resp = await client.get(url, params=params, headers=headers)
+            if resp.status_code == 200 and len(resp.content) > 100:
+                if len(_TTS_CACHE) > 300:
+                    _TTS_CACHE.clear()
+                _TTS_CACHE[cache_key] = resp.content
+                return Response(content=resp.content, media_type="audio/mpeg")
+    except Exception as e:
+        print(f"TTS Streaming warning: {e}")
+
+    raise HTTPException(status_code=502, detail="Audio voice generation temporarily unavailable.")
 
 
 @app.get("/api/samples")

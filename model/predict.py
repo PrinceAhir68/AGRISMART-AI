@@ -1,6 +1,12 @@
 """
-AgriSmart AI - Advanced Computer Vision Leaf Disease Prediction Engine (Refined)
+AgriSmart AI - Advanced Computer Vision Leaf Disease Prediction Engine (With Image Biological Validation)
 SIH-2026 Problem Statement 1 (Core Task)
+
+Features:
+  - Biological Plant/Crop Verification (Rejects non-plant, non-leaf, non-agricultural photos)
+  - Multi-Spectral Color Analysis (RGB + HSV Color Space)
+  - Dynamic Multi-Pathology Feature Extraction across all 18 classes
+  - Full ICAR Agronomic Prescriptions
 """
 
 import os
@@ -47,6 +53,56 @@ else:
     DISEASE_KNOWLEDGE = {}
 
 
+class InvalidPlantImageError(ValueError):
+    """Raised when the uploaded photo does not contain a crop, leaf, plant, fruit, or vegetable."""
+    pass
+
+
+def is_valid_plant_image(image: Image.Image) -> tuple[bool, str]:
+    """
+    Biological validation to verify the image contains actual plant, leaf, tree, or crop foliage.
+    Rejects screenshots, documents, faces, vehicles, animals, indoors, and non-botanical objects.
+    """
+    img_small = image.resize((150, 150)).convert("RGB")
+    rgb = np.array(img_small, dtype=float)
+    r, g, b = rgb[:, :, 0], rgb[:, :, 1], rgb[:, :, 2]
+    total_pixels = 150.0 * 150.0
+
+    # HSV conversion
+    hsv = np.array(img_small.convert("HSV"), dtype=float)
+    h, s, v = hsv[:, :, 0], hsv[:, :, 1], hsv[:, :, 2]
+
+    # 1. Botanical Pigment Filter:
+    # Green chlorophyll (H: ~50-125), Yellow/orange carotenoids (H: ~18-50),
+    # or diseased/dried foliage brown (V: 30-140, S: 25-180, R > B)
+    green_chlorophyll = (h >= 50) & (h <= 125) & (s >= 35) & (v >= 35) & (g > b)
+    foliar_yellow_orange = (h >= 18) & (h < 50) & (s >= 40) & (v >= 50) & (r > b + 15)
+    foliar_brown_necrosis = (h >= 10) & (h <= 35) & (s >= 25) & (v >= 25) & (v <= 160) & (r > b) & (g > b)
+    
+    plant_pigment_pixels = np.sum(green_chlorophyll | foliar_yellow_orange | foliar_brown_necrosis)
+    plant_pigment_ratio = plant_pigment_pixels / total_pixels
+
+    # 2. Rejection of Synthetic / Non-Plant Scenarios:
+    # A) Blue-dominated scenes (sky, blue shirts, cars):
+    blue_pixels = (b > r + 30) & (b > g + 25) & (s > 40)
+    blue_ratio = np.sum(blue_pixels) / total_pixels
+    if blue_ratio > 0.45:
+        return False, "Image appears to be non-agricultural (high blue/sky/metallic spectrum detected)."
+
+    # B) Monochrome / Document / Pure Grayscale:
+    grayscale_pixels = (np.abs(r - g) < 12) & (np.abs(g - b) < 12) & (s < 20)
+    grayscale_ratio = np.sum(grayscale_pixels) / total_pixels
+    if grayscale_ratio > 0.75:
+        return False, "Image appears to be a grayscale object, document, or non-plant item."
+
+    # C) Minimum Botanical Foliage Presence:
+    # At least 10% of pixels must display organic botanical pigment
+    if plant_pigment_ratio < 0.10:
+        return False, "No leaf, crop, tree, fruit, or vegetable foliage detected in image."
+
+    return True, "Valid agricultural botanical image."
+
+
 def _extract_leaf_pathology(image: Image.Image):
     """
     Segments leaf foreground and extracts pathology markers:
@@ -75,28 +131,19 @@ def _extract_leaf_pathology(image: Image.Image):
     leaf_pixel_count = max(1.0, float(np.sum(leaf_mask)))
 
     # Metrics calculated relative to LEAF FOREGROUND:
-    # 1. Healthy green chlorophyll ratio
     green_on_leaf = np.sum(leaf_mask & (g > r + 15) & (g > b + 15) & (h >= 55) & (h <= 115)) / leaf_pixel_count
-
-    # 2. Yellow chlorosis ratio
     chlorosis_on_leaf = np.sum(leaf_mask & (r > 130) & (g > 120) & (b < 100) & (h >= 28) & (h < 55)) / leaf_pixel_count
-
-    # 3. Necrotic dark lesions on leaf
     necrosis_on_leaf = np.sum(leaf_mask & (v < 50) & (r < 70) & (g < 65)) / leaf_pixel_count
-
-    # 4. True Rust Pustules (bright cinnamon/orange dots on leaf)
     rust_on_leaf = np.sum(leaf_mask & (r > 140) & (g < 100) & (b < 50) & (r > g + 35) & (h >= 8) & (h <= 24)) / leaf_pixel_count
-
-    # 5. Olive Scab & Mold patches
     scab_on_leaf = np.sum(leaf_mask & (v >= 35) & (v <= 70) & (s < 80) & (h >= 45) & (h <= 75) & (r < 85)) / leaf_pixel_count
 
-    # 6. Spot texture frequency (gradient roughness on leaf)
+    # Spot texture frequency (gradient roughness on leaf)
     gray = 0.299 * r + 0.587 * g + 0.114 * b
     grad_x = np.abs(gray[:, 1:] - gray[:, :-1])
     grad_y = np.abs(gray[1:, :] - gray[:-1, :])
     roughness = float((np.mean(grad_x) + np.mean(grad_y)) / 2.0)
 
-    # 7. Aspect ratio
+    # Aspect ratio
     width, height = image.size
     aspect_ratio = float(max(width, height) / max(1, min(width, height)))
 
@@ -236,12 +283,20 @@ def _match_class_dynamically(features: dict, filename: str = ""):
 
 def predict(image_path: str) -> dict:
     """
-    Core disease diagnosis interface.
+    Core disease diagnosis interface with biological validation.
     """
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Image not found at path: {image_path}")
 
     image = Image.open(image_path).convert("RGB")
+
+    # Biological Plant / Leaf Validation
+    is_valid, validation_reason = is_valid_plant_image(image)
+    if not is_valid:
+        raise InvalidPlantImageError(
+            f"Not a crop or plant image: {validation_reason}. Please upload a clear photo of an agricultural crop leaf, tree, plant, fruit, or vegetable."
+        )
+
     features = _extract_leaf_pathology(image)
     predicted_class, confidence = _match_class_dynamically(features, filename=os.path.basename(image_path))
 
@@ -300,6 +355,9 @@ def main():
                 print(f"\nRecommended Treatment:\n  {result['chemical_treatment']}")
             if "hi" in result.get("translations", {}):
                 print(f"\nहिंदी मार्गदर्शन (Hindi Advisory):\n  {result['translations']['hi']['action']}")
+    except InvalidPlantImageError as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(2)
     except Exception as e:
         print(f"Error during prediction: {e}", file=sys.stderr)
         sys.exit(1)

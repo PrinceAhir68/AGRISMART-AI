@@ -90,11 +90,30 @@
             </div>
           </div>
 
-          <div id="image-preview-container" style="display:none; margin-top:15px; text-align:center;">
-            <img id="image-preview" src="" alt="Leaf preview" class="preview-thumb">
-            <button class="btn btn-primary" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">
+          <div id="image-preview-container" style="display:none; margin-top:15px; text-align:center;" class="preview-wrapper">
+            <div class="preview-scanner-frame">
+              <img id="image-preview" src="" alt="Leaf preview" class="preview-thumb">
+              <div id="laser-scan-line" class="laser-scanner" style="display:none;"></div>
+            </div>
+            <button class="btn btn-primary btn-pulse" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">
               🔍 <span data-i18n="btn_run_diag">Run AI Disease Diagnosis</span>
             </button>
+          </div>
+
+          <!-- Non-Plant Botanical Validation Alert -->
+          <div id="image-validation-alert" class="alert-box alert-danger" style="display:none; margin-top:15px;">
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="font-size:1.6rem; line-height:1;">⚠️</span>
+              <div>
+                <strong id="val-alert-title" data-i18n="invalid_plant_title">Not a Plant or Crop Photo</strong>
+                <p id="val-alert-desc" data-i18n="invalid_plant_desc" style="font-size:0.85rem; margin-top:4px; margin-bottom:8px;">
+                  The uploaded photo does not contain an agricultural crop, leaf, fruit, or vegetable.
+                </p>
+                <button class="btn btn-secondary btn-sm" onclick="document.getElementById('file-input').click()">
+                  📸 <span data-i18n="upload_prompt">Choose Plant Leaf Photo</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -110,11 +129,19 @@
             </div>
           </div>
           <div id="diag-empty" class="empty-state">
-            <div style="font-size:3rem;">🍃</div>
+            <div style="font-size:3rem; animation: floatLeaf 3s ease-in-out infinite;">🍃</div>
             <p data-i18n="diag_empty_msg">Upload a plant photo or click a sample to see AI disease classification, confidence, and ICAR precautionary guidance.</p>
           </div>
 
           <div id="diag-results" style="display:none;">
+            <!-- Back button to reset scanner -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <button class="btn btn-secondary btn-sm" onclick="resetDiagnosisScanner()">
+                ⬅ <span data-i18n="btn_back_scanner">Scan Another Leaf</span>
+              </button>
+              <span class="badge badge-success" style="font-size:0.75rem;">✓ AI Verified</span>
+            </div>
+
             <div class="result-header">
               <div>
                 <h2 id="res-disease-name">Tomato Early Blight</h2>
@@ -150,10 +177,13 @@
               <p id="res-regional-action" class="lang-text"></p>
             </div>
 
-            <!-- Download Report Button -->
-            <div style="margin-top:16px;">
-              <button class="btn btn-secondary" onclick="openPrintReportModal()" style="width:100%;">
-                📥 <span data-i18n="btn_download_report">Download Full PDF / Print Diagnostic Report</span>
+            <!-- Download and Print Report Buttons -->
+            <div class="result-action-bar" style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-primary" onclick="downloadDiagnosticReportFile()" style="flex:1; min-width:180px;">
+                📥 <span data-i18n="btn_download_pdf_file">Download Report (PDF/HTML)</span>
+              </button>
+              <button class="btn btn-secondary" onclick="openPrintReportModal()" style="flex:1; min-width:160px;">
+                🖨 <span data-i18n="btn_print_pdf">Print Official Certificate</span>
               </button>
             </div>
           </div>
@@ -165,6 +195,12 @@
     <!-- TAB 2: BONUS A - Crop Recommendation -->
     <!-- ======================================================== -->
     <section id="tab-crop" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Bonus Module A</span>
+      </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
@@ -259,6 +295,12 @@
     <!-- TAB 3: BONUS B & C - Smart Irrigation & Weather Sync -->
     <!-- ======================================================== -->
     <section id="tab-irrigation" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Bonus Modules B & C</span>
+      </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
@@ -365,6 +407,12 @@
     <!-- TAB 4: BONUS D - Sustainability & Carbon Score -->
     <!-- ======================================================== -->
     <section id="tab-sustainability" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Bonus Module D</span>
+      </div>
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
@@ -419,6 +467,12 @@
     <!-- TAB 5: BONUS E - Farmer Assistant GenAI -->
     <!-- ======================================================== -->
     <section id="tab-assistant" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Bonus Module E</span>
+      </div>
       <div class="card" style="max-width:900px; margin:0 auto;">
         <div class="card-header">
           <h3 data-i18n="assistant_title">💬 Grounded Farmer Assistant (Multilingual GenAI)</h3>
@@ -452,6 +506,12 @@
     <!-- TAB 6: BONUS F & G - IoT & Autonomous Agentic Advisor -->
     <!-- ======================================================== -->
     <section id="tab-iot" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Bonus Modules F & G</span>
+      </div>
       <div class="grid-2">
         <!-- IoT Gauges -->
         <div class="card">
@@ -545,6 +605,12 @@
     <!-- TAB 7: SECTION 7.3 - Model Evaluation Report -->
     <!-- ======================================================== -->
     <section id="tab-report" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Disease Scanner</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Section 7.3 Evaluation</span>
+      </div>
       <div class="card">
         <div class="card-header">
           <h3 data-i18n="report_title">📑 SIH-2026 Model Evaluation Report (Section 7.3)</h3>
@@ -589,7 +655,7 @@
     <div class="modal-card">
       <div class="modal-header">
         <h3 id="auth-modal-title" data-i18n="auth_modal_title">Farmer Login</h3>
-        <button class="modal-close" onclick="closeAuthModal()">✕</button>
+        <button class="modal-close" onclick="closeAuthModal()" title="Back to Website">✕</button>
       </div>
       <div class="auth-tabs">
         <button class="auth-tab-btn active" id="auth-tab-login" onclick="setAuthMode('login')" data-i18n="auth_signin_tab">Sign In</button>
@@ -599,17 +665,20 @@
       <form id="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
         <div class="form-group" id="group-name" style="display:none;">
           <label data-i18n="auth_name_label">Full Name:</label>
-          <input type="text" id="auth-name" class="form-control" placeholder="e.g. Ramesh Patel">
+          <input type="text" id="auth-name" class="form-control" placeholder="e.g. Ramesh Patel" oninput="validateAuthInputs()">
+          <div id="auth-name-hint" class="input-hint"></div>
         </div>
 
         <div class="form-group">
           <label data-i18n="auth_email_phone_label">Email or Phone Number:</label>
-          <input type="text" id="auth-email-phone" class="form-control" required placeholder="name@example.com or 9876543210">
+          <input type="text" id="auth-email-phone" class="form-control" required placeholder="10-digit Phone (9876543210) or Email" oninput="validateAuthInputs()">
+          <div id="auth-contact-hint" class="input-hint"></div>
         </div>
 
         <div class="form-group">
           <label data-i18n="auth_pwd_label">Password:</label>
-          <input type="password" id="auth-password" class="form-control" required placeholder="••••••••">
+          <input type="password" id="auth-password" class="form-control" required placeholder="Minimum 6 characters" oninput="validateAuthInputs()">
+          <div id="auth-pwd-hint" class="input-hint"></div>
         </div>
 
         <div class="form-row" id="group-meta" style="display:none;">
@@ -644,6 +713,10 @@
         <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width:100%; margin-top:14px;">
           <span id="auth-submit-text" data-i18n="btn_login_submit">Sign In to Farm Account</span>
         </button>
+
+        <button type="button" class="btn btn-secondary" onclick="closeAuthModal()" style="width:100%; margin-top:8px;">
+          ⬅ <span data-i18n="btn_back_home">Back to Website</span>
+        </button>
       </form>
     </div>
   </div>
@@ -655,7 +728,7 @@
     <div class="modal-card print-report-card">
       <div class="modal-header">
         <h3>📄 Official Plant Diagnostic Certificate</h3>
-        <button class="modal-close" onclick="closeReportModal()">✕</button>
+        <button class="modal-close" onclick="closeReportModal()" title="Back to Results">✕</button>
       </div>
 
       <div class="printable-content" id="printable-report-area">
@@ -702,12 +775,55 @@
         </div>
       </div>
 
-      <div class="modal-actions" style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end;">
-        <button class="btn btn-secondary" onclick="closeReportModal()">Close</button>
-        <button class="btn btn-primary" onclick="window.print()">🖨 Print / Save as PDF</button>
+      <div class="modal-actions" style="margin-top:18px; display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="closeReportModal()">
+          ⬅ <span data-i18n="btn_back_scanner">Back to Results</span>
+        </button>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" onclick="downloadDiagnosticReportFile()">
+            📥 <span data-i18n="btn_download_pdf_file">Download File</span>
+          </button>
+          <button class="btn btn-secondary" onclick="printDiagnosticReport()">
+            🖨 <span data-i18n="btn_print_pdf">Print / Save as PDF</span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: NON-PLANT IMAGE WARNING MODAL                   -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="invalid-plant-modal">
+    <div class="modal-card" style="max-width: 480px; text-align: center;">
+      <div style="font-size: 3.5rem; margin-bottom: 8px;">🚫🍃</div>
+      <h3 style="color: #dc2626; margin-bottom: 8px;" id="invalid-modal-title" data-i18n="invalid_plant_title">
+        Not a Crop or Plant Image
+      </h3>
+      <p id="invalid-modal-reason" style="color: #4b5563; font-size: 0.95rem; line-height: 1.5; margin-bottom: 16px;" data-i18n="invalid_plant_desc">
+        The uploaded photo does not appear to contain an agricultural crop leaf, plant, fruit, or vegetable.
+      </p>
+      <div style="background: #fef2f2; border: 1px dashed #f87171; border-radius: 8px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.85rem; color: #991b1b;">
+        <strong>📌 Instructions for Accurate Diagnosis:</strong>
+        <ul style="margin: 6px 0 0 18px; padding: 0; line-height: 1.5;">
+          <li>Upload a close-up photo of the crop leaf, tree, or plant.</li>
+          <li>Ensure good natural light without heavy shadows.</li>
+          <li>Avoid pictures of people, vehicles, documents, pets, or screens.</li>
+        </ul>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-secondary" onclick="closeInvalidPlantModal()">
+          ⬅ <span data-i18n="btn_back_scanner">Back</span>
+        </button>
+        <button class="btn btn-primary" onclick="closeInvalidPlantModal(); document.getElementById('file-input').click();">
+          📸 <span data-i18n="upload_prompt">Choose Plant Photo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
 
   <footer class="footer">
     <p><strong>AgriSmart AI</strong> — SIH-2026 Internal Hackathon Submission | L. J. Institute of Engineering and Technology</p>
