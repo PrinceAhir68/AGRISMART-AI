@@ -130,6 +130,56 @@ class TestRealIoTHardware(unittest.TestCase):
             "NO PHYSICAL SENSOR DETECTED" in trace_str or "Sensor telemetry status" in trace_str or "baseline" in trace_str
         )
 
+    def test_reject_bluetooth_speakers_and_smartwatches(self):
+        """Verify that audio speakers and smartwatches are strictly rejected and not connected."""
+        # 1. Test Bluetooth speaker
+        speaker_payload = {
+            "device_id": "BLE-AUDIO-DEV",
+            "device_model": "boAt Stone 350 Speaker",
+            "device_name": "boAt Stone 350",
+            "connection_type": "BLUETOOTH",
+            "soil_moisture_pct": 20.0
+        }
+        resp1 = self.client.post("/api/iot/ingest", json=speaker_payload)
+        self.assertEqual(resp1.status_code, 200)
+        data1 = resp1.json()
+        self.assertEqual(data1["status"], "rejected")
+        self.assertEqual(data1["error"], "DEVICE_REJECTED_NON_IOT")
+
+        # Confirm not connected
+        status1 = self.client.get("/api/iot/status").json()
+        self.assertFalse(status1["connected"])
+
+        # 2. Test Smartwatch
+        watch_payload = {
+            "device_id": "BLE-WATCH-01",
+            "device_model": "Noise ColorFit Pulse Smartwatch",
+            "device_name": "Noise ColorFit",
+            "connection_type": "BLUETOOTH"
+        }
+        resp2 = self.client.post("/api/iot/ingest", json=watch_payload)
+        self.assertEqual(resp2.status_code, 200)
+        data2 = resp2.json()
+        self.assertEqual(data2["status"], "rejected")
+
+        status2 = self.client.get("/api/iot/status").json()
+        self.assertFalse(status2["connected"])
+
+    def test_multilingual_tts_endpoint(self):
+        """Verify that /api/tts generates MP3 audio streams for en, hi, gu, mr."""
+        for lang, phrase in [
+            ("hi", "टमाटर का अगेती झुलसा रोग"),
+            ("gu", "ટમેટામાં આગોતરો સુકારો"),
+            ("mr", "टोमॅटोचा करपा रोग"),
+            ("en", "Tomato early blight diagnosis")
+        ]:
+            resp = self.client.get(f"/api/tts?text={phrase}&lang={lang}")
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.headers.get("content-type"), "audio/mpeg")
+            self.assertGreater(len(resp.content), 1000)
+
 
 if __name__ == "__main__":
     unittest.main()
+
+

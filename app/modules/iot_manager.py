@@ -21,7 +21,14 @@ except ImportError:
     SERIAL_AVAILABLE = False
 
 
+NON_IOT_DEVICE_REGEX = re.compile(
+    r'(watch|band|fitbit|gear|smartwatch|wear|speaker|soundbar|audio|headphone|headset|earbud|earphone|airpod|buds|tws|soundcore|boat\s*(?:stone|rockerz|airdopes|wave|storm)|jbl|sony\s*(?:wh|wf|srs)|bose|marshall|zebronics\s*(?:zeb|sound)|realme\s*buds|oneplus\s*buds|noise\s*(?:colorfit|shots)|fire-?boltt|boult|tv|dongle|mouse|keyboard|echo|alexa|nest|homepod|car|handsfree)',
+    re.IGNORECASE
+)
+
+
 class RealIoTHardwareGateway:
+
     """
     Manages physical IoT hardware connections:
     1. USB Serial Cable (Arduino, ESP32, STM32, CH340, CP2102)
@@ -50,7 +57,8 @@ class RealIoTHardwareGateway:
 
         # Raw terminal buffer (up to 50 recent lines)
         self.raw_terminal_log: List[str] = []
-        self._lock = threading.Lock()
+        self._lock = threading.RLock()
+
 
         # Physical Sensor Registry (Strict Real-Only, None when absent/disconnected)
         self.real_telemetry: Dict[str, Optional[float]] = {
@@ -216,6 +224,21 @@ class RealIoTHardwareGateway:
         STRICT REAL-ONLY: Only provided fields are updated; absent fields remain None.
         """
         with self._lock:
+            # Validate device identity against non-IoT consumer electronics (speakers, smartwatches, etc.)
+            dev_identifiers = [
+                str(raw_data.get("device_id", "")),
+                str(raw_data.get("device_model", "")),
+                str(raw_data.get("device_name", ""))
+            ]
+            for dev_str in dev_identifiers:
+                if dev_str and NON_IOT_DEVICE_REGEX.search(dev_str):
+                    self._log_terminal(f"❌ [VALIDATION REJECTED] Ineligible device '{dev_str}' detected. Consumer audio/smartwatch devices cannot be connected as agricultural IoT sensors.")
+                    return {
+                        "status": "rejected",
+                        "error": "DEVICE_REJECTED_NON_IOT",
+                        "message": f"Ineligible device: '{dev_str}' is an audio speaker, smartwatch, or consumer wearable. AgriSmart AI strictly requires genuine Agricultural & Environmental IoT sensors."
+                    }
+
             self.last_heartbeat_ts = time.time()
             self.is_connected = True
             self.connection_type = connection_type
@@ -225,6 +248,7 @@ class RealIoTHardwareGateway:
                 self.device_id = str(raw_data["device_id"])
             elif not self.device_id:
                 self.device_id = f"{connection_type}-AGRI-NODE"
+
 
             if "device_model" in raw_data and raw_data["device_model"]:
                 self.device_model = str(raw_data["device_model"])

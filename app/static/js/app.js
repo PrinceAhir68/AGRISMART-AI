@@ -2907,7 +2907,33 @@ async function connectWifiSensor() {
   }
 }
 
-// 15.8 Connect Web Bluetooth (BLE) Probes
+// 15.8 Connect Web Bluetooth (BLE) Probes with Strict IoT Sensor Validation
+const NON_IOT_BLUETOOTH_REGEX = /(watch|band|fitbit|gear|smartwatch|wear|speaker|soundbar|audio|headphone|headset|earbud|earphone|airpod|buds|tws|soundcore|boat\s*(?:stone|rockerz|airdopes|wave|storm)|jbl|sony\s*(?:wh|wf|srs)|bose|marshall|zebronics\s*(?:zeb|sound)|realme\s*buds|oneplus\s*buds|noise\s*(?:colorfit|shots)|fire-?boltt|boult|tv|dongle|mouse|keyboard|echo|alexa|nest|homepod|car|handsfree)/i;
+
+function showBluetoothRejectionAlert(devName) {
+  const lang = currentLanguage || 'hi';
+  const msgs = {
+    'hi': {
+      title: '⚠️ अस्वीकृत ब्लूटूथ डिवाइस (गैर-सेंसर डिवाइस)',
+      desc: `आपने "${devName}" चुना है, जो कि एक ऑडियो स्पीकर / स्मार्टवॉच / हेडफोन प्रतीत होता है।\n\nएग्रीस्मार्ट केवल वास्तविक कृषि IoT सेंसर (जैसे ESP32, मृदा नमी प्रोब, मौसम स्टेशन) को सपोर्ट करता है। कृपया कृषि सेंसर डिवाइस कनेक्ट करें।`
+    },
+    'en': {
+      title: '⚠️ Ineligible Bluetooth Device Rejected',
+      desc: `You selected "${devName}", which is an Audio Speaker, Smartwatch, or Headphone.\n\nAgriSmart AI only connects to Agricultural & Environmental IoT Sensors (such as ESP32 nodes, Capacitive Soil Probes, or SHT31 Weather Sensors). Please select an agricultural sensor probe.`
+    },
+    'gu': {
+      title: '⚠️ અમાન્ય બ્લૂટૂથ ડિવાઇસ અસ્વીકાર્ય',
+      desc: `તમે "${devName}" પસંદ કર્યું છે, જે સ્પીકર કે સ્માર્ટવોચ છે.\n\nએગ્રીસ્માર્ટ માત્ર કૃષિ સેન્સર્સ (જેમ કે ESP32, સોઇલ મોઇશ્ચર પ્રોબ) ને જ સપોર્ટ કરે છે.`
+    },
+    'mr': {
+      title: '⚠️ अपात्र ब्लूटूथ डिव्हाइस नाकारले',
+      desc: `तुम्ही "${devName}" निवडले आहे, जे ऑडिओ स्पीकर किंवा स्मार्टवॉच आहे.\n\nॲग्रीस्मार्ट केवळ कृषी IoT सेन्सर्स (जसे की ESP32, माती ओलावा प्रोब) ला सपोर्ट करते.`
+    }
+  };
+  const m = msgs[lang] || msgs['en'];
+  showToast(`${m.title}:\n${m.desc}`, 'error', 8000);
+}
+
 async function connectWebBluetooth() {
   if (!('bluetooth' in navigator)) {
     showToast('⚠️ Web Bluetooth is not available in this browser. Please enable Bluetooth and use Chrome/Edge on a BLE-enabled computer.', 'warning');
@@ -2915,27 +2941,76 @@ async function connectWebBluetooth() {
   }
 
   try {
-    showToast('📡 Scanning for nearby BLE agricultural sensor probes...', 'info');
+    showToast('📡 Scanning for nearby agricultural sensor probes (soil probes, ESP32, SHT31)...', 'info');
+    
+    // Request BLE device
     const device = await navigator.bluetooth.requestDevice({
       acceptAllDevices: true,
-      optionalServices: ['battery_service', 'environmental_sensing']
+      optionalServices: [
+        'battery_service',
+        'environmental_sensing',
+        '0000181a-0000-1000-8000-00805f9b34fb',
+        '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
+        '4fafc201-1fb5-459e-8fcc-c5c9c331914b'
+      ]
     });
 
-    showToast(`Connecting to BLE device: ${device.name || 'AgriSensor'}...`, 'info');
-    const server = await device.gatt.connect();
-    showToast(`✅ Bluetooth Connected to ${device.name || 'BLE Sensor'}!`, 'success');
+    const devName = (device.name || '').trim();
 
-    await fetch('/api/iot/ingest', {
+    // VALIDATION STEP 1: Reject Blacklisted Audio / Smartwatch / Wearable Devices
+    if (NON_IOT_BLUETOOTH_REGEX.test(devName)) {
+      logToIoTTerminal(`❌ [BLUETOOTH REJECTED] Ineligible device "${devName}" rejected. Audio speakers and smartwatches cannot measure agricultural telemetry.`);
+      showBluetoothRejectionAlert(devName);
+      if (device.gatt && device.gatt.connected) {
+        try { device.gatt.disconnect(); } catch (e) {}
+      }
+      return;
+    }
+
+    showToast(`Connecting to BLE device: ${devName || 'AgriSensor'}...`, 'info');
+    const server = await device.gatt.connect();
+
+    // VALIDATION STEP 2: Inspect GATT Services for Telemetry Capability
+    try {
+      const services = await server.getPrimaryServices();
+      const serviceUuids = services.map(s => s.uuid.toLowerCase());
+      
+      const isPurelyMediaOrHID = serviceUuids.every(u => 
+        u.includes('1812') || u.includes('110b') || u.includes('110e') || u.includes('1108') || u.includes('1800') || u.includes('1801')
+      );
+      
+      if (isPurelyMediaOrHID && serviceUuids.length > 0 && !serviceUuids.some(u => u.includes('181a') || u.includes('6e40') || u.includes('battery') || u.includes('environmental'))) {
+        server.disconnect();
+        logToIoTTerminal(`❌ [BLUETOOTH REJECTED] Device "${devName}" lacks agricultural sensor or telemetry data services.`);
+        showBluetoothRejectionAlert(devName);
+        return;
+      }
+    } catch (svcErr) {
+      console.warn('GATT service inspection note:', svcErr);
+    }
+
+    // VALIDATION STEP 3: Server-side validation via Ingestion
+    const ingestRes = await fetch('/api/iot/ingest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         device_id: device.id || 'BLE-SOIL-PROBE',
-        device_model: device.name || 'Wireless BLE Probe',
+        device_model: devName || 'Wireless BLE Probe',
+        device_name: devName || 'Wireless BLE Probe',
         connection_type: 'BLUETOOTH'
       })
     });
+    const ingestData = await ingestRes.json();
 
-    logToIoTTerminal(`[BLUETOOTH] Paired with ${device.name || device.id}. Stream active.`);
+    if (ingestData.status === 'rejected') {
+      server.disconnect();
+      logToIoTTerminal(`❌ [BLUETOOTH REJECTED] ${ingestData.message}`);
+      showBluetoothRejectionAlert(devName);
+      return;
+    }
+
+    showToast(`✅ Bluetooth Connected to ${devName || 'BLE Sensor'}!`, 'success');
+    logToIoTTerminal(`[BLUETOOTH] Validated and paired with ${devName || device.id}. Stream active.`);
     checkIoTStatusAndTelemetry();
   } catch (e) {
     if (e.name !== 'NotFoundError') {
@@ -2943,6 +3018,7 @@ async function connectWebBluetooth() {
     }
   }
 }
+
 
 // 15.9 Disconnect Any Active IoT Hardware
 async function disconnectIoTHardware() {

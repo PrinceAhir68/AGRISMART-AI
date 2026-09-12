@@ -539,6 +539,35 @@ def api_iot_arduino_sketch():
     return {"sketch": iot_manager.get_arduino_sketch()}
 
 
+# -------------------------------------------------------------
+# MULTILINGUAL TEXT-TO-SPEECH (TTS) ENDPOINT
+# -------------------------------------------------------------
+@app.get("/api/tts")
+def api_tts(text: str = Query(..., max_length=1000), lang: str = Query("en")):
+    """
+    Streams natural audio for English, Hindi, Gujarati, and Marathi.
+    Uses gTTS with in-memory MP3 buffer for reliable cross-browser speaker playback.
+    """
+    clean_text = text.strip()
+    if not clean_text:
+        raise HTTPException(status_code=400, detail="Text cannot be empty")
+
+    lang_code = lang.lower()
+    if lang_code not in ["hi", "gu", "mr", "en"]:
+        lang_code = "en"
+
+    try:
+        from gtts import gTTS
+        import io
+        fp = io.BytesIO()
+        tts = gTTS(text=clean_text[:400], lang=lang_code, slow=False)
+        tts.write_to_fp(fp)
+        fp.seek(0)
+        return Response(content=fp.getvalue(), media_type="audio/mpeg")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"TTS generation failed: {str(e)}")
+
+
 class ScenarioRequest(BaseModel):
     scenario: str
 
@@ -546,6 +575,7 @@ class ScenarioRequest(BaseModel):
 @app.post("/api/iot/scenario")
 def api_iot_scenario(req: ScenarioRequest):
     return trigger_iot_scenario(req.scenario)
+
 
 
 
