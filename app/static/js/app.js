@@ -16,9 +16,33 @@
 
 // Global App State
 let currentSelectedImageFile = null;
-let currentLanguage = localStorage.getItem('agrismart_lang') || 'en';
+
+// Persistent Farmer Account (Auto-saved so user is NEVER prompted or asked to log in every time)
+let savedUser = null;
+try {
+  savedUser = JSON.parse(localStorage.getItem('agrismart_user') || 'null');
+} catch (e) {
+  savedUser = null;
+}
+
+if (!savedUser) {
+  savedUser = {
+    id: 1,
+    name: "किसान मित्र (Kisan Mitra)",
+    email_or_phone: "9876543210",
+    location: "Gujarat, India",
+    primary_crop: "Tomato",
+    language: localStorage.getItem('agrismart_lang') || "hi",
+    is_guest: true
+  };
+  localStorage.setItem('agrismart_user', JSON.stringify(savedUser));
+}
+
+let currentUser = savedUser;
+
+// Default language: Hindi ('hi') unless farmer has previously selected another language
+let currentLanguage = localStorage.getItem('agrismart_lang') || (currentUser && currentUser.language) || 'hi';
 let currentDiagnosisData = null;
-let currentUser = JSON.parse(localStorage.getItem('agrismart_user') || 'null');
 let userLatitude = 23.0225; // Default: Ahmedabad, Gujarat
 let userLongitude = 72.5714;
 let userLocationName = "Ahmedabad, Gujarat";
@@ -199,7 +223,12 @@ const TRANSLATIONS = {
     "label_pathogen_latin": "Scientific Pathogen:",
     "label_weather_match": "Agro-Climate Match:",
     "label_corroborated_symptoms": "Corroborated Foliar Indicators:",
-    "label_live_citations": "Live Internet Citations:"
+    "label_live_citations": "Live Internet Citations:",
+    "nav_account": "Farmer Account",
+    "default_farmer_name": "Kisan Mitra (Farmer Friend)",
+    "badge_farmer_profile": "Active",
+    "badge_logout": "Logout",
+    "confirm_logout": "Do you want to log out or switch account?"
   },
   "hi": {
     "app_title": "एग्रीस्मार्ट एआई (AgriSmart AI)",
@@ -370,7 +399,12 @@ const TRANSLATIONS = {
     "label_pathogen_latin": "वैज्ञानिक रोगजनक (Pathogen):",
     "label_weather_match": "कृषि-मौसम अनुकूलता:",
     "label_corroborated_symptoms": "प्रमाणित पत्ती लक्षण संकेतक:",
-    "label_live_citations": "लाइव इंटरनेट संदर्भ स्रोत:"
+    "label_live_citations": "लाइव इंटरनेट संदर्भ स्रोत:",
+    "nav_account": "किसान खाता",
+    "default_farmer_name": "किसान मित्र (Kisan Mitra)",
+    "badge_farmer_profile": "सक्रिय",
+    "badge_logout": "लॉगआउट",
+    "confirm_logout": "क्या आप लॉगआउट करना या दूसरा खाता बदलना चाहते हैं?"
   },
   "gu": {
     "app_title": "એગ્રીસ્માર્ટ એઆઈ (AgriSmart AI)",
@@ -541,7 +575,12 @@ const TRANSLATIONS = {
     "label_pathogen_latin": "વૈજ્ઞાનિક રોગકારક (Pathogen):",
     "label_weather_match": "કૃષિ-હવામાન સુસંગતતા:",
     "label_corroborated_symptoms": "પ્રમાણિત પર્ણ રોગ લક્ષણો:",
-    "label_live_citations": "જીવંત સંદર્ભ સ્ત્રોતો:"
+    "label_live_citations": "જીવંત સંદર્ભ સ્ત્રોતો:",
+    "nav_account": "ખેડૂત એકાઉન્ટ",
+    "default_farmer_name": "કિસાન મિત્ર (ખેડૂત મિત્ર)",
+    "badge_farmer_profile": "સક્રિય",
+    "badge_logout": "લૉગ આઉટ",
+    "confirm_logout": "શું તમે લૉગ આઉટ કરવા અથવા બીજું ખાતું બદલવા માંગો છો?"
   },
   "mr": {
     "app_title": "ॲग्रीस्मार्ट एआय (AgriSmart AI)",
@@ -712,7 +751,12 @@ const TRANSLATIONS = {
     "label_pathogen_latin": "वैज्ञानिक रोगकारक (Pathogen):",
     "label_weather_match": "हवामान सुसंगतता:",
     "label_corroborated_symptoms": "प्रमाणित पानांवरील लक्षणे:",
-    "label_live_citations": "थेट इंटरनेट संदर्भ स्रोत:"
+    "label_live_citations": "थेट इंटरनेट संदर्भ स्रोत:",
+    "nav_account": "शेतकरी खाते",
+    "default_farmer_name": "किसान मित्र (शेतकरी मित्र)",
+    "badge_farmer_profile": "सक्रिय",
+    "badge_logout": "लॉगआउट",
+    "confirm_logout": "तुम्ही लॉगआउट करू इच्छिता किंवा खाते बदलू इच्छिता?"
   }
 };
 
@@ -1806,13 +1850,25 @@ function validateAuthInputs() {
 
 function updateAuthUI() {
   const btn = document.getElementById('btn-auth-action');
-  if (currentUser) {
-    btn.style.background = "#059669";
-    btn.innerHTML = `<span>👤 ${currentUser.name.split(' ')[0]}</span> <small style="opacity:0.8;">(Logout)</small>`;
-    btn.onclick = logoutUser;
+  if (!btn) return;
+  const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS['hi'] || TRANSLATIONS['en'];
+  
+  if (currentUser && !currentUser.is_guest) {
+    btn.style.background = "#047857";
+    btn.style.border = "1.5px solid #6ee7b7";
+    const firstName = (currentUser.name || "Farmer").split(' ')[0];
+    btn.innerHTML = `<span>👤 ${firstName}</span> <small style="opacity:0.85; font-size:0.75rem;">(${dict.badge_logout || 'लॉगआउट'})</small>`;
+    btn.onclick = () => {
+      if (confirm(dict.confirm_logout || "क्या आप लॉगआउट करना चाहते हैं? (Do you want to log out?)")) {
+        logoutUser();
+      }
+    };
   } else {
-    btn.style.background = "var(--primary)";
-    btn.innerHTML = `<span id="auth-btn-icon">🔑</span> <span id="auth-btn-text">${(TRANSLATIONS[currentLanguage] || TRANSLATIONS['en']).nav_login}</span>`;
+    // Persistent default Farmer profile — NEVER nag or ask to log in
+    btn.style.background = "#059669";
+    btn.style.border = "1.5px solid #a7f3d0";
+    const guestLabel = currentUser ? currentUser.name.split(' ')[0] : (dict.default_farmer_name || 'किसान मित्र');
+    btn.innerHTML = `<span>🌱 ${guestLabel}</span> <small style="opacity:0.85; font-size:0.75rem;">(${dict.badge_farmer_profile || 'सक्रिय'})</small>`;
     btn.onclick = openAuthModal;
   }
 }
@@ -1887,10 +1943,14 @@ async function handleAuthSubmit() {
       if (!res.ok) throw new Error(data.detail || 'Registration failed');
       
       currentUser = data.user;
+      currentUser.is_guest = false;
       localStorage.setItem('agrismart_user', JSON.stringify(currentUser));
+      if (currentUser.language) {
+        changeGlobalLanguage(currentUser.language, true);
+      }
       closeAuthModal();
       updateAuthUI();
-      showToast(`Welcome to AgriSmart AI, ${currentUser.name}! Account registered in database.`, 'success');
+      showToast(`Welcome to AgriSmart AI, ${currentUser.name}! You are logged in permanently.`, 'success');
     } catch (e) {
       errBox.innerText = e.message;
       errBox.style.display = 'block';
@@ -1907,10 +1967,14 @@ async function handleAuthSubmit() {
       if (!res.ok) throw new Error(data.detail || 'Login failed');
 
       currentUser = data.user;
+      currentUser.is_guest = false;
       localStorage.setItem('agrismart_user', JSON.stringify(currentUser));
+      if (currentUser.language) {
+        changeGlobalLanguage(currentUser.language, true);
+      }
       closeAuthModal();
       updateAuthUI();
-      showToast(`Welcome back, ${currentUser.name}!`, 'success');
+      showToast(`Welcome back, ${currentUser.name}! Logged in permanently.`, 'success');
     } catch (e) {
       errBox.innerText = e.message;
       errBox.style.display = 'block';
@@ -1919,11 +1983,18 @@ async function handleAuthSubmit() {
 }
 
 function logoutUser() {
-  if (confirm("Do you want to log out of your AgriSmart account?")) {
-    currentUser = null;
-    localStorage.removeItem('agrismart_user');
-    updateAuthUI();
-  }
+  currentUser = {
+    id: 1,
+    name: "किसान मित्र (Kisan Mitra)",
+    email_or_phone: "9876543210",
+    location: "Gujarat, India",
+    primary_crop: "Tomato",
+    language: currentLanguage,
+    is_guest: true
+  };
+  localStorage.setItem('agrismart_user', JSON.stringify(currentUser));
+  updateAuthUI();
+  showToast("खाता रीसेट हुआ। आप बिना लॉगिन किए सभी सुविधाओं का उपयोग कर सकते हैं।", "info");
 }
 
 function showToast(message, type = 'info') {

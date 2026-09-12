@@ -66,12 +66,12 @@
 
     <!-- Global Language Switcher -->
     <div class="lang-bar">
-      <span class="lang-label" data-i18n="language_label">🌐 Language:</span>
+      <span class="lang-label" data-i18n="language_label">🌐 भाषा (Language):</span>
       <select id="global-lang-select" class="lang-select" onchange="changeGlobalLanguage(this.value)">
-        <option value="en" selected>English</option>
-        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="hi" selected>हिन्दी (Hindi)</option>
         <option value="gu">ગુજરાતી (Gujarati)</option>
         <option value="mr">मराठी (Marathi)</option>
+        <option value="en">English</option>
       </select>
     </div>
 
@@ -102,9 +102,9 @@
 
     <div class="nav-badges">
       <span class="badge badge-success" id="live-weather-badge">☁ Weather Sync</span>
-      <!-- User Account Action Button -->
+      <!-- User Account Action Button (Auto-Remembered / No Mandatory Login) -->
       <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
-        <span id="auth-btn-icon">🔑</span> <span id="auth-btn-text" data-i18n="nav_login">Login / Register</span>
+        <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
       </button>
     </div>
   </header>
