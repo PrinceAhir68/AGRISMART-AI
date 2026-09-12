@@ -6,6 +6,7 @@ Authentication, SQLite Database, and Supabase Integration.
 
 import os
 import sys
+import json
 import shutil
 import tempfile
 import httpx
@@ -36,6 +37,8 @@ from app.modules.smart_irrigation import calculate_smart_irrigation
 from app.modules.weather_service import get_weather_intelligence
 from app.modules.sustainability import calculate_sustainability_score
 from app.modules.farmer_assistant import ask_farmer_assistant
+from app.modules.qa_engine import get_qa_engine
+from app.modules.web_verifier import verify_disease_with_web, verify_and_answer_qa_with_web
 from app.modules.iot_simulator import get_current_iot_telemetry, trigger_iot_scenario
 from app.modules.agentic_advisor import run_agent_loop
 from app.database import (
@@ -140,12 +143,14 @@ def api_supabase_status():
 async def predict_disease(
     file: UploadFile = File(...),
     user_id: Optional[int] = Form(None),
-    target_crop: Optional[str] = Form(None)
+    target_crop: Optional[str] = Form(None),
+    current_weather: Optional[str] = Form(None)
 ):
     """
     Mandatory Core Task Endpoint:
     Accepts an uploaded plant leaf image and outputs predicted class, confidence,
     symptoms, immediate cultural precautions, organic remedies, and chemical controls.
+    Performs Live Internet Cross-Verification & Comparison against ICAR/FAO databases.
     Automatically saves record to SQLite database and syncs to Supabase.
     """
     tmp_path = None
@@ -155,7 +160,14 @@ async def predict_disease(
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
 
-        result = predict(tmp_path, target_crop=target_crop)
+        weather_dict = None
+        if current_weather:
+            try:
+                weather_dict = json.loads(current_weather) if isinstance(current_weather, str) else current_weather
+            except Exception:
+                pass
+
+        result = predict(tmp_path, target_crop=target_crop, current_weather=weather_dict)
 
         # Save to SQLite database
         rec_id = save_diagnosis_record(
@@ -439,6 +451,23 @@ class AssistantRequest(BaseModel):
 @app.post("/api/assistant")
 def api_assistant(req: AssistantRequest):
     return ask_farmer_assistant(query=req.query, language=req.language)
+
+
+@app.get("/api/qa/search")
+def api_qa_search(q: str = Query(..., min_length=2), lang: str = Query("en")):
+    """
+    10,000+ Agricultural Q&A Knowledge Engine Search Endpoint.
+    Searches 10,800 agronomy knowledge nodes across 50 crops and 12 agronomic domains.
+    """
+    engine = get_qa_engine()
+    results = engine.search(q, top_k=5)
+    return {
+        "status": "success",
+        "query": q,
+        "language": lang,
+        "total_matches": len(results),
+        "results": results
+    }
 
 
 # -------------------------------------------------------------

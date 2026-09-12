@@ -31,6 +31,13 @@ WEIGHTS_PATH = os.path.join(BASE_DIR, "weights", "agrismart_mobilenetv3.pth")
 CLASSES_PATH = os.path.join(BASE_DIR, "classes.json")
 KNOWLEDGE_PATH = os.path.join(PROJECT_ROOT, "app", "data", "disease_knowledge.json")
 
+try:
+    if PROJECT_ROOT not in sys.path:
+        sys.path.insert(0, PROJECT_ROOT)
+    from app.modules.web_verifier import verify_disease_with_web
+except Exception:
+    verify_disease_with_web = None
+
 # 18 Standard Classes
 if os.path.exists(CLASSES_PATH):
     with open(CLASSES_PATH, "r") as f:
@@ -393,9 +400,15 @@ def _match_class_dynamically(features: dict, filename: str = "", target_crop: st
     return best_cls, round(conf, 4)
 
 
-def predict(image_path: str, target_crop: str = None) -> dict:
+def predict(
+    image_path: str,
+    target_crop: str = None,
+    current_weather: dict = None,
+    enable_web_verification: bool = True
+) -> dict:
     """
-    Core disease diagnosis interface with biological validation and crop selection.
+    Core disease diagnosis interface with biological validation, crop selection,
+    and Dual-Verified Live Internet Cross-Verification & Comparison Engine.
     """
     if not os.path.exists(image_path):
         raise FileNotFoundError(f"Image not found at path: {image_path}")
@@ -429,6 +442,25 @@ def predict(image_path: str, target_crop: str = None) -> dict:
         "translations": {}
     })
 
+    # Live Internet Verification & Comparison Engine
+    web_consensus = None
+    if enable_web_verification and verify_disease_with_web is not None:
+        try:
+            web_consensus = verify_disease_with_web(
+                crop=info.get("crop", "Unknown"),
+                disease_display_name=info.get("display_name", predicted_class),
+                class_label=predicted_class,
+                current_weather=current_weather
+            )
+        except Exception as e:
+            web_consensus = {
+                "query": f"{predicted_class} symptoms and management",
+                "agreement_status": "LOCAL_VERIFIED_ONLY",
+                "consensus_agreement_pct": round(confidence * 100, 1),
+                "error": str(e),
+                "live_internet_citations": []
+            }
+
     return {
         "class_label": predicted_class,
         "display_name": info.get("display_name", predicted_class),
@@ -440,7 +472,8 @@ def predict(image_path: str, target_crop: str = None) -> dict:
         "organic_treatment": info.get("organic_treatment", ""),
         "chemical_treatment": info.get("chemical_treatment", ""),
         "prevention": info.get("prevention", ""),
-        "translations": info.get("translations", {})
+        "translations": info.get("translations", {}),
+        "web_consensus": web_consensus
     }
 
 

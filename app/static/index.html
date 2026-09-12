@@ -250,6 +250,47 @@
               </div>
             </div>
 
+            <!-- Live Internet Cross-Verification & Comparison Card -->
+            <div class="web-consensus-card" id="web-consensus-card" style="display:none; margin-top:16px;">
+              <div class="consensus-header">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="pulse-globe">🌐</span>
+                  <div>
+                    <h4 style="margin:0; font-size:0.95rem; color:#065f46;" data-i18n="web_consensus_title">Live Internet Cross-Verification & Comparison</h4>
+                    <span style="font-size:0.75rem; color:#047857;" data-i18n="web_consensus_subtitle">Real-time cross-checking against ICAR, FAO, and international phytosanitary databases</span>
+                  </div>
+                </div>
+                <span class="badge consensus-badge badge-success" id="consensus-badge-pill">96% Agreement</span>
+              </div>
+              
+              <div class="consensus-body">
+                <div class="consensus-summary-row">
+                  <span id="consensus-summary-text">Corroborated across online repositories.</span>
+                </div>
+                
+                <div class="consensus-meta-grid">
+                  <div class="meta-item">
+                    <strong data-i18n="label_pathogen_latin">Scientific Pathogen:</strong>
+                    <span id="consensus-taxa" style="font-style:italic; font-weight:600;">--</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong data-i18n="label_weather_match">Agro-Climate Match:</strong>
+                    <span id="consensus-weather-match">--</span>
+                  </div>
+                </div>
+
+                <div class="consensus-indicators" id="consensus-indicators-wrap">
+                  <label><strong data-i18n="label_corroborated_symptoms">Corroborated Foliar Indicators:</strong></label>
+                  <ul id="consensus-indicators-list" class="symptom-tag-list"></ul>
+                </div>
+
+                <div class="consensus-citations">
+                  <label><strong data-i18n="label_live_citations">Live Internet Citations:</strong></label>
+                  <div id="consensus-citations-list" class="citation-pills"></div>
+                </div>
+              </div>
+            </div>
+
             <div class="translation-box" id="res-translations">
               <div class="trans-header">
                 <strong data-i18n="regional_title">🇮🇳 Regional Advisory:</strong>
