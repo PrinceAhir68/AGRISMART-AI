@@ -275,6 +275,9 @@ def recommend_crops(
     scored_crops.sort(key=lambda x: x["suitability_score"], reverse=True)
     top_3 = scored_crops[:3]
 
+    # Compute Soil Health Diagnostics (pH, N, P, K imbalance and remedies)
+    soil_health_alerts = diagnose_soil_health(ph=ph, n=n, p=p, k=k)
+
     return {
         "status": "success",
         "inputs": {
@@ -289,8 +292,160 @@ def recommend_crops(
         },
         "data_source": "ICAR-AgroMet Advisory Matrix & NBSS&LUP Soil Classification (2024-2026)",
         "validation_metric": "Top-3 Accuracy: 95.4% on 2,200 multi-location test points",
-        "recommendations": top_3
+        "recommendations": top_3,
+        "soil_health_diagnosis": soil_health_alerts
     }
+
+
+def diagnose_soil_health(ph: float, n: float, p: float, k: float) -> List[Dict[str, Any]]:
+    """
+    Evaluates soil chemical parameters against ICAR agronomic thresholds.
+    Returns prioritized diagnostic alerts and actionable remediation prescriptions.
+    """
+    alerts = []
+
+    # 1. Soil pH Evaluation
+    if ph < 6.0:
+        severity = "HIGH" if ph < 5.5 else "MEDIUM"
+        alerts.append({
+            "param": "pH",
+            "value": ph,
+            "status": "Acidic Soil (Low pH)",
+            "severity": severity,
+            "problem": f"Soil pH of {ph} reduces Phosphorus availability and induces micronutrient toxicity.",
+            "remedy": "Broadcast Agricultural Lime (CaCO3) @ 2.5 - 3.5 tons/ha or Dolomite 3-4 weeks prior to sowing. Apply well-decomposed Farm Yard Manure (FYM) to buffer soil."
+        })
+    elif ph > 7.8:
+        severity = "HIGH" if ph > 8.2 else "MEDIUM"
+        alerts.append({
+            "param": "pH",
+            "value": ph,
+            "status": "Alkaline / Calcareous Soil (High pH)",
+            "severity": severity,
+            "problem": f"Soil pH of {ph} fixes Phosphorus and causes Iron/Zinc chlorosis.",
+            "remedy": "Apply Agricultural Gypsum (CaSO4) @ 3.0 - 5.0 tons/ha with pre-sowing leaching. Green manure with Dhaincha (Sesbania) or Sunhemp."
+        })
+    else:
+        alerts.append({
+            "param": "pH",
+            "value": ph,
+            "status": "Optimal pH (Neutral)",
+            "severity": "NORMAL",
+            "problem": f"Soil pH of {ph} is within the ideal range (6.0 - 7.8) for maximal nutrient uptake.",
+            "remedy": "Maintain current soil organic carbon levels using routine compost/mulching."
+        })
+
+    # 2. Nitrogen (N) Evaluation
+    if n < 60.0:
+        alerts.append({
+            "param": "Nitrogen",
+            "value": n,
+            "status": "Nitrogen Deficient",
+            "severity": "MEDIUM",
+            "problem": f"Soil Nitrogen ({n} kg/ha) is low; will cause pale yellowing of older leaves and stunted growth.",
+            "remedy": "Apply Neem-coated Urea @ 50-70 kg/ha in 2-3 split applications (basal, vegetative, and panicle initiation)."
+        })
+    elif n > 140.0:
+        alerts.append({
+            "param": "Nitrogen",
+            "value": n,
+            "status": "Excess Nitrogen",
+            "severity": "MEDIUM",
+            "problem": f"Soil Nitrogen ({n} kg/ha) is high; triggers excessive vegetative growth, lodging, and fungal blast/blight susceptibility.",
+            "remedy": "Cease urea top-dressing. Increase Potash (MOP) to improve stem strength and pest resistance."
+        })
+
+    # 3. Phosphorus (P) Evaluation
+    if p < 30.0:
+        alerts.append({
+            "param": "Phosphorus",
+            "value": p,
+            "status": "Phosphorus Deficient",
+            "severity": "MEDIUM",
+            "problem": f"Soil Phosphorus ({p} kg/ha) is low; hampers root development and seedling establishment.",
+            "remedy": "Apply Single Super Phosphate (SSP) @ 120 kg/ha or DAP @ 50 kg/ha as a basal placement near root zones. Inoculate with PSB biofertilizer."
+        })
+    elif p > 90.0:
+        alerts.append({
+            "param": "Phosphorus",
+            "value": p,
+            "status": "Excess Phosphorus",
+            "severity": "LOW",
+            "problem": f"Soil Phosphorus ({p} kg/ha) is high; can lock out Zinc and Iron micronutrients.",
+            "remedy": "Avoid phosphatic fertilizers. Apply Zinc Sulfate @ 25 kg/ha if leaf chlorosis appears."
+        })
+
+    # 4. Potassium (K) Evaluation
+    if k < 30.0:
+        alerts.append({
+            "param": "Potassium",
+            "value": k,
+            "status": "Potassium Deficient",
+            "severity": "MEDIUM",
+            "problem": f"Soil Potassium ({k} kg/ha) is low; causes leaf margin scorching, weak disease resistance, and poor fruit filling.",
+            "remedy": "Apply Muriate of Potash (MOP) @ 40-60 kg/ha or Sulfate of Potash (SOP) at sowing."
+        })
+
+    return alerts
+
+
+INDIAN_DISTRICTS = {
+    "Gujarat": {
+        "Ahmedabad": {"lat": 23.0225, "lon": 72.5714, "soil": "Loamy", "rainfall": 750},
+        "Rajkot": {"lat": 22.3039, "lon": 70.8022, "soil": "Black Cotton", "rainfall": 600},
+        "Surat": {"lat": 21.1702, "lon": 72.8311, "soil": "Alluvial", "rainfall": 1150},
+        "Vadodara": {"lat": 22.3072, "lon": 73.1812, "soil": "Loamy", "rainfall": 900},
+        "Mehsana": {"lat": 23.5880, "lon": 72.3693, "soil": "Sandy", "rainfall": 650},
+        "Banaskantha": {"lat": 24.1724, "lon": 72.4346, "soil": "Sandy", "rainfall": 550},
+        "Junagadh": {"lat": 21.5222, "lon": 70.4579, "soil": "Black Cotton", "rainfall": 800},
+        "Kutch": {"lat": 23.2420, "lon": 69.6669, "soil": "Sandy", "rainfall": 380}
+    },
+    "Maharashtra": {
+        "Pune": {"lat": 18.5204, "lon": 73.8567, "soil": "Black Cotton", "rainfall": 750},
+        "Nashik": {"lat": 19.9975, "lon": 73.7898, "soil": "Red", "rainfall": 820},
+        "Nagpur": {"lat": 21.1458, "lon": 79.0882, "soil": "Black Cotton", "rainfall": 1100},
+        "Chhatrapati Sambhajinagar": {"lat": 19.8762, "lon": 75.3433, "soil": "Black Cotton", "rainfall": 720},
+        "Solapur": {"lat": 17.6599, "lon": 75.9064, "soil": "Black Cotton", "rainfall": 580},
+        "Kolhapur": {"lat": 16.7050, "lon": 74.2433, "soil": "Clay", "rainfall": 1050}
+    },
+    "Punjab": {
+        "Ludhiana": {"lat": 30.9010, "lon": 75.8573, "soil": "Alluvial", "rainfall": 680},
+        "Amritsar": {"lat": 31.6340, "lon": 74.8723, "soil": "Alluvial", "rainfall": 700},
+        "Jalandhar": {"lat": 31.3260, "lon": 75.5762, "soil": "Loamy", "rainfall": 690},
+        "Bathinda": {"lat": 30.2110, "lon": 74.9455, "soil": "Sandy", "rainfall": 450},
+        "Patiala": {"lat": 30.3398, "lon": 76.3869, "soil": "Alluvial", "rainfall": 660}
+    },
+    "Haryana": {
+        "Karnal": {"lat": 29.6857, "lon": 76.9905, "soil": "Alluvial", "rainfall": 720},
+        "Hisar": {"lat": 29.1492, "lon": 75.7217, "soil": "Sandy", "rainfall": 450},
+        "Ambala": {"lat": 30.3782, "lon": 76.7767, "soil": "Loamy", "rainfall": 900},
+        "Rohtak": {"lat": 28.8955, "lon": 76.6066, "soil": "Loamy", "rainfall": 550}
+    },
+    "Uttar Pradesh": {
+        "Varanasi": {"lat": 25.3176, "lon": 82.9739, "soil": "Alluvial", "rainfall": 1050},
+        "Lucknow": {"lat": 26.8467, "lon": 80.9462, "soil": "Alluvial", "rainfall": 980},
+        "Kanpur": {"lat": 26.4499, "lon": 80.3319, "soil": "Alluvial", "rainfall": 850},
+        "Agra": {"lat": 27.1767, "lon": 78.0081, "soil": "Sandy", "rainfall": 650},
+        "Prayagraj": {"lat": 25.4358, "lon": 81.8463, "soil": "Alluvial", "rainfall": 950}
+    },
+    "Madhya Pradesh": {
+        "Indore": {"lat": 22.7196, "lon": 75.8577, "soil": "Black Cotton", "rainfall": 950},
+        "Bhopal": {"lat": 23.2599, "lon": 77.4126, "soil": "Black Cotton", "rainfall": 1050},
+        "Ujjain": {"lat": 23.1765, "lon": 75.7885, "soil": "Black Cotton", "rainfall": 900},
+        "Jabalpur": {"lat": 23.1815, "lon": 79.9864, "soil": "Clay", "rainfall": 1250}
+    },
+    "Rajasthan": {
+        "Jaipur": {"lat": 26.9124, "lon": 75.7873, "soil": "Sandy", "rainfall": 600},
+        "Jodhpur": {"lat": 26.2389, "lon": 73.0243, "soil": "Sandy", "rainfall": 350},
+        "Kota": {"lat": 25.2138, "lon": 75.8648, "soil": "Black Cotton", "rainfall": 800},
+        "Udaipur": {"lat": 24.5854, "lon": 73.7125, "soil": "Red", "rainfall": 650}
+    },
+    "Karnataka": {
+        "Bengaluru": {"lat": 12.9716, "lon": 77.5946, "soil": "Red", "rainfall": 920},
+        "Belagavi": {"lat": 15.8497, "lon": 74.4977, "soil": "Black Cotton", "rainfall": 850},
+        "Mysuru": {"lat": 12.2958, "lon": 76.6394, "soil": "Red", "rainfall": 800}
+    }
+}
 
 
 if __name__ == "__main__":

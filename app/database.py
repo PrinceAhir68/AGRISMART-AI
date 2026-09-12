@@ -80,6 +80,41 @@ def init_database():
     )
     """)
 
+    # 4. Crop recommendations audit table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS crop_recommendations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        state TEXT,
+        district TEXT,
+        soil_type TEXT,
+        ph REAL,
+        n REAL,
+        p REAL,
+        k REAL,
+        season TEXT,
+        rainfall REAL,
+        temperature REAL,
+        top_crops TEXT,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )
+    """)
+
+    # 5. Farmer feedback & continuous model improvement table
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS feedback (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER,
+        item_type TEXT NOT NULL,
+        item_id INTEGER,
+        helpful BOOLEAN NOT NULL,
+        comments TEXT,
+        created_at TEXT NOT NULL,
+        FOREIGN KEY(user_id) REFERENCES users(id)
+    )
+    """)
+
     conn.commit()
     conn.close()
     print(f"Database initialized at {DB_PATH}")
@@ -233,5 +268,77 @@ def get_diagnosis_history(user_id: Optional[int] = None, limit: int = 15) -> Lis
     ]
 
 
+def save_crop_recommendation(
+    user_id: Optional[int],
+    state: str,
+    district: str,
+    soil_type: str,
+    ph: float,
+    n: float,
+    p: float,
+    k: float,
+    season: str,
+    rainfall: float,
+    temperature: float,
+    top_crops: List[Dict[str, Any]]
+) -> int:
+    """Saves a crop recommendation query and recommendations to database."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    import json
+    top_crops_json = json.dumps([c.get("crop", "") for c in top_crops])
+
+    cursor.execute("""
+    INSERT INTO crop_recommendations (user_id, state, district, soil_type, ph, n, p, k, season, rainfall, temperature, top_crops, created_at)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    """, (user_id, state, district, soil_type, ph, n, p, k, season, rainfall, temperature, top_crops_json, created_at))
+
+    rec_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return rec_id
+
+
+def save_feedback(
+    item_type: str,
+    item_id: Optional[int],
+    helpful: bool,
+    comments: str = "",
+    user_id: Optional[int] = None
+) -> int:
+    """Saves farmer rating and feedback for continuous model improvement."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    created_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
+    cursor.execute("""
+    INSERT INTO feedback (user_id, item_type, item_id, helpful, comments, created_at)
+    VALUES (?, ?, ?, ?, ?, ?)
+    """, (user_id, item_type, item_id, 1 if helpful else 0, comments, created_at))
+
+    fb_id = cursor.lastrowid
+    conn.commit()
+    conn.close()
+    return fb_id
+
+
+def get_feedback_summary() -> Dict[str, Any]:
+    """Returns feedback statistics."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) as total, SUM(helpful) as helpful_count FROM feedback")
+    row = cursor.fetchone()
+    conn.close()
+    total = row["total"] or 0
+    helpful = row["helpful_count"] or 0
+    return {
+        "total_feedback": total,
+        "helpful_feedback": helpful,
+        "accuracy_perception_pct": round((helpful / total * 100), 1) if total > 0 else 100.0
+    }
+
+
 # Initialize on import
 init_database()
+

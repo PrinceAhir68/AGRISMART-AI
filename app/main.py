@@ -31,7 +31,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Import core and bonus modules
 from model.predict import predict, InvalidPlantImageError
-from app.modules.crop_recommender import recommend_crops
+from app.modules.crop_recommender import recommend_crops, INDIAN_DISTRICTS
 from app.modules.smart_irrigation import calculate_smart_irrigation
 from app.modules.weather_service import get_weather_intelligence
 from app.modules.sustainability import calculate_sustainability_score
@@ -39,7 +39,8 @@ from app.modules.farmer_assistant import ask_farmer_assistant
 from app.modules.iot_simulator import get_current_iot_telemetry, trigger_iot_scenario
 from app.modules.agentic_advisor import run_agent_loop
 from app.database import (
-    register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history
+    register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history,
+    save_crop_recommendation, save_feedback, get_feedback_summary
 )
 from app.supabase_client import (
     get_supabase_status, sync_user_to_supabase, sync_diagnosis_to_supabase
@@ -138,7 +139,8 @@ def api_supabase_status():
 @app.post("/api/predict")
 async def predict_disease(
     file: UploadFile = File(...),
-    user_id: Optional[int] = Form(None)
+    user_id: Optional[int] = Form(None),
+    target_crop: Optional[str] = Form(None)
 ):
     """
     Mandatory Core Task Endpoint:
@@ -153,7 +155,7 @@ async def predict_disease(
             shutil.copyfileobj(file.file, tmp)
             tmp_path = tmp.name
 
-        result = predict(tmp_path)
+        result = predict(tmp_path, target_crop=target_crop)
 
         # Save to SQLite database
         rec_id = save_diagnosis_record(
@@ -270,7 +272,7 @@ def serve_sample_image(filename: str):
 
 
 # -------------------------------------------------------------
-# BONUS MODULE A: Crop Recommendation
+# CROP RECOMMENDATION & SOIL HEALTH
 # -------------------------------------------------------------
 class CropRecRequest(BaseModel):
     soil_type: str = "Loamy"
@@ -285,11 +287,15 @@ class CropRecRequest(BaseModel):
     season: str = "Kharif"
     previous_crop: str = "Wheat"
     location: str = "Western India"
+    state: Optional[str] = "Gujarat"
+    district: Optional[str] = "Ahmedabad"
+    user_id: Optional[int] = None
 
 
 @app.post("/api/crop-recommendation")
 def api_crop_recommendation(req: CropRecRequest):
-    return recommend_crops(
+    loc = f"{req.district}, {req.state}" if req.district and req.state else req.location
+    res = recommend_crops(
         soil_type=req.soil_type,
         ph=req.ph,
         n=req.n,
@@ -301,8 +307,59 @@ def api_crop_recommendation(req: CropRecRequest):
         water_availability=req.water_availability,
         season=req.season,
         previous_crop=req.previous_crop,
-        location=req.location
+        location=loc
     )
+    # Save recommendation to database for learning
+    rec_id = save_crop_recommendation(
+        user_id=req.user_id,
+        state=req.state or "Gujarat",
+        district=req.district or "Ahmedabad",
+        soil_type=req.soil_type,
+        ph=req.ph,
+        n=req.n,
+        p=req.p,
+        k=req.k,
+        season=req.season,
+        rainfall=req.rainfall,
+        temperature=req.temperature,
+        top_crops=res.get("recommendations", [])
+    )
+    res["record_id"] = rec_id
+    return res
+
+
+@app.get("/api/districts")
+def api_districts():
+    """Returns directory of supported agricultural states and districts."""
+    return {"districts": INDIAN_DISTRICTS}
+
+
+# -------------------------------------------------------------
+# FARMER FEEDBACK LOOP (Continuous Model Improvement)
+# -------------------------------------------------------------
+class FeedbackRequest(BaseModel):
+    item_type: str  # 'diagnosis' or 'crop_recommendation'
+    item_id: Optional[int] = None
+    helpful: bool
+    comments: Optional[str] = ""
+    user_id: Optional[int] = None
+
+
+@app.post("/api/feedback")
+def api_feedback(req: FeedbackRequest):
+    fb_id = save_feedback(
+        item_type=req.item_type,
+        item_id=req.item_id,
+        helpful=req.helpful,
+        comments=req.comments or "",
+        user_id=req.user_id
+    )
+    return {
+        "status": "success",
+        "feedback_id": fb_id,
+        "message": "Thank you for your feedback! This data helps continuously improve AgriSmart AI models.",
+        "summary": get_feedback_summary()
+    }
 
 
 # -------------------------------------------------------------
