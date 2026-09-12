@@ -1,6 +1,7 @@
 """
 AgriSmart AI - FastAPI Application Backend
-SIH-2026 Problem Statement 1: Core Vision Detection & All 7 Bonus Modules (A - G)
+SIH-2026 Problem Statement 1: Core Vision Detection, Bonus Modules (A - G),
+Authentication, SQLite Database, and Supabase Integration.
 """
 
 import os
@@ -22,7 +23,7 @@ if hasattr(sys.stdout, "reconfigure"):
     except Exception:
         pass
 
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Query, Depends
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,11 +37,17 @@ from app.modules.sustainability import calculate_sustainability_score
 from app.modules.farmer_assistant import ask_farmer_assistant
 from app.modules.iot_simulator import get_current_iot_telemetry, trigger_iot_scenario
 from app.modules.agentic_advisor import run_agent_loop
+from app.database import (
+    register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history
+)
+from app.supabase_client import (
+    get_supabase_status, sync_user_to_supabase, sync_diagnosis_to_supabase
+)
 
 app = FastAPI(
     title="AgriSmart AI API",
     description="SIH-2026 Internal Hackathon - Problem Statement 1 (AgriSmart AI)",
-    version="1.0.0"
+    version="2.0.0"
 )
 
 app.add_middleware(
@@ -55,6 +62,7 @@ app.add_middleware(
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
 REPORT_DIR = os.path.join(PROJECT_ROOT, "report")
 if os.path.exists(REPORT_DIR):
     app.mount("/report-assets", StaticFiles(directory=REPORT_DIR), name="report-assets")
@@ -69,14 +77,73 @@ def serve_index():
 
 
 # -------------------------------------------------------------
+# USER AUTHENTICATION & DATABASE (Email/Phone + Password)
+# -------------------------------------------------------------
+class RegisterRequest(BaseModel):
+    name: str
+    email_or_phone: str
+    password: str
+    location: str = "Gujarat, India"
+    primary_crop: str = "Tomato"
+    language: str = "en"
+
+
+@app.post("/api/auth/register")
+def api_register(req: RegisterRequest):
+    if len(req.password) < 4:
+        raise HTTPException(status_code=400, detail="Password must be at least 4 characters.")
+    res = register_user(
+        name=req.name,
+        email_or_phone=req.email_or_phone,
+        password=req.password,
+        location=req.location,
+        primary_crop=req.primary_crop,
+        language=req.language
+    )
+    if not res["success"]:
+        raise HTTPException(status_code=400, detail=res["error"])
+    
+    # Attempt background sync to Supabase
+    sync_user_to_supabase(res["user"])
+    return res
+
+
+class LoginRequest(BaseModel):
+    email_or_phone: str
+    password: str
+
+
+@app.post("/api/auth/login")
+def api_login(req: LoginRequest):
+    res = authenticate_user(email_or_phone=req.email_or_phone, password=req.password)
+    if not res["success"]:
+        raise HTTPException(status_code=401, detail=res["error"])
+    return res
+
+
+@app.get("/api/history")
+def api_history(user_id: Optional[int] = None):
+    return {"history": get_diagnosis_history(user_id=user_id)}
+
+
+@app.get("/api/supabase/status")
+def api_supabase_status():
+    return get_supabase_status()
+
+
+# -------------------------------------------------------------
 # CORE TASK: Leaf Disease Detection (Computer Vision)
 # -------------------------------------------------------------
 @app.post("/api/predict")
-async def predict_disease(file: UploadFile = File(...)):
+async def predict_disease(
+    file: UploadFile = File(...),
+    user_id: Optional[int] = Form(None)
+):
     """
     Mandatory Core Task Endpoint:
     Accepts an uploaded plant leaf image and outputs predicted class, confidence,
     symptoms, immediate cultural precautions, organic remedies, and chemical controls.
+    Automatically saves record to SQLite database and syncs to Supabase.
     """
     try:
         suffix = os.path.splitext(file.filename)[1] or ".jpg"
@@ -86,6 +153,34 @@ async def predict_disease(file: UploadFile = File(...)):
 
         result = predict(tmp_path)
         os.remove(tmp_path)
+
+        # Save to SQLite database
+        rec_id = save_diagnosis_record(
+            crop=result["crop"],
+            disease=result["display_name"],
+            class_label=result["class_label"],
+            confidence=result["confidence"],
+            is_disease=result["is_disease"],
+            precautions=result["precautions"],
+            treatment=result["chemical_treatment"] or result["organic_treatment"],
+            user_id=user_id,
+            image_name=file.filename
+        )
+        result["record_id"] = rec_id
+
+        # Sync to Supabase if configured
+        sync_diagnosis_to_supabase({
+            "user_id": user_id,
+            "crop": result["crop"],
+            "disease": result["display_name"],
+            "class_label": result["class_label"],
+            "confidence": result["confidence"],
+            "is_disease": result["is_disease"],
+            "symptoms": result["symptoms"],
+            "treatment": result["chemical_treatment"],
+            "image_url": file.filename
+        })
+
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")
@@ -177,10 +272,14 @@ def api_smart_irrigation(req: IrrigationRequest):
 
 
 # -------------------------------------------------------------
-# BONUS MODULE C: Weather-Based Intelligence
+# BONUS MODULE C: Weather-Based Intelligence (Real-Time GPS Location)
 # -------------------------------------------------------------
 @app.get("/api/weather")
-def api_weather(lat: float = 23.0225, lon: float = 72.5714, name: str = "Ahmedabad, Gujarat"):
+def api_weather(
+    lat: float = Query(23.0225, description="Latitude from GPS"),
+    lon: float = Query(72.5714, description="Longitude from GPS"),
+    name: str = Query("Ahmedabad, Gujarat", description="Location name or city")
+):
     return get_weather_intelligence(latitude=lat, longitude=lon, location_name=name)
 
 
@@ -217,7 +316,7 @@ def api_sustainability(req: SustainabilityRequest):
 # -------------------------------------------------------------
 class AssistantRequest(BaseModel):
     query: str
-    language: str = "en"  # "en", "hi", "gu", "mr"
+    language: str = "en"
 
 
 @app.post("/api/assistant")
@@ -234,7 +333,7 @@ def api_iot_telemetry():
 
 
 class ScenarioRequest(BaseModel):
-    scenario: str  # "normal", "drought", "rain", "acid_surge"
+    scenario: str
 
 
 @app.post("/api/iot/scenario")

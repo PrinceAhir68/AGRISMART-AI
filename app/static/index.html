@@ -15,14 +15,32 @@
     <div class="nav-brand">
       <div class="logo-icon">🌱</div>
       <div>
-        <h1>AgriSmart AI</h1>
-        <span class="subtext">SIH-2026 Internal Hackathon • Problem Statement 1</span>
+        <h1 data-i18n="app_title">AgriSmart AI</h1>
+        <span class="subtext" data-i18n="app_subtitle">SIH-2026 Internal Hackathon • Problem Statement 1</span>
       </div>
     </div>
+
+    <!-- Global Language Switcher -->
+    <div class="lang-bar">
+      <span class="lang-label" data-i18n="language_label">🌐 Language:</span>
+      <select id="global-lang-select" class="lang-select" onchange="changeGlobalLanguage(this.value)">
+        <option value="en" selected>English</option>
+        <option value="hi">हिन्दी (Hindi)</option>
+        <option value="gu">ગુજરાતી (Gujarati)</option>
+        <option value="mr">मराठी (Marathi)</option>
+      </select>
+    </div>
+
     <div class="nav-badges">
-      <span class="badge badge-success">✓ Core Vision: MobileNetV3</span>
-      <span class="badge badge-info">Macro-F1: 91.8% (+10.8% over baseline)</span>
-      <span class="badge badge-warning" id="live-weather-badge">☁ Weather: Open-Meteo</span>
+      <button class="btn btn-gps" id="btn-gps" onclick="detectGPSLocation()">
+        <span id="gps-icon">📍</span> <span id="gps-text" data-i18n="gps_detect">Detect My Location</span>
+      </button>
+      <span class="badge badge-success" id="live-weather-badge">☁ Weather Sync</span>
+      
+      <!-- User Account Action Button -->
+      <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
+        <span id="auth-btn-icon">🔑</span> <span id="auth-btn-text" data-i18n="nav_login">Login / Register</span>
+      </button>
     </div>
   </header>
 
@@ -30,13 +48,13 @@
   <div class="container">
     <!-- Module Tabs -->
     <nav class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('tab-core')">🌿 Disease Detection (Core)</button>
-      <button class="tab-btn" onclick="switchTab('tab-crop')">🌾 Crop Recommendation (Bonus A)</button>
-      <button class="tab-btn" onclick="switchTab('tab-irrigation')">💧 Smart Irrigation & Weather (Bonus B & C)</button>
-      <button class="tab-btn" onclick="switchTab('tab-sustainability')">🌍 Sustainability & Carbon (Bonus D)</button>
-      <button class="tab-btn" onclick="switchTab('tab-assistant')">💬 Farmer Assistant GenAI (Bonus E)</button>
-      <button class="tab-btn" onclick="switchTab('tab-iot')">📡 IoT & Agentic Advisor (Bonus F & G)</button>
-      <button class="tab-btn" onclick="switchTab('tab-report')">📊 Model Report (Section 7.3)</button>
+      <button class="tab-btn active" onclick="switchTab('tab-core')" data-i18n="tab_disease">🌿 Disease Detection (Core)</button>
+      <button class="tab-btn" onclick="switchTab('tab-crop')" data-i18n="tab_crop">🌾 Crop Recommendation (Bonus A)</button>
+      <button class="tab-btn" onclick="switchTab('tab-irrigation')" data-i18n="tab_irrigation">💧 Smart Irrigation & Weather (Bonus B & C)</button>
+      <button class="tab-btn" onclick="switchTab('tab-sustainability')" data-i18n="tab_sustainability">🌍 Sustainability & Carbon (Bonus D)</button>
+      <button class="tab-btn" onclick="switchTab('tab-assistant')" data-i18n="tab_assistant">💬 Farmer Assistant GenAI (Bonus E)</button>
+      <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 IoT & Agentic Advisor (Bonus F & G)</button>
+      <button class="tab-btn" onclick="switchTab('tab-report')" data-i18n="tab_report">📊 Model Report (Section 7.3)</button>
     </nav>
 
     <!-- ======================================================== -->
@@ -47,80 +65,96 @@
         <!-- Input Card -->
         <div class="card">
           <div class="card-header">
-            <h3>📷 Upload Leaf / Crop Photo</h3>
-            <span class="tag tag-core">Mandatory Core Task</span>
+            <h3 data-i18n="card_upload_title">📷 Upload Leaf / Crop Photo</h3>
+            <span class="tag tag-core" data-i18n="tag_core">Mandatory Core Task</span>
           </div>
-          <p class="card-desc">Trained on PlantVillage & tested on real-field PlantDoc conditions across 18 shared classes.</p>
+          <p class="card-desc" data-i18n="card_upload_desc">AI Vision analyzes visual pathology across 18 shared classes (Tomato, Potato, Corn, Apple, Grape, Pepper).</p>
 
           <div class="upload-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
             <div class="upload-icon">📸</div>
-            <p><strong>Click to browse</strong> or drag & drop leaf image</p>
-            <span class="file-hint">Supports JPG, PNG, WEBP (Field or Lab photos)</span>
+            <p><strong data-i18n="upload_prompt">Click to browse</strong> <span data-i18n="upload_drag">or drag & drop leaf photo</span></p>
+            <span class="file-hint" data-i18n="upload_hint">Supports real camera photos or field leaf images (JPG, PNG, WEBP)</span>
             <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(event)">
           </div>
 
           <div class="sample-section">
-            <label><strong>Or test instant sample images:</strong></label>
+            <label><strong data-i18n="sample_prompt">Or test instant sample images:</strong></label>
             <div class="sample-buttons" id="sample-buttons">
               <button class="btn-sample" onclick="loadSample('tomato_early_blight.jpg')">🍅 Tomato Early Blight</button>
               <button class="btn-sample" onclick="loadSample('corn_common_rust.jpg')">🌽 Corn Common Rust</button>
               <button class="btn-sample" onclick="loadSample('potato_late_blight.jpg')">🥔 Potato Late Blight</button>
               <button class="btn-sample" onclick="loadSample('bell_pepper_bacterial_spot.jpg')">🫑 Bell Pepper Spot</button>
+              <button class="btn-sample" onclick="loadSample('apple_scab.jpg')">🍏 Apple Scab</button>
+              <button class="btn-sample" onclick="loadSample('grape_black_rot.jpg')">🍇 Grape Black Rot</button>
               <button class="btn-sample" onclick="loadSample('tomato_healthy.jpg')">✨ Tomato Healthy</button>
             </div>
           </div>
 
           <div id="image-preview-container" style="display:none; margin-top:15px; text-align:center;">
             <img id="image-preview" src="" alt="Leaf preview" class="preview-thumb">
-            <button class="btn btn-primary" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">🔍 Run AI Disease Diagnosis</button>
+            <button class="btn btn-primary" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">
+              🔍 <span data-i18n="btn_run_diag">Run AI Disease Diagnosis</span>
+            </button>
           </div>
         </div>
 
         <!-- Diagnostic Output Card -->
         <div class="card" id="diagnosis-card">
           <div class="card-header">
-            <h3>🔬 Diagnostic Advisory Output</h3>
-            <span id="diag-badge" class="badge">Awaiting Leaf</span>
+            <h3 data-i18n="diag_card_title">🔬 Diagnostic Advisory Output</h3>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span id="diag-badge" class="badge" data-i18n="badge_awaiting">Awaiting Leaf</span>
+              <button class="btn-speaker" id="btn-speaker-diag" onclick="speakDiagnosis()" title="Read Aloud in Selected Language">
+                🔊 <span data-i18n="btn_speaker">Listen</span>
+              </button>
+            </div>
           </div>
           <div id="diag-empty" class="empty-state">
             <div style="font-size:3rem;">🍃</div>
-            <p>Upload a plant photo or click a sample to see AI disease classification, confidence, and ICAR precautionary guidance.</p>
+            <p data-i18n="diag_empty_msg">Upload a plant photo or click a sample to see AI disease classification, confidence, and ICAR precautionary guidance.</p>
           </div>
 
           <div id="diag-results" style="display:none;">
             <div class="result-header">
               <div>
                 <h2 id="res-disease-name">Tomato Early Blight</h2>
-                <div class="res-sub"><span id="res-crop-name">Tomato</span> • <span id="res-pathogen">Alternaria solani</span></div>
+                <div class="res-sub"><span id="res-crop-name">Tomato</span> • <span id="res-status-text">Detected</span></div>
               </div>
               <div class="confidence-circle" id="conf-badge">
                 <span id="res-confidence">94%</span>
-                <small>Confidence</small>
+                <small data-i18n="confidence_label">Confidence</small>
               </div>
             </div>
 
             <div class="advisory-box">
-              <h4>🚨 Immediate Precautions</h4>
+              <h4 data-i18n="precautions_title">🚨 Immediate Precautions</h4>
               <ul id="res-precautions" class="precautions-list"></ul>
             </div>
 
             <div class="treatment-grid">
               <div class="treatment-card organic">
-                <h5>🌿 Organic / Bio-Control</h5>
+                <h5 data-i18n="organic_title">🌿 Organic / Bio-Control</h5>
                 <p id="res-organic"></p>
               </div>
               <div class="treatment-card chemical">
-                <h5>🧪 Chemical Remedy</h5>
+                <h5 data-i18n="chemical_title">🧪 Chemical Remedy</h5>
                 <p id="res-chemical"></p>
               </div>
             </div>
 
             <div class="translation-box" id="res-translations">
               <div class="trans-header">
-                <strong>🇮🇳 Regional Language Summary:</strong>
-                <button class="btn-tts" onclick="speakText('res-hi-action')">🔊 Read Aloud (Voice)</button>
+                <strong data-i18n="regional_title">🇮🇳 Regional Advisory:</strong>
+                <button class="btn-tts" onclick="speakText('res-regional-action')">🔊 <span data-i18n="btn_voice_read">Voice Readout</span></button>
               </div>
-              <p id="res-hi-action" class="lang-text"></p>
+              <p id="res-regional-action" class="lang-text"></p>
+            </div>
+
+            <!-- Download Report Button -->
+            <div style="margin-top:16px;">
+              <button class="btn btn-secondary" onclick="openPrintReportModal()" style="width:100%;">
+                📥 <span data-i18n="btn_download_report">Download Full PDF / Print Diagnostic Report</span>
+              </button>
             </div>
           </div>
         </div>
@@ -134,13 +168,13 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
-            <h3>🌱 Soil & Agro-Climatic Parameters</h3>
-            <span class="tag tag-bonus">Bonus Module A</span>
+            <h3 data-i18n="crop_rec_title">🌱 Soil & Agro-Climatic Parameters</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_a">Bonus Module A</span>
           </div>
           <form id="crop-rec-form" onsubmit="event.preventDefault(); submitCropRecommendation();">
             <div class="form-row">
               <div class="form-group">
-                <label>Soil Type:</label>
+                <label data-i18n="label_soil_type">Soil Type:</label>
                 <select id="crop-soil" class="form-control">
                   <option value="Loamy" selected>Loamy (All-Round)</option>
                   <option value="Clay">Clay (High Water Retention)</option>
@@ -151,7 +185,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Soil pH: <span id="ph-val">6.5</span></label>
+                <label><span data-i18n="label_soil_ph">Soil pH:</span> <span id="ph-val">6.5</span></label>
                 <input type="range" id="crop-ph" min="4.5" max="8.5" step="0.1" value="6.5" class="slider" oninput="document.getElementById('ph-val').innerText = this.value">
               </div>
             </div>
@@ -173,7 +207,7 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label>Season:</label>
+                <label data-i18n="label_season">Season:</label>
                 <select id="crop-season" class="form-control">
                   <option value="Kharif" selected>Kharif (Monsoon)</option>
                   <option value="Rabi">Rabi (Winter)</option>
@@ -181,7 +215,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Previous Crop Grown:</label>
+                <label data-i18n="label_prev_crop">Previous Crop Grown:</label>
                 <select id="crop-prev" class="form-control">
                   <option value="Wheat" selected>Wheat</option>
                   <option value="Rice (Paddy)">Rice (Paddy)</option>
@@ -194,26 +228,28 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label>Avg Temperature (°C):</label>
+                <label data-i18n="label_temp">Avg Temperature (°C):</label>
                 <input type="number" id="crop-temp" value="27" class="form-control">
               </div>
               <div class="form-group">
-                <label>Expected Rainfall (mm):</label>
+                <label data-i18n="label_rain">Expected Rainfall (mm):</label>
                 <input type="number" id="crop-rain" value="85" class="form-control">
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">🌾 Recommend Optimal Crops</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+              🌾 <span data-i18n="btn_rec_crops">Recommend Optimal Crops</span>
+            </button>
           </form>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3>🏆 Recommended Crops (Top 3)</h3>
+            <h3 data-i18n="crop_results_title">🏆 Recommended Crops (Top 3)</h3>
             <span class="badge badge-success">95.4% Accuracy</span>
           </div>
           <div id="crop-rec-results" class="empty-state">
-            <p>Enter parameters or click recommend to compute crop suitability rankings.</p>
+            <p data-i18n="crop_empty_msg">Enter parameters or click recommend to compute crop suitability rankings.</p>
           </div>
         </div>
       </div>
@@ -226,18 +262,18 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
-            <h3>💧 Smart Irrigation Calculator (FAO-56)</h3>
-            <span class="tag tag-bonus">Bonus Module B</span>
+            <h3 data-i18n="irrig_calc_title">💧 Smart Irrigation Calculator (FAO-56)</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_b">Bonus Module B</span>
           </div>
           <form id="irrigation-form" onsubmit="event.preventDefault(); calculateIrrigation();">
             <div class="form-group">
-              <label>Current Soil Moisture: <span id="moist-slider-val" style="font-weight:700; color:var(--primary);">20.0%</span></label>
+              <label><span data-i18n="label_current_moist">Current Soil Moisture:</span> <span id="moist-slider-val" style="font-weight:700; color:var(--primary);">20.0%</span></label>
               <input type="range" id="irr-moisture" min="5" max="45" step="0.5" value="20" class="slider" oninput="document.getElementById('moist-slider-val').innerText = this.value + '%'">
             </div>
 
             <div class="form-row">
               <div class="form-group">
-                <label>Crop:</label>
+                <label data-i18n="label_crop">Crop:</label>
                 <select id="irr-crop" class="form-control">
                   <option value="Tomato" selected>Tomato</option>
                   <option value="Potato">Potato</option>
@@ -248,7 +284,7 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Growth Stage:</label>
+                <label data-i18n="label_stage">Growth Stage:</label>
                 <select id="irr-stage" class="form-control">
                   <option value="Initial">Initial (Seedling)</option>
                   <option value="Vegetative">Vegetative</option>
@@ -260,7 +296,7 @@
 
             <div class="form-row">
               <div class="form-group">
-                <label>Soil Type:</label>
+                <label data-i18n="label_soil_type">Soil Type:</label>
                 <select id="irr-soil" class="form-control">
                   <option value="Loamy" selected>Loamy</option>
                   <option value="Clay">Clay</option>
@@ -269,9 +305,9 @@
                 </select>
               </div>
               <div class="form-group">
-                <label>Sync with Live Forecast Rain?</label>
+                <label data-i18n="label_rain_sync">Sync with Live Forecast Rain?</label>
                 <select id="irr-rain-sync" class="form-control" onchange="toggleRainSync()">
-                  <option value="live" selected>Sync Live Weather (Open-Meteo)</option>
+                  <option value="live" selected>Sync Live Weather (GPS / Open-Meteo)</option>
                   <option value="manual">Manual Rain Input</option>
                 </select>
               </div>
@@ -288,7 +324,9 @@
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">💧 Compute Irrigation Necessity</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+              💧 <span data-i18n="btn_compute_irrig">Compute Irrigation Necessity</span>
+            </button>
           </form>
 
           <div id="irrigation-decision-box" style="margin-top:20px; display:none;"></div>
@@ -296,8 +334,8 @@
 
         <div class="card">
           <div class="card-header">
-            <h3>☁ Live Weather Intelligence</h3>
-            <span class="tag tag-bonus">Bonus Module C</span>
+            <h3 data-i18n="weather_card_title">☁ Live Weather Intelligence</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_c">Bonus Module C</span>
           </div>
           <div class="weather-widget" id="weather-widget">
             <div class="weather-main">
@@ -308,15 +346,15 @@
               </div>
             </div>
             <div class="weather-stats">
-              <div>💧 Humidity: <strong id="w-humidity">--%</strong></div>
-              <div>💨 Wind: <strong id="w-wind">-- km/h</strong></div>
-              <div>🌧 24h Rain Prob: <strong id="w-rain-prob">--%</strong></div>
-              <div>☔ Rain Sum: <strong id="w-rain-sum">-- mm</strong></div>
+              <div>💧 <span data-i18n="weather_hum">Humidity:</span> <strong id="w-humidity">--%</strong></div>
+              <div>💨 <span data-i18n="weather_wind">Wind:</span> <strong id="w-wind">-- km/h</strong></div>
+              <div>🌧 <span data-i18n="weather_rain_prob">24h Rain Prob:</span> <strong id="w-rain-prob">--%</strong></div>
+              <div>☔ <span data-i18n="weather_rain_sum">Rain Sum:</span> <strong id="w-rain-sum">-- mm</strong></div>
             </div>
           </div>
 
           <div class="advisory-box" style="margin-top:15px;">
-            <h4>🦠 Agro-Meteorological Risk Alerts:</h4>
+            <h4 data-i18n="weather_risk_title">🦠 Agro-Meteorological Risk Alerts:</h4>
             <div id="weather-alerts"></div>
           </div>
         </div>
@@ -330,14 +368,14 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
-            <h3>🌱 Farm Practices Assessment</h3>
-            <span class="tag tag-bonus">Bonus Module D</span>
+            <h3 data-i18n="sust_title">🌱 Farm Practices Assessment</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_d">Bonus Module D</span>
           </div>
-          <p class="card-desc">Evaluated by transparent mathematical formula published in Section 3.2.</p>
+          <p class="card-desc" data-i18n="sust_desc">Evaluated by transparent mathematical formula published in Section 3.2.</p>
 
           <form id="sust-form" onsubmit="event.preventDefault(); computeSustainability();">
             <div class="form-group">
-              <label>Irrigation Technology:</label>
+              <label data-i18n="label_irrig_tech">Irrigation Technology:</label>
               <select id="sust-method" class="form-control">
                 <option value="Drip Irrigation" selected>Precision Drip Irrigation (Max Efficiency)</option>
                 <option value="Micro Sprinkler">Micro Sprinkler</option>
@@ -347,7 +385,7 @@
             </div>
 
             <div class="form-group">
-              <label>Fertilization Strategy:</label>
+              <label data-i18n="label_fert_strategy">Fertilization Strategy:</label>
               <select id="sust-fert" class="form-control">
                 <option value="Integrated Organic + NPK" selected>Integrated (Bio-fertilizer + Targeted NPK)</option>
                 <option value="Pure Organic / Vermicompost">100% Organic & Farmyard Manure</option>
@@ -356,18 +394,20 @@
             </div>
 
             <div class="checkbox-group">
-              <label><input type="checkbox" id="sust-solar" checked> ☀️ Solar-powered pump system (Zero diesel/grid emissions)</label>
-              <label><input type="checkbox" id="sust-mulch" checked> 🍂 Organic crop residue / straw mulching</label>
-              <label><input type="checkbox" id="sust-legume" checked> 🌾 Regular legume / pulse crop rotation</label>
+              <label><input type="checkbox" id="sust-solar" checked> <span data-i18n="check_solar">☀️ Solar-powered pump system (Zero diesel/grid emissions)</span></label>
+              <label><input type="checkbox" id="sust-mulch" checked> <span data-i18n="check_mulch">🍂 Organic crop residue / straw mulching</span></label>
+              <label><input type="checkbox" id="sust-legume" checked> <span data-i18n="check_legume">🌾 Regular legume / pulse crop rotation</span></label>
             </div>
 
-            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:15px;">🌍 Calculate Sustainability & Carbon Score</button>
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:15px;">
+              🌍 <span data-i18n="btn_calc_sust">Calculate Sustainability & Carbon Score</span>
+            </button>
           </form>
         </div>
 
         <div class="card">
           <div class="card-header">
-            <h3>📊 Ecological Scorecard</h3>
+            <h3 data-i18n="sust_scorecard_title">📊 Ecological Scorecard</h3>
             <span class="badge badge-success" id="sust-badge">Grade A+</span>
           </div>
           <div id="sust-score-box"></div>
@@ -381,21 +421,13 @@
     <section id="tab-assistant" class="tab-content">
       <div class="card" style="max-width:900px; margin:0 auto;">
         <div class="card-header">
-          <h3>💬 Grounded Farmer Assistant (Multilingual GenAI)</h3>
-          <span class="tag tag-bonus">Bonus Module E</span>
+          <h3 data-i18n="assistant_title">💬 Grounded Farmer Assistant (Multilingual GenAI)</h3>
+          <span class="tag tag-bonus" data-i18n="tag_bonus_e">Bonus Module E</span>
         </div>
-        <p class="card-desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
-
-        <div class="lang-selector-bar">
-          <label>Language:</label>
-          <button class="btn-lang active" onclick="setLanguage('en', this)">English</button>
-          <button class="btn-lang" onclick="setLanguage('hi', this)">हिन्दी (Hindi)</button>
-          <button class="btn-lang" onclick="setLanguage('gu', this)">ગુજરાતી (Gujarati)</button>
-          <button class="btn-lang" onclick="setLanguage('mr', this)">मराठी (Marathi)</button>
-        </div>
+        <p class="card-desc" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
 
         <div class="quick-questions">
-          <span>Quick Prompts:</span>
+          <span data-i18n="quick_prompts_title">Quick Prompts:</span>
           <button class="chip" onclick="askQuick('How do I treat Early Blight on tomatoes?')">Tomato Early Blight</button>
           <button class="chip" onclick="askQuick('When should I delay irrigation?')">Irrigation Timing</button>
           <button class="chip" onclick="askQuick('What is the organic treatment for rust?')">Corn Rust</button>
@@ -405,13 +437,13 @@
         <div class="chat-window" id="chat-window">
           <div class="chat-msg bot">
             <strong>🌱 AgriSmart Assistant:</strong>
-            <p>Namaste! I am your AI Agronomy Advisor. Ask me anything about crop diseases, pest remedies, irrigation timing, or fertilizer schedules. I provide verified ICAR-backed recommendations with voice support.</p>
+            <p data-i18n="chat_welcome">Namaste! I am your AI Agronomy Advisor. Ask me anything about crop diseases, pest remedies, irrigation timing, or fertilizer schedules. I provide verified ICAR-backed recommendations with voice support.</p>
           </div>
         </div>
 
         <div class="chat-input-bar">
           <input type="text" id="chat-input" placeholder="Type your farming question (in English, Hindi, or Gujarati)..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-          <button class="btn btn-primary" onclick="sendChatMessage()">Send</button>
+          <button class="btn btn-primary" onclick="sendChatMessage()" data-i18n="btn_send">Send</button>
         </div>
       </div>
     </section>
@@ -424,40 +456,40 @@
         <!-- IoT Gauges -->
         <div class="card">
           <div class="card-header">
-            <h3>📡 IoT Edge Sensor Gateway (ESP32 Stream)</h3>
-            <span class="tag tag-bonus">Bonus Module F</span>
+            <h3 data-i18n="iot_title">📡 IoT Edge Sensor Gateway (ESP32 Stream)</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_f">Bonus Module F</span>
           </div>
           <p class="card-desc">Architecture: Sensors -> ESP32 Node -> Cloud/API -> AI Engine -> Farmer</p>
 
           <div class="iot-gauges-grid">
             <div class="gauge-card">
-              <span class="gauge-title">Soil Moisture</span>
+              <span class="gauge-title" data-i18n="gauge_moist">Soil Moisture</span>
               <div class="gauge-val" id="iot-moist">--%</div>
               <small id="iot-moist-status">Optimal</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title">Temperature</span>
+              <span class="gauge-title" data-i18n="gauge_temp">Temperature</span>
               <div class="gauge-val" id="iot-temp">--°C</div>
               <small>Ambient Field</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title">Humidity</span>
+              <span class="gauge-title" data-i18n="gauge_hum">Humidity</span>
               <div class="gauge-val" id="iot-hum">--%</div>
               <small>Air RH</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title">Soil pH</span>
+              <span class="gauge-title" data-i18n="gauge_ph">Soil pH</span>
               <div class="gauge-val" id="iot-ph">--</div>
               <small id="iot-ph-status">Neutral</small>
             </div>
           </div>
 
           <div style="margin-top:20px;">
-            <label><strong>Simulate Field Scenarios for Live Testing:</strong></label>
+            <label><strong data-i18n="simulate_scenarios_title">Simulate Field Scenarios for Live Testing:</strong></label>
             <div class="scenario-buttons">
-              <button class="btn btn-secondary" onclick="triggerScenario('normal')">🌤 Normal Conditions</button>
-              <button class="btn btn-danger" onclick="triggerScenario('drought')">🔥 Sudden Drought Spike</button>
-              <button class="btn btn-info" onclick="triggerScenario('rain')">🌧 Heavy Rain Inflow</button>
+              <button class="btn btn-secondary" onclick="triggerScenario('normal')" data-i18n="btn_scen_normal">🌤 Normal Conditions</button>
+              <button class="btn btn-danger" onclick="triggerScenario('drought')" data-i18n="btn_scen_drought">🔥 Sudden Drought Spike</button>
+              <button class="btn btn-info" onclick="triggerScenario('rain')" data-i18n="btn_scen_rain">🌧 Heavy Rain Inflow</button>
             </div>
           </div>
         </div>
@@ -465,14 +497,16 @@
         <!-- Agentic Advisor Loop -->
         <div class="card">
           <div class="card-header">
-            <h3>🤖 Autonomous Agentic Decision Loop</h3>
-            <span class="tag tag-bonus">Bonus Module G</span>
+            <h3 data-i18n="agent_title">🤖 Autonomous Agentic Decision Loop</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_g">Bonus Module G</span>
           </div>
-          <p class="card-desc">Autonomous closed loop: Perceive -> Multi-Modal Reason -> Decide -> Actuate</p>
+          <p class="card-desc" data-i18n="agent_desc">Autonomous closed loop: Perceive -> Multi-Modal Reason -> Decide -> Actuate</p>
 
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-            <div>Smart Valve Status: <strong id="valve-status" class="badge badge-info">CLOSED</strong></div>
-            <button class="btn btn-primary" onclick="triggerAgentCycle()">⚡ Run Agent Cycle</button>
+            <div><span data-i18n="valve_label">Smart Valve Status:</span> <strong id="valve-status" class="badge badge-info">CLOSED</strong></div>
+            <button class="btn btn-primary" onclick="triggerAgentCycle()">
+              ⚡ <span data-i18n="btn_run_agent">Run Agent Cycle</span>
+            </button>
           </div>
 
           <div class="agent-timeline" id="agent-timeline">
@@ -513,39 +547,166 @@
     <section id="tab-report" class="tab-content">
       <div class="card">
         <div class="card-header">
-          <h3>📑 SIH-2026 Model Evaluation Report (Section 7.3)</h3>
-          <a href="/report-assets/MODEL_REPORT.md" target="_blank" class="btn btn-secondary">Open Raw Markdown</a>
+          <h3 data-i18n="report_title">📑 SIH-2026 Model Evaluation Report (Section 7.3)</h3>
+          <a href="/report-assets/MODEL_REPORT.md" target="_blank" class="btn btn-secondary" data-i18n="btn_raw_md">Open Raw Markdown</a>
         </div>
         
         <div class="report-metrics-summary">
           <div class="metric-pill">
-            <span>Primary Metric (Macro-F1)</span>
+            <span data-i18n="metric_macro_f1">Primary Metric (Macro-F1)</span>
             <strong id="rep-macro-f1">91.8%</strong>
             <small>Baseline: 81.0% (+10.8% delta)</small>
           </div>
           <div class="metric-pill">
-            <span>Overall Accuracy</span>
+            <span data-i18n="metric_acc">Overall Accuracy</span>
             <strong id="rep-acc">91.9%</strong>
             <small>Field Test Set</small>
           </div>
           <div class="metric-pill">
-            <span>Test Samples (PlantDoc Field)</span>
+            <span data-i18n="metric_samples">Test Samples (PlantDoc Field)</span>
             <strong id="rep-samples">1,540</strong>
             <small>Natural lighting, clutter, shadows</small>
           </div>
           <div class="metric-pill">
-            <span>Inference Speed</span>
+            <span data-i18n="metric_speed">Inference Speed</span>
             <strong>38 ms</strong>
             <small>MobileNetV3 CPU</small>
           </div>
         </div>
 
         <div style="margin-top:25px; text-align:center;">
-          <h4>Held-Out Field Test Set Confusion Matrix</h4>
+          <h4 data-i18n="cm_title">Held-Out Field Test Set Confusion Matrix</h4>
           <img src="/report-assets/confusion_matrix.png" alt="AgriSmart AI Confusion Matrix" style="max-width:100%; border-radius:12px; box-shadow:0 4px 15px rgba(0,0,0,0.1); margin-top:10px;">
         </div>
       </div>
     </section>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: AUTHENTICATION (Login / Registration) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="auth-modal-title" data-i18n="auth_modal_title">Farmer Login</h3>
+        <button class="modal-close" onclick="closeAuthModal()">✕</button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="auth-tab-login" onclick="setAuthMode('login')" data-i18n="auth_signin_tab">Sign In</button>
+        <button class="auth-tab-btn" id="auth-tab-register" onclick="setAuthMode('register')" data-i18n="auth_register_tab">Create Account</button>
+      </div>
+
+      <form id="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="form-group" id="group-name" style="display:none;">
+          <label data-i18n="auth_name_label">Full Name:</label>
+          <input type="text" id="auth-name" class="form-control" placeholder="e.g. Ramesh Patel">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_email_phone_label">Email or Phone Number:</label>
+          <input type="text" id="auth-email-phone" class="form-control" required placeholder="name@example.com or 9876543210">
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_pwd_label">Password:</label>
+          <input type="password" id="auth-password" class="form-control" required placeholder="••••••••">
+        </div>
+
+        <div class="form-row" id="group-meta" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="auth_loc_label">State / Region:</label>
+            <input type="text" id="auth-location" class="form-control" value="Gujarat, India">
+          </div>
+          <div class="form-group">
+            <label data-i18n="auth_crop_label">Primary Crop:</label>
+            <select id="auth-crop" class="form-control">
+              <option value="Tomato" selected>Tomato</option>
+              <option value="Potato">Potato</option>
+              <option value="Corn (Maize)">Corn (Maize)</option>
+              <option value="Cotton">Cotton</option>
+              <option value="Wheat">Wheat</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_lang_label">Preferred Language:</label>
+          <select id="auth-language" class="form-control" onchange="changeGlobalLanguage(this.value)">
+            <option value="en" selected>English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+
+        <div id="auth-error-msg" class="auth-error" style="display:none;"></div>
+
+        <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width:100%; margin-top:14px;">
+          <span id="auth-submit-text" data-i18n="btn_login_submit">Sign In to Farm Account</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: PRINTABLE / DOWNLOADABLE REPORT MODAL -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-card print-report-card">
+      <div class="modal-header">
+        <h3>📄 Official Plant Diagnostic Certificate</h3>
+        <button class="modal-close" onclick="closeReportModal()">✕</button>
+      </div>
+
+      <div class="printable-content" id="printable-report-area">
+        <div class="print-header">
+          <div class="print-logo">🌱 AGRISMART AI — PLANT PATHOLOGY REPORT</div>
+          <div class="print-meta" id="print-report-date">Date: September 2026</div>
+        </div>
+        <hr>
+
+        <div class="print-section">
+          <h4>1. Farmer & Field Coordinates</h4>
+          <p><strong>Farmer Name:</strong> <span id="pr-farmer-name">Registered Farmer</span></p>
+          <p><strong>Location:</strong> <span id="pr-farmer-location">Ahmedabad, Gujarat (GPS Synced)</span></p>
+          <p><strong>Host Crop Analyzed:</strong> <span id="pr-crop">Tomato</span></p>
+        </div>
+
+        <div class="print-section">
+          <h4>2. Visual AI Diagnostic Finding</h4>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; padding:12px; border-radius:8px;">
+            <div>
+              <h2 id="pr-disease" style="color:#065f46; margin:0;">Tomato Early Blight</h2>
+              <div id="pr-class-label" style="font-size:0.85rem; color:#475569;">Alternaria solani</div>
+            </div>
+            <div style="text-align:right;">
+              <strong id="pr-confidence" style="font-size:1.4rem; color:#047857;">94%</strong>
+              <div style="font-size:0.75rem;">AI CONFIDENCE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="print-section">
+          <h4>3. Immediate Cultural Precautions (ICAR Guideline)</h4>
+          <ul id="pr-precautions" style="padding-left:20px; font-size:0.9rem;"></ul>
+        </div>
+
+        <div class="print-section">
+          <h4>4. Recommended Treatment Schedule</h4>
+          <p><strong>🌿 Organic Remedy:</strong> <span id="pr-organic"></span></p>
+          <p><strong>🧪 Chemical Control:</strong> <span id="pr-chemical"></span></p>
+        </div>
+
+        <div class="print-footer">
+          <p><em>Generated by AgriSmart AI Autonomous Diagnostics • Verified with ICAR & FAO Extension Standards</em></p>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top:18px; display:flex; gap:10px; justify-content:flex-end;">
+        <button class="btn btn-secondary" onclick="closeReportModal()">Close</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨 Print / Save as PDF</button>
+      </div>
+    </div>
   </div>
 
   <footer class="footer">

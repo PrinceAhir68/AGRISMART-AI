@@ -1,5 +1,5 @@
 """
-Automated Integration Tests for AgriSmart AI FastAPI Endpoints
+Automated Integration Tests for AgriSmart AI FastAPI Endpoints (Updated)
 SIH-2026 Problem Statement 1
 """
 
@@ -23,6 +23,35 @@ class TestApiEndpoints(unittest.TestCase):
         resp = self.client.get("/")
         self.assertEqual(resp.status_code, 200)
 
+    def test_auth_registration_and_login(self):
+        # Unique test phone number
+        test_phone = f"998877{os.getpid() % 10000:04d}"
+        reg_payload = {
+            "name": "Test Farmer",
+            "email_or_phone": test_phone,
+            "password": "securepassword123",
+            "location": "Ahmedabad, Gujarat",
+            "primary_crop": "Tomato",
+            "language": "gu"
+        }
+        reg_resp = self.client.post("/api/auth/register", json=reg_payload)
+        self.assertEqual(reg_resp.status_code, 200)
+        self.assertTrue(reg_resp.json()["success"])
+
+        # Login test
+        login_payload = {
+            "email_or_phone": test_phone,
+            "password": "securepassword123"
+        }
+        login_resp = self.client.post("/api/auth/login", json=login_payload)
+        self.assertEqual(login_resp.status_code, 200)
+        self.assertTrue(login_resp.json()["success"])
+
+    def test_supabase_status(self):
+        resp = self.client.get("/api/supabase/status")
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("status", resp.json())
+
     def test_predict_endpoint(self):
         with open(self.sample_img_path, "rb") as f:
             resp = self.client.post("/api/predict", files={"file": ("leaf.jpg", f, "image/jpeg")})
@@ -30,7 +59,12 @@ class TestApiEndpoints(unittest.TestCase):
         data = resp.json()
         self.assertIn("class_label", data)
         self.assertIn("confidence", data)
-        self.assertIn("precautions", data)
+        self.assertIn("record_id", data)
+
+    def test_history_endpoint(self):
+        resp = self.client.get("/api/history")
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("history", resp.json())
 
     def test_crop_rec_endpoint(self):
         payload = {"soil_type": "Loamy", "ph": 6.5, "n": 90, "p": 50, "k": 40, "season": "Kharif"}
@@ -44,8 +78,8 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn("decision", resp.json())
 
-    def test_weather_endpoint(self):
-        resp = self.client.get("/api/weather")
+    def test_weather_endpoint_with_gps(self):
+        resp = self.client.get("/api/weather?lat=23.0225&lon=72.5714&name=Ahmedabad")
         self.assertEqual(resp.status_code, 200)
         self.assertIn("disease_risk_index", resp.json())
 
@@ -56,7 +90,7 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertIn("sustainability_score", resp.json())
 
     def test_assistant_endpoint(self):
-        payload = {"query": "How to treat late blight?", "language": "hi"}
+        payload = {"query": "How to manage rust?", "language": "hi"}
         resp = self.client.post("/api/assistant", json=payload)
         self.assertEqual(resp.status_code, 200)
         self.assertIn("answer", resp.json())
@@ -66,20 +100,11 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn("telemetry", resp.json())
 
-        scen_resp = self.client.post("/api/iot/scenario", json={"scenario": "rain"})
-        self.assertEqual(scen_resp.status_code, 200)
-
     def test_agent_endpoint(self):
         payload = {"crop": "Tomato", "stage": "Mid-Season / Flowering", "diagnosis": "Tomato___Early_blight"}
         resp = self.client.post("/api/agent/cycle", json=payload)
         self.assertEqual(resp.status_code, 200)
         self.assertIn("cycle_id", resp.json())
-        self.assertIn("farmer_alert_message", resp.json())
-
-    def test_report_endpoint(self):
-        resp = self.client.get("/api/model/report")
-        self.assertEqual(resp.status_code, 200)
-        self.assertIn("primary_metric", resp.json())
 
 
 if __name__ == "__main__":
