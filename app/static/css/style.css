@@ -1497,3 +1497,133 @@ body {
   animation: fadeIn 0.3s ease-in;
 }
 
+/* =================================================================
+   REAL IOT HARDWARE CONNECTION HUB & TERMINAL
+   ================================================================= */
+.iot-status-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.conn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.conn-pill.disconnected {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.conn-pill.connected {
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
+}
+
+.conn-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.conn-pill.disconnected .conn-pulse-dot {
+  background: #ef4444;
+}
+
+.conn-pill.connected .conn-pulse-dot {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+  animation: pulse 1.5s infinite;
+}
+
+.iot-conn-hub {
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.iot-tabs-nav {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 8px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.iot-tab-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.iot-tab-btn.active {
+  background: #047857;
+  color: #ffffff;
+  border-color: #047857;
+}
+
+.iot-panel {
+  display: none;
+  animation: fadeIn 0.2s ease-in;
+}
+
+.iot-panel.active {
+  display: block;
+}
+
+.iot-terminal {
+  background: #0f172a;
+  color: #38bdf8;
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.78rem;
+  line-height: 1.45;
+  height: 110px;
+  overflow-y: auto;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+  margin-top: 10px;
+}
+
+.iot-code-snippet {
+  background: #1e293b;
+  color: #e2e8f0;
+  font-family: 'Consolas', monospace;
+  font-size: 0.75rem;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 8px 0;
+  white-space: pre;
+}
+
+

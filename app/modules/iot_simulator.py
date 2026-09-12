@@ -111,25 +111,33 @@ class IoTEsp32GatewaySimulator:
         return payload
 
 
-# Singleton instance for active server session
+# Import real hardware IoT manager
+from app.modules.iot_manager import iot_manager
+
+# Singleton instance for backward compatibility
 iot_gateway = IoTEsp32GatewaySimulator()
 
 
 def get_current_iot_telemetry() -> Dict[str, Any]:
-    """Exposes current sensor stream frame."""
-    return iot_gateway.get_telemetry_frame()
+    """
+    Exposes current sensor stream frame from physical IoT Hardware Manager.
+    Returns None / blank for fields when no real hardware is connected.
+    """
+    return iot_manager.get_telemetry_frame()
 
 
 def trigger_iot_scenario(scenario: str) -> Dict[str, str]:
-    """Allows testing drought, rain, or normal scenarios."""
-    iot_gateway.set_anomaly(scenario)
+    """
+    Allows unit tests to verify system response under simulated conditions.
+    """
+    iot_manager.set_test_scenario(scenario)
     return {"status": "success", "mode": scenario}
 
 
 if __name__ == "__main__":
     frame = get_current_iot_telemetry()
-    print("Bonus Module F: IoT Telemetry Frame:")
-    print("Device:", frame["device_id"])
+    print("Real Hardware IoT Telemetry Frame:")
+    print("Connected:", frame.get("connected"))
     print("Telemetry:", frame["telemetry"])
-    print("Hardware:", frame["hardware_health"])
     print("Architecture:", frame["architecture_path"])
+

@@ -703,43 +703,154 @@
         <!-- IoT Gauges -->
         <div class="card">
           <div class="card-header">
-            <h3 data-i18n="iot_title">📡 IoT Edge Sensor Gateway (ESP32 Stream)</h3>
-            <span class="tag tag-bonus" data-i18n="tag_bonus_f">Edge IoT Gateway</span>
+            <h3 data-i18n="iot_title">📡 Real Agricultural IoT Hardware Gateway</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_f">Physical Sensor Hub</span>
           </div>
-          <p class="card-desc">Architecture: Sensors -> ESP32 Node -> Cloud/API -> AI Engine -> Farmer</p>
+          <p class="card-desc" data-i18n="iot_architecture_desc">Direct hardware link: Arduino / ESP32 / BLE Sensor ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI Core ➔ Farmer Action.</p>
 
+          <!-- Live Connection Status Banner -->
+          <div class="iot-status-banner">
+            <div>
+              <span style="font-size:0.8rem; color:#64748b; font-weight:600;" data-i18n="iot_status_label">HARDWARE STATUS:</span>
+              <div id="iot-conn-badge" class="conn-pill disconnected" style="margin-top:2px;">
+                <span class="conn-pulse-dot"></span>
+                <span id="iot-conn-text" data-i18n="iot_no_device">No IoT Device Connected</span>
+              </div>
+            </div>
+            <div id="iot-active-device-info" style="font-size:0.82rem; color:#475569; text-align:right;">
+              <span id="iot-device-name">--</span>
+            </div>
+          </div>
+
+          <!-- Strict Real-Only Notice -->
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 12px; margin-bottom:14px; font-size:0.8rem; color:#166534; display:flex; align-items:center; gap:8px;">
+            <span>🔒</span>
+            <span data-i18n="iot_real_only_notice">Strict Real-Data Mode: Displaying physical sensor readings only. Disconnected sensors remain strictly blank (--).</span>
+          </div>
+
+          <!-- Gauges Grid (Initialized to blank) -->
           <div class="iot-gauges-grid">
             <div class="gauge-card">
-              <span class="gauge-title" data-i18n="gauge_moist">Soil Moisture</span>
+              <span class="gauge-title" data-i18n="gauge_moist">Soil Moisture (Volumetric)</span>
               <div class="gauge-val" id="iot-moist">--%</div>
-              <small id="iot-moist-status">Optimal</small>
+              <small id="iot-moist-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title" data-i18n="gauge_temp">Temperature</span>
+              <span class="gauge-title" data-i18n="gauge_temp">Ambient Field Temp</span>
               <div class="gauge-val" id="iot-temp">--°C</div>
-              <small>Ambient Field</small>
+              <small id="iot-temp-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title" data-i18n="gauge_hum">Humidity</span>
+              <span class="gauge-title" data-i18n="gauge_hum">Air Humidity</span>
               <div class="gauge-val" id="iot-hum">--%</div>
-              <small>Air RH</small>
+              <small id="iot-hum-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
             </div>
             <div class="gauge-card">
-              <span class="gauge-title" data-i18n="gauge_ph">Soil pH</span>
+              <span class="gauge-title" data-i18n="gauge_ph">Soil Acidity (pH)</span>
               <div class="gauge-val" id="iot-ph">--</div>
-              <small id="iot-ph-status">Neutral</small>
+              <small id="iot-ph-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
             </div>
           </div>
 
-          <div style="margin-top:20px;">
-            <label><strong data-i18n="simulate_scenarios_title">Simulate Field Scenarios for Live Testing:</strong></label>
-            <div class="scenario-buttons">
-              <button class="btn btn-secondary" onclick="triggerScenario('normal')" data-i18n="btn_scen_normal">🌤 Normal Conditions</button>
-              <button class="btn btn-danger" onclick="triggerScenario('drought')" data-i18n="btn_scen_drought">🔥 Sudden Drought Spike</button>
-              <button class="btn btn-info" onclick="triggerScenario('rain')" data-i18n="btn_scen_rain">🌧 Heavy Rain Inflow</button>
+          <!-- Multi-Channel IoT Hardware Connection Hub -->
+          <div class="iot-conn-hub">
+            <h4 style="margin:0 0 10px 0; color:#065f46; display:flex; align-items:center; gap:8px;" data-i18n="iot_hub_title">
+              <span>🔌</span> <span>Connect Physical IoT Sensors (USB / Wi-Fi / Bluetooth)</span>
+            </h4>
+
+            <div class="iot-tabs-nav">
+              <button class="iot-tab-btn active" onclick="switchIoTSubTab('iot-panel-usb')" data-i18n="iot_tab_usb">🔌 USB / Serial Cable</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-wifi')" data-i18n="iot_tab_wifi">📶 Wi-Fi / Network</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-bt')" data-i18n="iot_tab_bt">📡 Bluetooth (BLE)</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-code')" data-i18n="iot_tab_code">📜 Arduino / ESP32 Code</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-sim')" data-i18n="iot_tab_sim">🧪 Lab Simulator (Optional)</button>
+            </div>
+
+            <!-- Panel 1: USB / Serial -->
+            <div id="iot-panel-usb" class="iot-panel active">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:12px;" data-i18n="usb_desc">
+                Connect Arduino, ESP32, STM32, or Raspberry Pi Pico directly via USB cable:
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+                <button class="btn btn-primary btn-sm" onclick="connectWebSerial()" id="btn-web-serial">
+                  ⚡ <span data-i18n="btn_web_serial">Connect USB via Browser (Web Serial)</span>
+                </button>
+                <span style="font-size:0.8rem; color:#94a3b8;">OR</span>
+                <select id="iot-com-ports" class="form-control" style="width:auto; min-width:140px; padding:5px 10px; font-size:0.85rem;">
+                  <option value="">Scanning COM ports...</option>
+                </select>
+                <select id="iot-baudrate" class="form-control" style="width:auto; padding:5px 10px; font-size:0.85rem;">
+                  <option value="115200" selected>115200 Baud</option>
+                  <option value="9600">9600 Baud</option>
+                  <option value="57600">57600 Baud</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" onclick="refreshComPorts()" title="Scan for newly plugged USB devices">🔄</button>
+                <button class="btn btn-secondary btn-sm" onclick="connectBackendSerial()" id="btn-connect-com" data-i18n="btn_connect_port">Connect Port</button>
+                <button class="btn btn-danger btn-sm" onclick="disconnectIoTHardware()" id="btn-disconnect-iot" style="display:none;" data-i18n="btn_disconnect_iot">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Wi-Fi -->
+            <div id="iot-panel-wifi" class="iot-panel">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:10px;">
+                <strong data-i18n="wifi_push_title">Option 1 (Push Mode - Recommended):</strong> <span data-i18n="wifi_push_desc">Flash your ESP32 to POST JSON sensor data over local Wi-Fi:</span>
+              </div>
+              <div style="background:#f1f5f9; padding:8px 12px; border-radius:6px; font-family:monospace; font-size:0.82rem; margin-bottom:10px;">
+                POST http://<span id="wifi-local-ip">127.0.0.1</span>:8000/api/iot/ingest
+              </div>
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:8px;">
+                <strong data-i18n="wifi_pull_title">Option 2 (Pull Mode):</strong> <span data-i18n="wifi_pull_desc">Enter your ESP32 local web server URL to poll:</span>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <input type="text" id="wifi-sensor-url" class="form-control" placeholder="http://192.168.1.50/data" style="flex:1; min-width:200px; font-size:0.85rem;">
+                <button class="btn btn-primary btn-sm" onclick="connectWifiSensor()" data-i18n="btn_connect_wifi">Connect Wi-Fi Sensor</button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Bluetooth -->
+            <div id="iot-panel-bt" class="iot-panel">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:12px;" data-i18n="bt_desc">
+                Pair with wireless agricultural BLE soil moisture or microclimate probes via Web Bluetooth:
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="connectWebBluetooth()" id="btn-web-bluetooth">
+                📡 <span data-i18n="btn_scan_ble">Scan & Connect Bluetooth Sensor</span>
+              </button>
+            </div>
+
+            <!-- Panel 4: Arduino / ESP32 Code -->
+            <div id="iot-panel-code" class="iot-panel">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.82rem; color:#475569; font-weight:600;" data-i18n="code_title">Arduino IDE / PlatformIO Ready Sketch:</span>
+                <button class="btn btn-secondary btn-sm" onclick="copyArduinoCode()" data-i18n="btn_copy_code">📋 Copy Code</button>
+              </div>
+              <pre class="iot-code-snippet" id="arduino-code-display">/* Loading Arduino sketch... */</pre>
+            </div>
+
+            <!-- Panel 5: Lab Simulator (Optional for Testing) -->
+            <div id="iot-panel-sim" class="iot-panel">
+              <p style="font-size:0.82rem; color:#64748b; margin:0 0 8px 0;" data-i18n="sim_notice">
+                Optional virtual simulator for hackathon judge presentations when physical sensors are not available:
+              </p>
+              <div class="scenario-buttons">
+                <button class="btn btn-secondary btn-sm" onclick="triggerScenario('normal')" data-i18n="btn_scen_normal">🌤 Normal Conditions</button>
+                <button class="btn btn-danger btn-sm" onclick="triggerScenario('drought')" data-i18n="btn_scen_drought">🔥 Sudden Drought Spike</button>
+                <button class="btn btn-info btn-sm" onclick="triggerScenario('rain')" data-i18n="btn_scen_rain">🌧 Heavy Rain Inflow</button>
+              </div>
+            </div>
+
+            <!-- Live Serial Activity Terminal -->
+            <div style="margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.75rem; font-weight:700; color:#64748b; text-transform:uppercase;" data-i18n="iot_terminal_title">LIVE HARDWARE SERIAL MONITOR</span>
+                <button class="btn btn-secondary btn-sm" style="padding:2px 8px; font-size:0.72rem;" onclick="clearIoTTerminal()">Clear</button>
+              </div>
+              <div class="iot-terminal" id="iot-terminal-window">
+                <div>[SYSTEM] Ready for hardware connection. Plug USB cable or send Wi-Fi telemetry.</div>
+              </div>
             </div>
           </div>
         </div>
+
 
         <!-- Agentic Advisor Loop -->
         <div class="card">

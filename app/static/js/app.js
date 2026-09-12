@@ -228,7 +228,34 @@ const TRANSLATIONS = {
     "default_farmer_name": "Kisan Mitra (Farmer Friend)",
     "badge_farmer_profile": "Active",
     "badge_logout": "Logout",
-    "confirm_logout": "Do you want to log out or switch account?"
+    "confirm_logout": "Do you want to log out or switch account?",
+    "iot_title": "📡 Real Agricultural IoT Hardware Gateway",
+    "iot_architecture_desc": "Direct hardware link: Arduino / ESP32 / BLE Sensor ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI Core ➔ Farmer Action.",
+    "iot_status_label": "HARDWARE STATUS:",
+    "iot_no_device": "No IoT Device Connected",
+    "iot_real_only_notice": "Strict Real-Data Mode: Displaying physical sensor readings only. Disconnected sensors remain strictly blank (--).",
+    "iot_not_connected_sub": "(No Sensor Connected)",
+    "iot_hub_title": "Connect Physical IoT Sensors (USB / Wi-Fi / Bluetooth)",
+    "iot_tab_usb": "🔌 USB / Serial Cable",
+    "iot_tab_wifi": "📶 Wi-Fi / Network",
+    "iot_tab_bt": "📡 Bluetooth (BLE)",
+    "iot_tab_code": "📜 Arduino / ESP32 Code",
+    "iot_tab_sim": "🧪 Lab Simulator (Optional)",
+    "usb_desc": "Connect Arduino, ESP32, STM32, or Raspberry Pi Pico directly via USB cable:",
+    "btn_web_serial": "Connect USB via Browser (Web Serial)",
+    "btn_connect_port": "Connect Port",
+    "btn_disconnect_iot": "Disconnect Device",
+    "wifi_push_title": "Option 1 (Push Mode - Recommended):",
+    "wifi_push_desc": "Flash your ESP32 to POST JSON sensor data over local Wi-Fi:",
+    "wifi_pull_title": "Option 2 (Pull Mode):",
+    "wifi_pull_desc": "Enter your ESP32 local web server URL to poll:",
+    "btn_connect_wifi": "Connect Wi-Fi Sensor",
+    "bt_desc": "Pair with wireless agricultural BLE soil moisture or microclimate probes via Web Bluetooth:",
+    "btn_scan_ble": "Scan & Connect Bluetooth Sensor",
+    "code_title": "Arduino IDE / PlatformIO Ready Sketch:",
+    "btn_copy_code": "📋 Copy Code",
+    "sim_notice": "Optional virtual simulator for hackathon judge presentations when physical sensors are not available:",
+    "iot_terminal_title": "LIVE HARDWARE SERIAL MONITOR"
   },
   "hi": {
     "app_title": "एग्रीस्मार्ट एआई (AgriSmart AI)",
@@ -404,7 +431,34 @@ const TRANSLATIONS = {
     "default_farmer_name": "किसान मित्र (Kisan Mitra)",
     "badge_farmer_profile": "सक्रिय",
     "badge_logout": "लॉगआउट",
-    "confirm_logout": "क्या आप लॉगआउट करना या दूसरा खाता बदलना चाहते हैं?"
+    "confirm_logout": "क्या आप लॉगआउट करना या दूसरा खाता बदलना चाहते हैं?",
+    "iot_title": "📡 वास्तविक कृषि IoT हार्डवेयर गेटवे",
+    "iot_architecture_desc": "प्रत्यक्ष हार्डवेयर लिंक: Arduino / ESP32 / BLE सेंसर ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI Core ➔ किसान निर्णय।",
+    "iot_status_label": "हार्डवेयर स्थिति:",
+    "iot_no_device": "कोई IoT डिवाइस कनेक्ट नहीं है",
+    "iot_real_only_notice": "वास्तविक डेटा मोड: केवल जुड़े हुए भौतिक सेंसर का डेटा दिखाया जा रहा है। अनुपस्थित सेंसर रिक्त (--) रहेंगे।",
+    "iot_not_connected_sub": "(सेंसर कनेक्ट नहीं है)",
+    "iot_hub_title": "भौतिक IoT सेंसर कनेक्ट करें (USB / Wi-Fi / Bluetooth)",
+    "iot_tab_usb": "🔌 USB / सीरियल केबल",
+    "iot_tab_wifi": "📶 Wi-Fi / नेटवर्क",
+    "iot_tab_bt": "📡 ब्लूटूथ (BLE)",
+    "iot_tab_code": "📜 Arduino / ESP32 कोड",
+    "iot_tab_sim": "🧪 लैब सिम्युलेटर (वैकल्पिक)",
+    "usb_desc": "Arduino, ESP32, STM32, या Raspberry Pi Pico को सीधे USB केबल द्वारा कनेक्ट करें:",
+    "btn_web_serial": "ब्राउज़र से USB कनेक्ट करें (Web Serial)",
+    "btn_connect_port": "COM पोर्ट जोड़ें",
+    "btn_disconnect_iot": "डिवाइस डिस्कनेक्ट करें",
+    "wifi_push_title": "विकल्प 1 (पुश मोड - अनुशंसित):",
+    "wifi_push_desc": "अपने ESP32 से लोकल Wi-Fi पर JSON डेटा भेजें:",
+    "wifi_pull_title": "विकल्प 2 (पुल मोड):",
+    "wifi_pull_desc": "ESP32 वेब सर्वर का URL दर्ज करें:",
+    "btn_connect_wifi": "Wi-Fi सेंसर जोड़ें",
+    "bt_desc": "वायरलेस BLE मृदा नमी या पर्यावरण प्रोब को ब्लूटूथ द्वारा कनेक्ट करें:",
+    "btn_scan_ble": "ब्लूटूथ सेंसर खोजें एवं जोड़ें",
+    "code_title": "Arduino IDE / PlatformIO के लिए तैयार कोड:",
+    "btn_copy_code": "📋 कोड कॉपी करें",
+    "sim_notice": "वैकल्पिक वर्चुअल सिम्युलेटर (जब भौतिक हार्डवेयर उपलब्ध न हो):",
+    "iot_terminal_title": "लाइव हार्डवेयर सीरियल मॉनिटर"
   },
   "gu": {
     "app_title": "એગ્રીસ્માર્ટ એઆઈ (AgriSmart AI)",
@@ -580,7 +634,34 @@ const TRANSLATIONS = {
     "default_farmer_name": "કિસાન મિત્ર (ખેડૂત મિત્ર)",
     "badge_farmer_profile": "સક્રિય",
     "badge_logout": "લૉગ આઉટ",
-    "confirm_logout": "શું તમે લૉગ આઉટ કરવા અથવા બીજું ખાતું બદલવા માંગો છો?"
+    "confirm_logout": "શું તમે લૉગ આઉટ કરવા અથવા બીજું ખાતું બદલવા માંગો છો?",
+    "iot_title": "📡 વાસ્તવિક કૃષિ IoT હાર્ડવેર ગેટવે",
+    "iot_architecture_desc": "સીધું હાર્ડવેર જોડાણ: Arduino / ESP32 / BLE સેન્સર ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI ➔ ખેડૂત નિર્ણય.",
+    "iot_status_label": "હાર્ડવેર સ્થિતિ:",
+    "iot_no_device": "કોઈ IoT ડિવાઇસ કનેક્ટેડ નથી",
+    "iot_real_only_notice": "વાસ્તવિક ડેટા મોડ: માત્ર ભૌતિક સેન્સરનું અસલી રીડિંગ દર્શાવાય છે. ગેરહાજર સેન્સર ખાલી (--) રહેશે.",
+    "iot_not_connected_sub": "(સેન્સર કનેક્ટેડ નથી)",
+    "iot_hub_title": "ભૌતિક IoT સેન્સર કનેક્ટ કરો (USB / Wi-Fi / Bluetooth)",
+    "iot_tab_usb": "🔌 USB / સિરિયલ કેબલ",
+    "iot_tab_wifi": "📶 Wi-Fi / નેટવર્ક",
+    "iot_tab_bt": "📡 બ્લૂટૂથ (BLE)",
+    "iot_tab_code": "📜 Arduino / ESP32 કોડ",
+    "iot_tab_sim": "🧪 લેબ સિમ્યુલેટર (વૈકલ્પિક)",
+    "usb_desc": "Arduino, ESP32 કે Raspberry Pi Pico ને સીધા USB કેબલથી કનેક્ટ કરો:",
+    "btn_web_serial": "બ્રાઉઝરથી USB કનેક્ટ કરો (Web Serial)",
+    "btn_connect_port": "COM પોર્ટ કનેક્ટ કરો",
+    "btn_disconnect_iot": "ડિસ્કનેક્ટ કરો",
+    "wifi_push_title": "વિકલ્પ 1 (પુશ મોડ - ભલામણ કરેલ):",
+    "wifi_push_desc": "તમારા ESP32 થી Wi-Fi પર ડેટા મોકલો:",
+    "wifi_pull_title": "વિકલ્પ 2 (પુલ મોડ):",
+    "wifi_pull_desc": "ESP32 સ્થાનિક URL દાખલ કરો:",
+    "btn_connect_wifi": "Wi-Fi સેન્સર કનેક્ટ કરો",
+    "bt_desc": "વાયરલેસ BLE સોઇલ મોઇશ્ચર પ્રોબ બ્લૂટૂથ દ્વારા કનેક્ટ કરો:",
+    "btn_scan_ble": "બ્લૂટૂથ સેન્સર શોધો",
+    "code_title": "Arduino IDE માટે તૈયાર કોડ:",
+    "btn_copy_code": "📋 કોડ કોપી કરો",
+    "sim_notice": "પરીક્ષણ માટે વૈકલ્પિક સિમ્યુલેટર:",
+    "iot_terminal_title": "લાઈવ હાર્ડવેર સિરિયલ મોનિટર"
   },
   "mr": {
     "app_title": "ॲग्रीस्मार्ट एआय (AgriSmart AI)",
@@ -756,7 +837,34 @@ const TRANSLATIONS = {
     "default_farmer_name": "किसान मित्र (शेतकरी मित्र)",
     "badge_farmer_profile": "सक्रिय",
     "badge_logout": "लॉगआउट",
-    "confirm_logout": "तुम्ही लॉगआउट करू इच्छिता किंवा खाते बदलू इच्छिता?"
+    "confirm_logout": "तुम्ही लॉगआउट करू इच्छिता किंवा खाते बदलू इच्छिता?",
+    "iot_title": "📡 प्रत्यक्ष कृषी IoT हार्डवेअर गेटवे",
+    "iot_architecture_desc": "थेट हार्डवेअर जोडणी: Arduino / ESP32 / BLE सेन्सर ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI ➔ शेतकरी कृती.",
+    "iot_status_label": "हार्डवेअर स्थिती:",
+    "iot_no_device": "कोणतेही IoT डिव्हाइस जोडलेले नाही",
+    "iot_real_only_notice": "रिअल डेटा मोड: केवळ प्रत्यक्ष जोडलेल्या सेन्सरचा डेटा दर्शविला जातो. नसलेले सेन्सर रिक्त (--) राहतील.",
+    "iot_not_connected_sub": "(सेन्सर जोडलेला नाही)",
+    "iot_hub_title": "प्रत्यक्ष IoT सेन्सर जोडा (USB / Wi-Fi / Bluetooth)",
+    "iot_tab_usb": "🔌 USB / सिरियल केबल",
+    "iot_tab_wifi": "📶 Wi-Fi / नेटवर्क",
+    "iot_tab_bt": "📡 ब्लूटूथ (BLE)",
+    "iot_tab_code": "📜 Arduino / ESP32 कोड",
+    "iot_tab_sim": "🧪 लॅब सिम्युलेटर (ऐच्छिक)",
+    "usb_desc": "Arduino किंवा ESP32 थेट USB केबलने कनेक्ट करा:",
+    "btn_web_serial": "ब्राउझरद्वारे USB कनेक्ट करा (Web Serial)",
+    "btn_connect_port": "COM पोर्ट जोडा",
+    "btn_disconnect_iot": "डिव्हाइस डिस्कनेक्ट करा",
+    "wifi_push_title": "पर्याय 1 (पुश मोड - शिफारस केलेले):",
+    "wifi_push_desc": "आपल्या ESP32 वरून थेट Wi-Fi द्वारे डेटा पाठवा:",
+    "wifi_pull_title": "पर्याय 2 (पुल मोड):",
+    "wifi_pull_desc": "ESP32 वेब सर्व्हर URL प्रविष्ट करा:",
+    "btn_connect_wifi": "Wi-Fi सेन्सर जोडा",
+    "bt_desc": "वायरलेस BLE माती ओलावा सेन्सर ब्लूटूथद्वारे जोडा:",
+    "btn_scan_ble": "ब्लूटूथ सेन्सर शोधा आणि जोडा",
+    "code_title": "Arduino IDE साठी तयार कोड:",
+    "btn_copy_code": "📋 कोड कॉपी करा",
+    "sim_notice": "चाचणीसाठी ऐच्छिक सिम्युलेटर:",
+    "iot_terminal_title": "थेट हार्डवेअर सिरियल मॉनिटर"
   }
 };
 
@@ -844,10 +952,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // 4. Update Auth Button State
   updateAuthUI();
 
-  // 5. Load live weather & IoT telemetry
+  // 5. Load live weather & Initialize Real IoT Hardware Monitor
   fetchLiveWeather();
   fetchIoTTelemetry();
-  setInterval(fetchIoTTelemetry, 4000);
+  refreshComPorts();
+  loadArduinoSketch();
+  setInterval(checkIoTStatusAndTelemetry, 3000);
 
   // 6. Drag & drop support
   const dropZone = document.getElementById('drop-zone');
@@ -2448,30 +2558,447 @@ async function sendChatMessage() {
 }
 
 // =================================================================
-// 15. EDGE IOT SENSOR STREAM & AUTONOMOUS AGENTIC ADVISOR
 // =================================================================
+// 15. REAL IOT HARDWARE GATEWAY (USB, WI-FI, BLUETOOTH) & ADVISOR
+// =================================================================
+let activeWebSerialPort = null;
+let webSerialReader = null;
+let isWebSerialReading = false;
+
+// 15.1 Fetch and render real hardware telemetry
 async function fetchIoTTelemetry() {
   try {
     const res = await fetch('/api/iot/telemetry');
     const data = await res.json();
-    const t = data.telemetry;
+    renderIoTTelemetryUI(data);
+  } catch (e) {
+    console.error('IoT telemetry fetch error:', e);
+  }
+}
 
-    document.getElementById('iot-moist').innerText = `${t.soil_moisture_pct}%`;
-    document.getElementById('iot-temp').innerText = `${t.ambient_temperature_c}°C`;
-    document.getElementById('iot-hum').innerText = `${t.relative_humidity_pct}%`;
-    document.getElementById('iot-ph').innerText = t.soil_ph;
+// 15.2 Check hardware connection status and update telemetry
+async function checkIoTStatusAndTelemetry() {
+  try {
+    const resStatus = await fetch('/api/iot/status');
+    const statusData = await resStatus.json();
+    updateIoTConnectionBadge(statusData);
 
-    const mStatus = document.getElementById('iot-moist-status');
-    if (t.soil_moisture_pct < 15) {
-      mStatus.innerText = 'Water Stressed';
-      mStatus.style.color = '#ef4444';
+    // Update live terminal log if available
+    if (statusData.terminal_log && statusData.terminal_log.length > 0) {
+      const termEl = document.getElementById('iot-terminal-window');
+      if (termEl) {
+        termEl.innerHTML = statusData.terminal_log.map(l => `<div>${escapeHtml(l)}</div>`).join('');
+        termEl.scrollTop = termEl.scrollHeight;
+      }
+    }
+
+    // Fetch telemetry
+    const res = await fetch('/api/iot/telemetry');
+    const data = await res.json();
+    renderIoTTelemetryUI(data);
+  } catch (e) {
+    // Non-blocking on network error
+  }
+}
+
+function updateIoTConnectionBadge(s) {
+  const badge = document.getElementById('iot-conn-badge');
+  const text = document.getElementById('iot-conn-text');
+  const devInfo = document.getElementById('iot-device-name');
+  const discBtn = document.getElementById('btn-disconnect-iot');
+  if (!badge || !text) return;
+
+  if (s.connected) {
+    badge.className = 'conn-pill connected';
+    text.innerText = `🟢 ${s.connection_type || 'HARDWARE'} CONNECTED`;
+    if (devInfo) {
+      devInfo.innerText = `${s.device_id || s.port_or_endpoint || ''} (${s.last_heartbeat_sec_ago !== null ? s.last_heartbeat_sec_ago + 's ago' : 'live'})`;
+    }
+    if (discBtn) discBtn.style.display = 'inline-block';
+  } else {
+    badge.className = 'conn-pill disconnected';
+    const lang = currentLanguage || 'hi';
+    const noDevStr = TRANSLATIONS[lang] && TRANSLATIONS[lang].iot_no_device ? TRANSLATIONS[lang].iot_no_device : "No IoT Device Connected";
+    text.innerText = noDevStr;
+    if (devInfo) devInfo.innerText = '--';
+    if (discBtn) discBtn.style.display = 'none';
+  }
+}
+
+function renderIoTTelemetryUI(data) {
+  const t = data.telemetry || {};
+  const isConn = data.connected === true;
+  const lang = currentLanguage || 'hi';
+  const notConnStr = TRANSLATIONS[lang] && TRANSLATIONS[lang].iot_not_connected_sub ? TRANSLATIONS[lang].iot_not_connected_sub : "(No Sensor Connected)";
+
+  // 1. Soil Moisture
+  const moistEl = document.getElementById('iot-moist');
+  const moistStatus = document.getElementById('iot-moist-status');
+  if (moistEl) {
+    if (isConn && t.soil_moisture_pct !== null && t.soil_moisture_pct !== undefined) {
+      moistEl.innerText = `${t.soil_moisture_pct}%`;
+      if (moistStatus) {
+        if (t.soil_moisture_pct < 15) {
+          moistStatus.innerText = '⚠️ Water Stressed (Low)';
+          moistStatus.style.color = '#ef4444';
+        } else if (t.soil_moisture_pct > 35) {
+          moistStatus.innerText = '💧 Saturated / Heavy Moisture';
+          moistStatus.style.color = '#0284c7';
+        } else {
+          moistStatus.innerText = '✅ Optimal Root Zone Capacity';
+          moistStatus.style.color = '#10b981';
+        }
+      }
     } else {
-      mStatus.innerText = 'Normal Field Capacity';
-      mStatus.style.color = '#10b981';
+      moistEl.innerText = '--%';
+      if (moistStatus) {
+        moistStatus.innerText = notConnStr;
+        moistStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+
+  // 2. Ambient Temperature
+  const tempEl = document.getElementById('iot-temp');
+  const tempStatus = document.getElementById('iot-temp-status');
+  if (tempEl) {
+    if (isConn && t.ambient_temperature_c !== null && t.ambient_temperature_c !== undefined) {
+      tempEl.innerText = `${t.ambient_temperature_c}°C`;
+      if (tempStatus) {
+        tempStatus.innerText = 'Field Microclimate';
+        tempStatus.style.color = '#475569';
+      }
+    } else {
+      tempEl.innerText = '--°C';
+      if (tempStatus) {
+        tempStatus.innerText = notConnStr;
+        tempStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+
+  // 3. Air Humidity
+  const humEl = document.getElementById('iot-hum');
+  const humStatus = document.getElementById('iot-hum-status');
+  if (humEl) {
+    if (isConn && t.relative_humidity_pct !== null && t.relative_humidity_pct !== undefined) {
+      humEl.innerText = `${t.relative_humidity_pct}%`;
+      if (humStatus) {
+        humStatus.innerText = 'Air RH Sensor';
+        humStatus.style.color = '#475569';
+      }
+    } else {
+      humEl.innerText = '--%';
+      if (humStatus) {
+        humStatus.innerText = notConnStr;
+        humStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+
+  // 4. Soil pH
+  const phEl = document.getElementById('iot-ph');
+  const phStatus = document.getElementById('iot-ph-status');
+  if (phEl) {
+    if (isConn && t.soil_ph !== null && t.soil_ph !== undefined) {
+      phEl.innerText = t.soil_ph;
+      if (phStatus) {
+        if (t.soil_ph < 6.0) {
+          phStatus.innerText = 'Acidic Soil';
+          phStatus.style.color = '#f59e0b';
+        } else if (t.soil_ph > 7.5) {
+          phStatus.innerText = 'Alkaline Soil';
+          phStatus.style.color = '#f59e0b';
+        } else {
+          phStatus.innerText = 'Neutral (Balanced)';
+          phStatus.style.color = '#10b981';
+        }
+      }
+    } else {
+      phEl.innerText = '--';
+      if (phStatus) {
+        phStatus.innerText = notConnStr;
+        phStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+}
+
+// 15.3 Sub-tab switcher in IoT Connection Hub
+function switchIoTSubTab(panelId) {
+  document.querySelectorAll('.iot-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.iot-tab-btn').forEach(b => b.classList.remove('active'));
+  const target = document.getElementById(panelId);
+  if (target) target.classList.add('active');
+
+  const btn = Array.from(document.querySelectorAll('.iot-tab-btn')).find(b => {
+    const fn = b.getAttribute('onclick') || '';
+    return fn.includes(panelId);
+  });
+  if (btn) btn.classList.add('active');
+}
+
+// 15.4 COM Port Scanning
+async function refreshComPorts() {
+  const sel = document.getElementById('iot-com-ports');
+  if (!sel) return;
+  sel.innerHTML = '<option value="">Scanning COM ports...</option>';
+  try {
+    const res = await fetch('/api/iot/ports');
+    const data = await res.json();
+    sel.innerHTML = '';
+    if (data.ports && data.ports.length > 0) {
+      data.ports.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.port;
+        opt.innerText = `${p.port} (${p.description})`;
+        sel.appendChild(opt);
+      });
+    } else {
+      sel.innerHTML = '<option value="">No COM Ports Detected</option>';
     }
   } catch (e) {
-    console.error('IoT error:', e);
+    sel.innerHTML = '<option value="">Error scanning ports</option>';
   }
+}
+
+// 15.5 Connect Backend USB COM Port
+async function connectBackendSerial() {
+  const sel = document.getElementById('iot-com-ports');
+  const baudSel = document.getElementById('iot-baudrate');
+  if (!sel || !sel.value) {
+    showToast('⚠️ Please select a valid COM port, or use Browser Web Serial.', 'warning');
+    return;
+  }
+  const port = sel.value;
+  const baud = parseInt(baudSel ? baudSel.value : '115200', 10);
+
+  try {
+    showToast(`🔌 Connecting to ${port} @ ${baud}...`, 'info');
+    const res = await fetch('/api/iot/connect-usb', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ port: port, baudrate: baud })
+    });
+    const result = await res.json();
+    if (result.status === 'connected') {
+      showToast(`✅ Successfully connected to ${port}! Reading real sensor data.`, 'success');
+      checkIoTStatusAndTelemetry();
+    } else {
+      showToast(`❌ Connection failed: ${result.message}`, 'error');
+    }
+  } catch (e) {
+    showToast(`❌ Connection error: ${e.message}`, 'error');
+  }
+}
+
+// 15.6 Connect Direct Browser Web Serial API (Chrome/Edge)
+async function connectWebSerial() {
+  if (!('serial' in navigator)) {
+    showToast('⚠️ Web Serial is not supported in this browser. Please use Google Chrome or Microsoft Edge, or connect via COM port above.', 'warning');
+    return;
+  }
+
+  try {
+    activeWebSerialPort = await navigator.serial.requestPort();
+    const baudSel = document.getElementById('iot-baudrate');
+    const baud = parseInt(baudSel ? baudSel.value : '115200', 10);
+    await activeWebSerialPort.open({ baudRate: baud });
+    showToast('⚡ Web Serial USB Connected! Reading real hardware stream...', 'success');
+
+    // Ingest Web Serial link notice
+    await fetch('/api/iot/ingest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        device_id: 'USB-WEB-SERIAL',
+        device_model: 'Browser Direct Web Serial Link',
+        connection_type: 'USB'
+      })
+    });
+
+    readWebSerialLoop();
+    checkIoTStatusAndTelemetry();
+  } catch (e) {
+    if (e.name !== 'NotFoundError') {
+      showToast(`Web Serial error: ${e.message}`, 'error');
+    }
+  }
+}
+
+async function readWebSerialLoop() {
+  isWebSerialReading = true;
+  const textDecoder = new TextDecoderStream();
+  const readableStreamClosed = activeWebSerialPort.readable.pipeTo(textDecoder.writable);
+  const reader = textDecoder.readable.getReader();
+  webSerialReader = reader;
+
+  let buffer = '';
+  try {
+    while (isWebSerialReading) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (value) {
+        buffer += value;
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep last incomplete chunk
+        for (const line of lines) {
+          const trimmed = line.trim();
+          if (trimmed) {
+            logToIoTTerminal(`<< [USB] ${trimmed}`);
+            try {
+              if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+                const parsed = JSON.parse(trimmed);
+                await fetch('/api/iot/ingest', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(parsed)
+                });
+              } else if (trimmed.includes(',')) {
+                const parts = trimmed.split(',').map(s => parseFloat(s.trim()));
+                const csvPayload = {};
+                if (!isNaN(parts[0])) csvPayload.soil_moisture_pct = parts[0];
+                if (!isNaN(parts[1])) csvPayload.ambient_temperature_c = parts[1];
+                if (!isNaN(parts[2])) csvPayload.relative_humidity_pct = parts[2];
+                if (!isNaN(parts[3])) csvPayload.soil_ph = parts[3];
+                await fetch('/api/iot/ingest', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(csvPayload)
+                });
+              }
+            } catch (err) {}
+          }
+        }
+      }
+    }
+  } catch (err) {
+    console.error('Web Serial stream error:', err);
+  } finally {
+    reader.releaseLock();
+  }
+}
+
+// 15.7 Connect Wi-Fi Sensor Station
+async function connectWifiSensor() {
+  const urlInput = document.getElementById('wifi-sensor-url');
+  if (!urlInput || !urlInput.value.trim()) {
+    showToast('⚠️ Please enter a valid Wi-Fi sensor URL (e.g., http://192.168.1.50/data)', 'warning');
+    return;
+  }
+  const endpoint = urlInput.value.trim();
+  showToast(`📶 Connecting to Wi-Fi station ${endpoint}...`, 'info');
+
+  try {
+    const res = await fetch('/api/iot/connect-wifi', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ endpoint_url: endpoint, poll_interval: 3.0 })
+    });
+    const result = await res.json();
+    if (result.status === 'connected') {
+      showToast('✅ Successfully connected to Wi-Fi sensor station!', 'success');
+      checkIoTStatusAndTelemetry();
+    } else {
+      showToast(`❌ Wi-Fi Connection failed: ${result.message}`, 'error');
+    }
+  } catch (e) {
+    showToast(`❌ Error: ${e.message}`, 'error');
+  }
+}
+
+// 15.8 Connect Web Bluetooth (BLE) Probes
+async function connectWebBluetooth() {
+  if (!('bluetooth' in navigator)) {
+    showToast('⚠️ Web Bluetooth is not available in this browser. Please enable Bluetooth and use Chrome/Edge on a BLE-enabled computer.', 'warning');
+    return;
+  }
+
+  try {
+    showToast('📡 Scanning for nearby BLE agricultural sensor probes...', 'info');
+    const device = await navigator.bluetooth.requestDevice({
+      acceptAllDevices: true,
+      optionalServices: ['battery_service', 'environmental_sensing']
+    });
+
+    showToast(`Connecting to BLE device: ${device.name || 'AgriSensor'}...`, 'info');
+    const server = await device.gatt.connect();
+    showToast(`✅ Bluetooth Connected to ${device.name || 'BLE Sensor'}!`, 'success');
+
+    await fetch('/api/iot/ingest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        device_id: device.id || 'BLE-SOIL-PROBE',
+        device_model: device.name || 'Wireless BLE Probe',
+        connection_type: 'BLUETOOTH'
+      })
+    });
+
+    logToIoTTerminal(`[BLUETOOTH] Paired with ${device.name || device.id}. Stream active.`);
+    checkIoTStatusAndTelemetry();
+  } catch (e) {
+    if (e.name !== 'NotFoundError') {
+      showToast(`Bluetooth Error: ${e.message}`, 'error');
+    }
+  }
+}
+
+// 15.9 Disconnect Any Active IoT Hardware
+async function disconnectIoTHardware() {
+  if (webSerialReader) {
+    try {
+      isWebSerialReading = false;
+      await webSerialReader.cancel();
+      await activeWebSerialPort.close();
+      activeWebSerialPort = null;
+      webSerialReader = null;
+    } catch (e) {}
+  }
+
+  try {
+    await fetch('/api/iot/disconnect', { method: 'POST' });
+    showToast('🔌 IoT Hardware disconnected. Sensor telemetry cleared to blank.', 'info');
+    checkIoTStatusAndTelemetry();
+  } catch (e) {
+    console.error('Disconnect error:', e);
+  }
+}
+
+// 15.10 Load and Copy Arduino Sketch
+async function loadArduinoSketch() {
+  const display = document.getElementById('arduino-code-display');
+  if (!display) return;
+  try {
+    const res = await fetch('/api/iot/arduino-sketch');
+    const data = await res.json();
+    if (data.sketch) display.innerText = data.sketch;
+  } catch (e) {}
+}
+
+function copyArduinoCode() {
+  const display = document.getElementById('arduino-code-display');
+  if (!display) return;
+  navigator.clipboard.writeText(display.innerText).then(() => {
+    showToast('📋 Arduino C++ code copied to clipboard!', 'success');
+  }).catch(() => {
+    showToast('Failed to copy code', 'error');
+  });
+}
+
+function logToIoTTerminal(msg) {
+  const term = document.getElementById('iot-terminal-window');
+  if (!term) return;
+  const line = document.createElement('div');
+  line.innerText = msg;
+  term.appendChild(line);
+  if (term.childNodes.length > 50) term.removeChild(term.firstChild);
+  term.scrollTop = term.scrollHeight;
+}
+
+function clearIoTTerminal() {
+  const term = document.getElementById('iot-terminal-window');
+  if (term) term.innerHTML = '<div>[SYSTEM] Terminal buffer cleared.</div>';
 }
 
 async function triggerScenario(mode) {
@@ -2481,7 +3008,7 @@ async function triggerScenario(mode) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ scenario: mode })
     });
-    fetchIoTTelemetry();
+    checkIoTStatusAndTelemetry();
   } catch (e) {
     console.error('Scenario error:', e);
   }

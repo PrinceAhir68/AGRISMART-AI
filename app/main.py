@@ -40,6 +40,8 @@ from app.modules.farmer_assistant import ask_farmer_assistant
 from app.modules.qa_engine import get_qa_engine
 from app.modules.web_verifier import verify_disease_with_web, verify_and_answer_qa_with_web
 from app.modules.iot_simulator import get_current_iot_telemetry, trigger_iot_scenario
+from app.modules.iot_manager import iot_manager
+
 from app.modules.agentic_advisor import run_agent_loop
 from app.database import (
     register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history,
@@ -471,11 +473,70 @@ def api_qa_search(q: str = Query(..., min_length=2), lang: str = Query("en")):
 
 
 # -------------------------------------------------------------
-# BONUS MODULE F: IoT Telemetry Feed & Scenarios
+# BONUS MODULE F: Real IoT Hardware Telemetry & Actuation
 # -------------------------------------------------------------
+@app.get("/api/iot/status")
+def api_iot_status():
+    """Returns real hardware connection status and serial logs."""
+    return iot_manager.get_status()
+
+
 @app.get("/api/iot/telemetry")
 def api_iot_telemetry():
-    return get_current_iot_telemetry()
+    """
+    Returns real hardware telemetry frame.
+    All sensor values are None / blank when no hardware is connected.
+    """
+    return iot_manager.get_telemetry_frame()
+
+
+@app.get("/api/iot/ports")
+def api_iot_list_ports():
+    """Lists physical USB/Serial COM ports on the system."""
+    return {"ports": iot_manager.list_serial_ports()}
+
+
+class UsbConnectRequest(BaseModel):
+    port: str
+    baudrate: int = 115200
+
+
+@app.post("/api/iot/connect-usb")
+def api_iot_connect_usb(req: UsbConnectRequest):
+    """Connects server to physical USB serial port."""
+    return iot_manager.connect_usb(port=req.port, baudrate=req.baudrate)
+
+
+class WifiConnectRequest(BaseModel):
+    endpoint_url: str
+    poll_interval: float = 3.0
+
+
+@app.post("/api/iot/connect-wifi")
+def api_iot_connect_wifi(req: WifiConnectRequest):
+    """Initiates periodic polling of a Wi-Fi sensor station."""
+    return iot_manager.connect_wifi(endpoint_url=req.endpoint_url, poll_interval_sec=req.poll_interval)
+
+
+@app.post("/api/iot/disconnect")
+def api_iot_disconnect():
+    """Safely disconnects any active physical link and resets telemetry to blank."""
+    return iot_manager.disconnect()
+
+
+@app.post("/api/iot/ingest")
+def api_iot_ingest(payload: Dict[str, Any], connection_type: str = "WIFI"):
+    """
+    Accepts real sensor telemetry pushed from ESP32/Arduino,
+    Web Serial API in browser, or Web Bluetooth.
+    """
+    return iot_manager.ingest_telemetry(raw_data=payload, connection_type=connection_type)
+
+
+@app.get("/api/iot/arduino-sketch")
+def api_iot_arduino_sketch():
+    """Returns ready-to-flash C++ sketch for Arduino Uno and ESP32."""
+    return {"sketch": iot_manager.get_arduino_sketch()}
 
 
 class ScenarioRequest(BaseModel):
@@ -485,6 +546,7 @@ class ScenarioRequest(BaseModel):
 @app.post("/api/iot/scenario")
 def api_iot_scenario(req: ScenarioRequest):
     return trigger_iot_scenario(req.scenario)
+
 
 
 # -------------------------------------------------------------
