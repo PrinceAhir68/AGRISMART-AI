@@ -1832,6 +1832,32 @@ function handleFileUpload(event) {
 }
 
 function processSelectedFile(file) {
+  if (!file) return;
+
+  // 1. Client-side size validation (10 MB maximum)
+  const MAX_SIZE_BYTES = 10 * 1024 * 1024;
+  if (file.size > MAX_SIZE_BYTES) {
+    showToast('File size exceeds the 10 MB limit. Please choose a smaller photo.', 'error');
+    return;
+  }
+
+  // 2. Client-side minimum size check
+  if (file.size < 100) {
+    showToast('Selected file is empty or corrupted. Please choose a valid image.', 'error');
+    return;
+  }
+
+  // 3. File type & extension validation
+  const validExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.bmp'];
+  const fileName = (file.name || '').toLowerCase();
+  const hasValidExt = validExtensions.some(ext => fileName.endsWith(ext));
+  const isImageMime = file.type && (file.type.startsWith('image/') || file.type === 'application/octet-stream');
+
+  if (!hasValidExt && !isImageMime) {
+    showToast('Unsupported file format. Please upload a JPG, PNG, WEBP, or BMP image.', 'error');
+    return;
+  }
+
   currentSelectedImageFile = file;
   hideInvalidPlantAlert();
   const reader = new FileReader();

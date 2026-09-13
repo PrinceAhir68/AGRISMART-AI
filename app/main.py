@@ -95,6 +95,9 @@ from app.database import (
 from app.supabase_client import (
     get_supabase_status, sync_user_to_supabase, sync_diagnosis_to_supabase
 )
+from app.modules.file_security import (
+    secure_isolated_upload, FileValidationError, verify_storage_is_isolated, ISOLATED_UPLOAD_DIR
+)
 
 app = FastAPI(
     title="AgriSmart AI API",
@@ -258,6 +261,9 @@ async def rate_limit_middleware(request: Request, call_next):
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+
+# Verify uploaded files are isolated outside the web root
+assert verify_storage_is_isolated(STATIC_DIR), "Upload storage directory must not reside inside web root!"
 
 REPORT_DIR = os.path.join(PROJECT_ROOT, "report")
 if os.path.exists(REPORT_DIR):
@@ -508,50 +514,56 @@ async def predict_disease(
     Performs Live Internet Cross-Verification & Comparison against ICAR/FAO databases.
     Automatically saves record to SQLite database and syncs to Supabase.
     """
-    tmp_path = None
     try:
-        suffix = os.path.splitext(file.filename)[1] or ".jpg"
-        with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
-            shutil.copyfileobj(file.file, tmp)
-            tmp_path = tmp.name
+        with secure_isolated_upload(file) as (tmp_path, clean_filename):
+            weather_dict = None
+            if current_weather:
+                try:
+                    weather_dict = json.loads(current_weather) if isinstance(current_weather, str) else current_weather
+                except Exception:
+                    pass
 
-        weather_dict = None
-        if current_weather:
-            try:
-                weather_dict = json.loads(current_weather) if isinstance(current_weather, str) else current_weather
-            except Exception:
-                pass
+            result = predict(tmp_path, target_crop=target_crop, current_weather=weather_dict)
 
-        result = predict(tmp_path, target_crop=target_crop, current_weather=weather_dict)
+            # Save to SQLite database
+            rec_id = save_diagnosis_record(
+                crop=result["crop"],
+                disease=result["display_name"],
+                class_label=result["class_label"],
+                confidence=result["confidence"],
+                is_disease=result["is_disease"],
+                precautions=result["precautions"],
+                treatment=result["chemical_treatment"] or result["organic_treatment"],
+                user_id=user_id,
+                image_name=clean_filename
+            )
+            result["record_id"] = rec_id
 
-        # Save to SQLite database
-        rec_id = save_diagnosis_record(
-            crop=result["crop"],
-            disease=result["display_name"],
-            class_label=result["class_label"],
-            confidence=result["confidence"],
-            is_disease=result["is_disease"],
-            precautions=result["precautions"],
-            treatment=result["chemical_treatment"] or result["organic_treatment"],
-            user_id=user_id,
-            image_name=file.filename
+            # Sync to Supabase if configured
+            sync_diagnosis_to_supabase({
+                "user_id": user_id,
+                "crop": result["crop"],
+                "disease": result["display_name"],
+                "class_label": result["class_label"],
+                "confidence": result["confidence"],
+                "is_disease": result["is_disease"],
+                "symptoms": result["symptoms"],
+                "treatment": result["chemical_treatment"],
+                "image_url": clean_filename
+            })
+
+            return result
+
+    except FileValidationError as e:
+        logger.warning("File upload security validation failed: %s (status=%d)", e.message, e.status_code)
+        raise HTTPException(
+            status_code=e.status_code,
+            detail={
+                "error": "FILE_VALIDATION_ERROR",
+                "message": e.message,
+                "user_guidance": "Please upload a genuine JPG, PNG, WEBP, or BMP plant leaf image under 10 MB."
+            }
         )
-        result["record_id"] = rec_id
-
-        # Sync to Supabase if configured
-        sync_diagnosis_to_supabase({
-            "user_id": user_id,
-            "crop": result["crop"],
-            "disease": result["display_name"],
-            "class_label": result["class_label"],
-            "confidence": result["confidence"],
-            "is_disease": result["is_disease"],
-            "symptoms": result["symptoms"],
-            "treatment": result["chemical_treatment"],
-            "image_url": file.filename
-        })
-
-        return result
     except InvalidPlantImageError as e:
         logger.info("Non-plant image rejected: %s", e)
         raise HTTPException(
@@ -562,18 +574,14 @@ async def predict_disease(
                 "user_guidance": "Please upload a clear, focused photo of an agricultural crop, leaf, or plant part."
             }
         )
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error("Inference pipeline error for file '%s': %s", file.filename, e, exc_info=True)
+        logger.error("Inference pipeline error for file '%s': %s", getattr(file, 'filename', 'unknown'), e, exc_info=True)
         raise HTTPException(
             status_code=500,
             detail="Unable to process the leaf image due to an internal processing error. Please ensure the image is a valid JPG/PNG format and try again."
         )
-    finally:
-        if tmp_path and os.path.exists(tmp_path):
-            try:
-                os.remove(tmp_path)
-            except Exception:
-                pass
 
 
 @app.get("/api/samples")
