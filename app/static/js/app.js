@@ -4148,3 +4148,21 @@ function playDiseaseAlertChime() {
     console.log('Audio chime not supported:', e);
   }
 }
+
+// --- Global Client-Side Error & Promise Rejection Sanitizer ---
+window.addEventListener('unhandledrejection', function (event) {
+  console.error('[AgriSmart Client Monitor] Unhandled Promise Rejection:', event.reason);
+  try {
+    const reasonMsg = (event.reason && (event.reason.message || event.reason.toString())) || '';
+    if (/(\\|\/home|\/Users|[A-Za-z]:\\|Traceback|sqlite|OperationalError|syntax\s*error)/i.test(reasonMsg)) {
+      if (typeof showToast === 'function') {
+        showToast('An unexpected client error occurred. Please refresh and try again.', 'error');
+      }
+    }
+  } catch (_) {}
+});
+
+window.addEventListener('error', function (event) {
+  console.error('[AgriSmart Client Monitor] Uncaught Window Error:', event.error || event.message);
+});
+

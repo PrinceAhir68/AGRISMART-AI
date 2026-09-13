@@ -11,7 +11,10 @@ import json
 import re
 import datetime
 import threading
+import logging
 from typing import Dict, Any, List, Optional
+
+logger = logging.getLogger("agrismart.iot")
 
 try:
     import serial
@@ -143,7 +146,8 @@ class RealIoTHardwareGateway:
             }
         except Exception as e:
             self.disconnect()
-            return {"status": "error", "message": f"Failed to connect to {port}: {str(e)}"}
+            logger.error("Failed to connect to USB serial port %s: %s", port, e, exc_info=True)
+            return {"status": "error", "message": f"Failed to connect to port {port}. Please verify the device is plugged in and not in use by another program."}
 
     def _serial_reader_worker(self):
         """Worker thread continuously reading lines from physical USB serial port."""
@@ -159,7 +163,8 @@ class RealIoTHardwareGateway:
                 else:
                     break
             except Exception as e:
-                self._log_terminal(f"Serial Read Error: {str(e)}")
+                logger.error("Serial read worker error: %s", e, exc_info=True)
+                self._log_terminal("Serial communication stream interrupted.")
                 time.sleep(0.5)
                 break
 
@@ -198,9 +203,11 @@ class RealIoTHardwareGateway:
                 self._log_terminal(f"Connected to Wi-Fi station at {target_url}")
                 return {"status": "connected", "connection_type": "WIFI", "endpoint": target_url}
             else:
-                return {"status": "error", "message": f"Device returned HTTP {resp.status_code}"}
+                logger.warning("Wi-Fi station at %s returned HTTP %s", target_url, resp.status_code)
+                return {"status": "error", "message": f"Sensor station responded with status code {resp.status_code}."}
         except Exception as e:
-            return {"status": "error", "message": f"Could not reach Wi-Fi station: {str(e)}"}
+            logger.error("Wi-Fi station connection error to %s: %s", target_url, e, exc_info=True)
+            return {"status": "error", "message": "Unable to establish connection with Wi-Fi sensor station. Please verify the station IP and network."}
 
     def _wifi_poller_worker(self, target_url: str, interval: float):
         """Worker thread periodically polling Wi-Fi sensor endpoint."""
@@ -211,7 +218,8 @@ class RealIoTHardwareGateway:
                 if resp.status_code == 200:
                     self._parse_and_ingest_raw_string(resp.text, "WIFI")
             except Exception as e:
-                self._log_terminal(f"Wi-Fi Poll Error: {str(e)}")
+                logger.warning("Wi-Fi telemetry polling error: %s", e)
+                self._log_terminal("Wi-Fi sensor stream interrupted. Retrying...")
             time.sleep(interval)
 
     # -----------------------------------------------------------------

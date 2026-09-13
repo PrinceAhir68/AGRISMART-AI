@@ -76,11 +76,21 @@ from app.modules.web_verifier import verify_disease_with_web, verify_and_answer_
 from app.modules.iot_simulator import get_current_iot_telemetry, trigger_iot_scenario
 from app.modules.iot_manager import iot_manager
 
+import sqlite3
+import logging
+import re
+
+logger = logging.getLogger("agrismart.api")
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] [%(name)s] %(message)s"
+)
+
 from app.modules.agentic_advisor import run_agent_loop
 from app.database import (
     register_user, authenticate_user, save_diagnosis_record, get_diagnosis_history,
     save_crop_recommendation, save_feedback, get_feedback_summary,
-    update_user_profile, change_user_password, export_user_data
+    update_user_profile, change_user_password, reset_user_password, export_user_data
 )
 from app.supabase_client import (
     get_supabase_status, sync_user_to_supabase, sync_diagnosis_to_supabase
@@ -99,6 +109,82 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+# -------------------------------------------------------------
+# GLOBAL EXCEPTION HANDLERS (Information Leakage Prevention)
+# -------------------------------------------------------------
+@app.exception_handler(Exception)
+async def global_unhandled_exception_handler(request: Request, exc: Exception):
+    """
+    Catches any unhandled Python exception.
+    Logs the full traceback server-side for developer diagnosis,
+    while returning a clean, generic JSON error without leaking stack traces or internal paths.
+    """
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    logger.error(
+        "Unhandled exception on %s %s from IP %s: %s",
+        request.method, request.url.path, client_ip, exc,
+        exc_info=True
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "internal_server_error",
+            "message": "An unexpected error occurred while processing your request. Please try again later.",
+            "status_code": 500
+        }
+    )
+
+
+@app.exception_handler(sqlite3.Error)
+async def global_database_exception_handler(request: Request, exc: sqlite3.Error):
+    """
+    Catches raw SQLite database errors.
+    Logs the raw SQL error and query details server-side,
+    while returning a clean, generic error to prevent database schema disclosure.
+    """
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    logger.error(
+        "Database exception on %s %s from IP %s: %s",
+        request.method, request.url.path, client_ip, exc,
+        exc_info=True
+    )
+    return JSONResponse(
+        status_code=500,
+        content={
+            "error": "database_error",
+            "message": "A database operation could not be completed. Please try again later.",
+            "status_code": 500
+        }
+    )
+
+
+@app.exception_handler(HTTPException)
+async def global_http_exception_handler(request: Request, exc: HTTPException):
+    """
+    Sanitizes HTTPExceptions so no internal filesystem paths or stack traces leak to users.
+    """
+    detail = exc.detail
+    if isinstance(detail, str):
+        has_path = bool(re.search(r'[A-Za-z]:\\[^"\'\n]+', detail) or re.search(r'/(?:Users|home|app|tmp|var)/[^\s"\'<>]+', detail))
+        has_trace = "Traceback (most recent call last)" in detail or 'File "' in detail
+        if has_path or has_trace:
+            logger.warning("Sanitized sensitive path or traceback from HTTPException detail: %s", detail)
+            detail = "An internal processing error occurred. Details have been logged for administrative review."
+
+    content = {
+        "error": "http_error",
+        "detail": detail,
+        "status_code": exc.status_code
+    }
+    if isinstance(detail, dict):
+        content.update(detail)
+    return JSONResponse(
+        status_code=exc.status_code,
+        content=content,
+        headers=exc.headers
+    )
 
 
 # -------------------------------------------------------------
@@ -283,24 +369,14 @@ def api_reset_password(req: ResetPasswordRequest, request: Request):
         limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
         raise HTTPException(status_code=400, detail="Password must be at least 4 characters.")
         
-    from app.database import get_db_connection, hash_password
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("SELECT id FROM users WHERE email_or_phone = ?", (req.email_or_phone.strip().lower(),))
-    user_row = cursor.fetchone()
-    if not user_row:
-        conn.close()
+    res = reset_user_password(email_or_phone=req.email_or_phone, new_password=req.new_password)
+    if not res.get("success"):
         limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
-        raise HTTPException(status_code=404, detail="User account not found.")
+        status_code = res.get("status_code", 400)
+        raise HTTPException(status_code=status_code, detail=res.get("error", "Failed to reset password"))
         
-    user_id = user_row["id"]
-    pwd_hash, salt = hash_password(req.new_password)
-    cursor.execute("UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?", (pwd_hash, salt, user_id))
-    conn.commit()
-    conn.close()
-    
     limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=True)
-    return {"success": True, "message": "Password reset successfully. You may now log in with your new password."}
+    return res
 
 
 @app.get("/api/history")
@@ -477,66 +553,27 @@ async def predict_disease(
 
         return result
     except InvalidPlantImageError as e:
+        logger.info("Non-plant image rejected: %s", e)
         raise HTTPException(
             status_code=400,
             detail={
                 "error": "NOT_A_PLANT_IMAGE",
-                "message": str(e),
-                "user_guidance": "The uploaded photo is not recognized as a plant leaf, crop, tree, fruit, or vegetable. Please upload a clear photo of an agricultural crop, leaf, or plant part."
+                "message": "The uploaded photo is not recognized as an agricultural plant leaf or crop.",
+                "user_guidance": "Please upload a clear, focused photo of an agricultural crop, leaf, or plant part."
             }
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Inference error: {str(e)}")
+        logger.error("Inference pipeline error for file '%s': %s", file.filename, e, exc_info=True)
+        raise HTTPException(
+            status_code=500,
+            detail="Unable to process the leaf image due to an internal processing error. Please ensure the image is a valid JPG/PNG format and try again."
+        )
     finally:
         if tmp_path and os.path.exists(tmp_path):
             try:
                 os.remove(tmp_path)
             except Exception:
                 pass
-
-
-# -------------------------------------------------------------
-# MULTILINGUAL TTS AUDIO PROXY (Hindi, Gujarati, Marathi, English)
-# -------------------------------------------------------------
-_TTS_CACHE: Dict[str, bytes] = {}
-
-@app.get("/api/tts")
-async def api_text_to_speech(text: str = Query(...), lang: str = Query("en")):
-    """
-    Multilingual audio streaming proxy for Indian languages (Hindi, Gujarati, Marathi)
-    and English, solving lack of local Indian voice packs on Windows OS.
-    """
-    clean_text = text.strip()[:250]
-    if not clean_text:
-        raise HTTPException(status_code=400, detail="Text parameter cannot be empty.")
-
-    cache_key = f"{lang}:{clean_text}"
-    if cache_key in _TTS_CACHE:
-        return Response(content=_TTS_CACHE[cache_key], media_type="audio/mpeg")
-
-    url = "https://translate.google.com/translate_tts"
-    params = {
-        "ie": "UTF-8",
-        "tl": lang,
-        "client": "tw-ob",
-        "q": clean_text
-    }
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    }
-
-    try:
-        async with httpx.AsyncClient(timeout=6.0) as client:
-            resp = await client.get(url, params=params, headers=headers)
-            if resp.status_code == 200 and len(resp.content) > 100:
-                if len(_TTS_CACHE) > 300:
-                    _TTS_CACHE.clear()
-                _TTS_CACHE[cache_key] = resp.content
-                return Response(content=resp.content, media_type="audio/mpeg")
-    except Exception as e:
-        print(f"TTS Streaming warning: {e}")
-
-    raise HTTPException(status_code=502, detail="Audio voice generation temporarily unavailable.")
 
 
 @app.get("/api/samples")
@@ -556,8 +593,10 @@ def list_sample_images():
 
 @app.get("/samples/{filename}")
 def serve_sample_image(filename: str):
-    sample_file = os.path.join(PROJECT_ROOT, "model", "test_samples", filename)
-    if os.path.exists(sample_file):
+    safe_filename = os.path.basename(filename)
+    sample_dir = os.path.abspath(os.path.join(PROJECT_ROOT, "model", "test_samples"))
+    sample_file = os.path.abspath(os.path.join(sample_dir, safe_filename))
+    if sample_file.startswith(sample_dir) and os.path.isfile(sample_file):
         return FileResponse(sample_file)
     raise HTTPException(status_code=404, detail="Sample image not found")
 
@@ -868,7 +907,11 @@ def api_tts(text: str = Query(..., max_length=1000), lang: str = Query("en")):
         fp.seek(0)
         return Response(content=fp.getvalue(), media_type="audio/mpeg")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"TTS generation failed: {str(e)}")
+        logger.error("TTS generation error for lang '%s': %s", lang_code, e, exc_info=True)
+        raise HTTPException(
+            status_code=503,
+            detail="Speech synthesis service is temporarily unavailable. Please try again shortly."
+        )
 
 
 class ScenarioRequest(BaseModel):
