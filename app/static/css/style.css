@@ -156,6 +156,7 @@ body, .navbar, .card, .tab-btn, .form-control, .modal-card, .footer {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
+  margin-left: auto;
 }
 
 .badge {
@@ -206,6 +207,35 @@ body, .navbar, .card, .tab-btn, .form-control, .modal-card, .footer {
 }
 
 .btn-auth:hover { background: var(--primary-dark); }
+
+.btn-settings-header {
+  background: var(--primary-deep);
+  color: #ffffff;
+  border: 1.5px solid var(--primary-mint);
+  padding: 7px 16px;
+  border-radius: 9999px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(4, 120, 87, 0.25);
+  margin-left: 4px;
+}
+
+.btn-settings-header:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(4, 120, 87, 0.35);
+}
+
+.btn-settings-header.active {
+  background: var(--primary);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px var(--primary-mint), 0 4px 12px rgba(16, 185, 129, 0.4);
+}
 
 .btn-speaker {
   background: #fdf4ff;
@@ -1847,6 +1877,22 @@ body.dark-mode .badge, [data-theme="dark"] .badge {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+body.dark-mode .btn-settings-header, [data-theme="dark"] .btn-settings-header {
+  background: #1e293b;
+  border-color: #34d399;
+  color: #f8fafc;
+}
+
+body.dark-mode .btn-settings-header:hover, [data-theme="dark"] .btn-settings-header:hover {
+  background: #2b3d56;
+}
+
+body.dark-mode .btn-settings-header.active, [data-theme="dark"] .btn-settings-header.active {
+  background: #059669;
+  border-color: #34d399;
+  box-shadow: 0 0 0 2px #34d399, 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
 /* --- 2. SUNLIGHT FIELD MODE (High-Contrast) --- */
 body.high-contrast, [data-theme="high-contrast"] {
   --bg: #ffffff;
@@ -1908,6 +1954,18 @@ body.high-contrast .btn, [data-theme="high-contrast"] .btn {
 }
 
 body.high-contrast .modal-card, [data-theme="high-contrast"] .modal-card {
+  border: 2px solid #000000;
+}
+
+body.high-contrast .btn-settings-header, [data-theme="high-contrast"] .btn-settings-header {
+  background: #ffffff;
+  color: #000000;
+  border: 2px solid #000000;
+}
+
+body.high-contrast .btn-settings-header.active, [data-theme="high-contrast"] .btn-settings-header.active {
+  background: #000000;
+  color: #ffffff;
   border: 2px solid #000000;
 }
 
@@ -1991,6 +2049,18 @@ body.harvest-mode .badge-success, [data-theme="harvest"] .badge-success {
   background: #fef3c7;
   color: #92400e;
   border: 1px solid #fde68a;
+}
+
+body.harvest-mode .btn-settings-header, [data-theme="harvest"] .btn-settings-header {
+  background: #b45309;
+  border-color: #fde68a;
+  color: #ffffff;
+}
+
+body.harvest-mode .btn-settings-header.active, [data-theme="harvest"] .btn-settings-header.active {
+  background: #d97706;
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px #fde68a, 0 4px 12px rgba(217, 119, 6, 0.4);
 }
 
 /* --- Chat Assistant Styling Across All Themes --- */

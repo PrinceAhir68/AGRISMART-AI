@@ -74,6 +74,7 @@ const TRANSLATIONS = {
     "loc_gps_mode": "GPS Auto",
     "loc_manual_mode": "State & District",
     "nav_login": "Login / Register",
+    "nav_settings": "Settings & Profile",
     "tab_disease": "🌿 Plant Pathology Lab",
     "tab_crop": "🌾 Smart Crop Planner",
     "tab_irrigation": "💧 Precision Irrigation & Weather",
@@ -360,6 +361,7 @@ const TRANSLATIONS = {
     "loc_gps_mode": "जीपीएस स्वतः",
     "loc_manual_mode": "राज्य व जिला",
     "nav_login": "लॉग इन / पंजीकरण",
+    "nav_settings": "सेटिंग्स एवं प्रोफ़ाइल",
     "tab_disease": "🌿 पादप रोग निदान प्रयोगशाला",
     "tab_crop": "🌾 स्मार्ट फसल योजनाकार",
     "tab_irrigation": "💧 सटीक सिंचाई एवं मौसम",
@@ -646,6 +648,7 @@ const TRANSLATIONS = {
     "loc_gps_mode": "જીપીએસ આપમેળે",
     "loc_manual_mode": "રાજ્ય અને જિલ્લો",
     "nav_login": "લૉગ ઇન / રજીસ્ટર",
+    "nav_settings": "સેટિંગ્સ અને પ્રોફાઇલ",
     "tab_disease": "🌿 પાક રોગ નિદાન પ્રયોગશાળા",
     "tab_crop": "🌾 સ્માર્ટ પાક આયોજક",
     "tab_irrigation": "💧 ચોક્કસ સિંચાઈ અને હવામાન",
@@ -932,6 +935,7 @@ const TRANSLATIONS = {
     "loc_gps_mode": "जीपीएस आपोआप",
     "loc_manual_mode": "राज्य व जिल्हा",
     "nav_login": "लॉग इन / नोंदणी",
+    "nav_settings": "सेटिंग्ज आणि प्रोफाइल",
     "tab_disease": "🌿 वनस्पती रोग निदान प्रयोगशाळा",
     "tab_crop": "🌾 स्मार्ट पीक नियोजक",
     "tab_irrigation": "💧 अचूक सिंचन व हवामान",
@@ -1396,8 +1400,15 @@ function switchTab(tabId) {
   const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
   if (activeBtn) activeBtn.classList.add('active');
 
+  // Synchronize single header settings button
+  const headerSettingsBtn = document.getElementById('btn-settings-header');
+  if (headerSettingsBtn) {
+    headerSettingsBtn.classList.toggle('active', tabId === 'tab-settings');
+  }
+
   if (tabId === 'tab-settings') {
     populateSettingsForm();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   if (tabId === 'tab-iot') {

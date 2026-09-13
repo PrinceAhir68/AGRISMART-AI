@@ -114,8 +114,9 @@
       <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
         <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
       </button>
-      <button class="btn btn-auth" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings" style="background:#047857;">
-        <span>⚙️</span> <span data-i18n="nav_settings">सेटिंग्स</span>
+      <!-- Single Dedicated Settings & Profile Button on the Far Right Side -->
+      <button class="btn btn-settings-header" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings">
+        <span>⚙️</span> <span data-i18n="nav_settings">Settings & Profile</span>
       </button>
     </div>
   </header>
@@ -132,7 +133,6 @@
       <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 Edge IoT & Smart Actuation</button>
       <!-- Benchmark & Field Validation hidden from farmer UI per user request -->
       <button class="tab-btn" onclick="switchTab('tab-report')" data-i18n="tab_report" style="display:none !important;" aria-hidden="true">📊 Benchmark & Field Validation</button>
-      <button class="tab-btn" onclick="switchTab('tab-settings')" data-i18n="tab_settings">⚙️ Settings & Profile</button>
     </nav>
 
     <!-- ======================================================== -->
