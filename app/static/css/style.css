@@ -1781,4 +1781,61 @@ body.high-contrast .tab-btn.active {
   color: #ffffff !important;
 }
 
+/* Chat Typing Indicator & Enhancements */
+.chat-typing-bubble {
+  font-style: italic;
+  background: #f0fdf4 !important;
+  border: 1px dashed #86efac !important;
+  animation: pulseOpacity 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseOpacity {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+.chat-typing-dot {
+  display: inline-block;
+  animation: spinLeaf 2s infinite ease-in-out;
+}
+
+@keyframes spinLeaf {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+  100% { transform: rotate(0deg); }
+}
+
+body.dark-mode .chat-window {
+  background: #0b1120;
+  border-color: #334155;
+}
+
+body.dark-mode .chat-msg.bot {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #334155;
+}
+
+body.dark-mode .chat-typing-bubble {
+  background: #064e3b !important;
+  border-color: #059669 !important;
+  color: #a7f3d0 !important;
+}
+
+body.dark-mode .chat-input-bar input {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+body.dark-mode .chat-consensus-bar {
+  background: #064e3b !important;
+  border-color: #059669 !important;
+}
+
+body.dark-mode .chat-consensus-bar span {
+  color: #a7f3d0 !important;
+}
+
 

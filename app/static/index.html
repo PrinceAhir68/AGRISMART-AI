@@ -675,7 +675,12 @@
       <div class="card" style="max-width:900px; margin:0 auto;">
         <div class="card-header">
           <h3 data-i18n="assistant_title">💬 Grounded Agronomy AI Advisor</h3>
-          <span class="tag tag-bonus" data-i18n="tag_bonus_e">ICAR Grounded Advisory</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="clearChatMessages()" style="padding:4px 10px; font-size:0.78rem;" title="Reset chat history">
+              🧹 <span data-i18n="btn_clear_chat">Clear Chat</span>
+            </button>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_e">ICAR Grounded Advisory</span>
+          </div>
         </div>
         <p class="card-desc" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
 
@@ -685,6 +690,7 @@
           <button class="chip" onclick="askQuick('When should I delay irrigation?')">Irrigation Timing</button>
           <button class="chip" onclick="askQuick('What is the organic treatment for rust?')">Corn Rust</button>
           <button class="chip" onclick="askQuick('How can I reduce chemical fertilizer usage?')">Fertilizer Dosing</button>
+          <button class="chip" onclick="askQuick('Help: What can you do?')">💡 Help & Guide</button>
         </div>
 
         <div class="chat-window" id="chat-window">
@@ -695,8 +701,8 @@
         </div>
 
         <div class="chat-input-bar">
-          <input type="text" id="chat-input" placeholder="Type your farming question (in English, Hindi, or Gujarati)..." onkeypress="if(event.key==='Enter') sendChatMessage()">
-          <button class="btn btn-primary" onclick="sendChatMessage()" data-i18n="btn_send">Send</button>
+          <input type="text" id="chat-input" placeholder="Type your farming question (in English, Hindi, or Gujarati)..." onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendChatMessage(); }">
+          <button class="btn btn-primary" id="btn-chat-send" onclick="sendChatMessage()" data-i18n="btn_send">Send</button>
         </div>
       </div>
     </section>

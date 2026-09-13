@@ -14,6 +14,17 @@
  *  - Edge IoT Gateway & Autonomous Closed-Loop Decision Actuator
  */
 
+// Global Utilities & HTML Sanitization
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 // Global App State
 let currentSelectedImageFile = null;
 
@@ -177,6 +188,7 @@ const TRANSLATIONS = {
     "quick_prompts_title": "Quick Prompts:",
     "chat_welcome": "Namaste! I am your AI Agronomy Advisor. Ask me anything about crop diseases, pest remedies, irrigation timing, or fertilizer schedules. I provide verified ICAR-backed recommendations with voice support.",
     "btn_send": "Send",
+    "btn_clear_chat": "Clear Chat",
     "iot_title": "📡 IoT Edge Sensor Gateway (ESP32 Stream)",
     "tag_bonus_f": "Edge IoT Gateway",
     "gauge_moist": "Soil Moisture",
@@ -452,6 +464,7 @@ const TRANSLATIONS = {
     "quick_prompts_title": "त्वरित प्रश्न:",
     "chat_welcome": "नमस्ते! मैं आपका एआई कृषि सलाहकार हूं। फसल रोग, कीट नियंत्रण, सिंचाई समय या खाद संबंधी प्रश्न पूछें।",
     "btn_send": "भेजें",
+    "btn_clear_chat": "चैट साफ़ करें",
     "iot_title": "📡 IoT सेंसर गेटवे (ESP32 लाइव स्ट्रीम)",
     "tag_bonus_f": "एज IoT गेटवे",
     "gauge_moist": "मिट्टी नमी",
@@ -727,6 +740,7 @@ const TRANSLATIONS = {
     "quick_prompts_title": "ઝડપી પ્રશ્નો:",
     "chat_welcome": "નમસ્તે! હું તમારો એઆઈ કૃષિ સલાહકાર છું. પાક રોગ, સિંચાઈ અથવા ખાતર વિશે કોઈ પણ પ્રશ્ન પૂછો.",
     "btn_send": "મોકલો",
+    "btn_clear_chat": "ચેટ સાફ કરો",
     "iot_title": "📡 IoT સેન્સર ગેટવે (ESP32 લાઈવ સ્ટ્રીમ)",
     "tag_bonus_f": "એજ IoT ગેટવે",
     "gauge_moist": "જમીન ભેજ",
@@ -1002,6 +1016,7 @@ const TRANSLATIONS = {
     "quick_prompts_title": "त्वरित प्रश्न:",
     "chat_welcome": "नमस्कार! मी आपला AI शेती सल्लागार आहे. पीक रोग, सिंचन किंवा खतांबद्दल कोणताही प्रश्न विचारा.",
     "btn_send": "पाठवा",
+    "btn_clear_chat": "चॅट साफ करा",
     "iot_title": "📡 IoT सेन्सर गेटवे (ESP32 थेट प्रवाह)",
     "tag_bonus_f": "एज IoT गेटवे",
     "gauge_moist": "मातीतील ओलावा",
@@ -2897,23 +2912,63 @@ function renderSustainabilityScore(data) {
 // 14. GROUNDED AGRONOMY AI ADVISOR (CHAT)
 // =================================================================
 function askQuick(q) {
-  document.getElementById('chat-input').value = q;
-  sendChatMessage();
+  const input = document.getElementById('chat-input');
+  if (input) {
+    input.value = q;
+    sendChatMessage();
+  }
+}
+
+function clearChatMessages() {
+  const windowEl = document.getElementById('chat-window');
+  if (!windowEl) return;
+  const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS['en'];
+  windowEl.innerHTML = `
+    <div class="chat-msg bot">
+      <strong>🌱 AgriSmart Assistant:</strong>
+      <p data-i18n="chat_welcome">${dict.chat_welcome || 'Namaste! I am your AI Agronomy Advisor. Ask me anything about crop diseases, pest remedies, irrigation timing, or fertilizer schedules. I provide verified ICAR-backed recommendations with voice support.'}</p>
+    </div>
+  `;
+  showToast('🧹 Chat history cleared!', 'info');
 }
 
 async function sendChatMessage() {
   const input = document.getElementById('chat-input');
+  const sendBtn = document.getElementById('btn-chat-send');
+  if (!input) return;
+
   const text = input.value.trim();
   if (!text) return;
-  input.value = '';
 
   const windowEl = document.getElementById('chat-window');
+  if (!windowEl) return;
 
-  // User msg
+  // Clear input and disable controls while processing
+  input.value = '';
+  input.disabled = true;
+  if (sendBtn) {
+    sendBtn.disabled = true;
+    sendBtn.dataset.origText = sendBtn.innerHTML;
+    sendBtn.innerHTML = '<span>⏳</span> <span>...</span>';
+  }
+
+  // Append user message
   const userDiv = document.createElement('div');
   userDiv.className = 'chat-msg user';
   userDiv.innerText = text;
   windowEl.appendChild(userDiv);
+  windowEl.scrollTop = windowEl.scrollHeight;
+
+  // Append typing indicator bubble
+  const typingDiv = document.createElement('div');
+  typingDiv.className = 'chat-msg bot chat-typing-bubble';
+  typingDiv.innerHTML = `
+    <div style="display:flex; align-items:center; gap:8px; font-size:0.85rem; color:#047857;">
+      <span class="chat-typing-dot">🌱</span>
+      <em>AgriSmart AI is searching 10,800+ ICAR guidelines & verifying online...</em>
+    </div>
+  `;
+  windowEl.appendChild(typingDiv);
   windowEl.scrollTop = windowEl.scrollHeight;
 
   try {
@@ -2922,11 +2977,21 @@ async function sendChatMessage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: text, language: currentLanguage })
     });
+
+    if (!res.ok) {
+      throw new Error(`Server returned HTTP ${res.status}`);
+    }
+
     const data = await res.json();
+
+    // Remove typing indicator
+    if (typingDiv && typingDiv.parentNode) {
+      typingDiv.parentNode.removeChild(typingDiv);
+    }
 
     const botDiv = document.createElement('div');
     botDiv.className = 'chat-msg bot';
-    
+
     let consensusBarHtml = '';
     if (data.consensus_score_pct) {
       consensusBarHtml = `
@@ -2946,26 +3011,64 @@ async function sendChatMessage() {
     }
 
     botDiv.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <strong>🌱 ${escapeHtml(data.topic)}</strong>
-        <button class="btn-tts" type="button">🔊 Voice</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; gap:8px;">
+        <strong>🌱 ${escapeHtml(data.topic || 'AgriSmart Advisor')}</strong>
+        <button class="btn-tts" type="button" style="background:#f1f5f9; border:1px solid #cbd5e1; border-radius:6px; padding:2px 8px; font-size:0.75rem; cursor:pointer;">🔊 Voice</button>
       </div>
-      <p style="white-space: pre-line; line-height: 1.5;">${escapeHtml(data.answer)}</p>
+      <p style="white-space: pre-line; line-height: 1.5; margin:4px 0;">${escapeHtml(data.answer || '')}</p>
       ${consensusBarHtml}
       <div style="font-size:0.75rem; color:#64748b; margin-top:6px; border-top:1px dashed #cbd5e1; padding-top:4px;">
-        <em>Verified Source: ${escapeHtml(data.grounded_source)}</em>
+        <em>Verified Source: ${escapeHtml(data.grounded_source || 'ICAR Agricultural Research Guidelines')}</em>
       </div>
     `;
+
     const ttsBtn = botDiv.querySelector('.btn-tts');
     if (ttsBtn) {
       ttsBtn.addEventListener('click', () => {
-        speakRaw(data.answer, currentLanguage);
+        if (ttsBtn.classList.contains('speaking')) {
+          stopAudio();
+          ttsBtn.classList.remove('speaking');
+          ttsBtn.innerText = '🔊 Voice';
+        } else {
+          document.querySelectorAll('.btn-tts').forEach(b => {
+            b.classList.remove('speaking');
+            b.innerText = '🔊 Voice';
+          });
+          ttsBtn.classList.add('speaking');
+          ttsBtn.innerText = '⏹️ Stop';
+          speakRaw(data.answer, currentLanguage);
+        }
       });
     }
+
     windowEl.appendChild(botDiv);
     windowEl.scrollTop = windowEl.scrollHeight;
+
   } catch (e) {
     console.error('Chat error:', e);
+    // Remove typing indicator if still present
+    if (typingDiv && typingDiv.parentNode) {
+      typingDiv.parentNode.removeChild(typingDiv);
+    }
+    const errDiv = document.createElement('div');
+    errDiv.className = 'chat-msg bot';
+    errDiv.style.borderLeft = '3px solid #ef4444';
+    errDiv.innerHTML = `
+      <strong>⚠️ AgriSmart Advisor:</strong>
+      <p style="color:#b91c1c; margin-top:4px; font-size:0.88rem;">
+        Could not connect to the advisory engine (${escapeHtml(e.message || 'Network Error')}). Please verify the AgriSmart AI server is running and try again.
+      </p>
+    `;
+    windowEl.appendChild(errDiv);
+    windowEl.scrollTop = windowEl.scrollHeight;
+  } finally {
+    // Re-enable input and button
+    input.disabled = false;
+    if (sendBtn) {
+      sendBtn.disabled = false;
+      sendBtn.innerHTML = sendBtn.dataset.origText || 'Send';
+    }
+    input.focus();
   }
 }
 
