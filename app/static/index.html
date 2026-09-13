@@ -101,6 +101,14 @@
     </div>
 
     <div class="nav-badges">
+      <!-- Quick Theme Switcher Pill -->
+      <div class="theme-pill-selector" title="Switch Theme (Farm Green, Dark, Sunlight, Harvest)">
+        <button type="button" class="theme-pill-btn active" data-theme-val="standard" onclick="applyTheme('standard', true)" title="Farm Green (Standard)">🌿</button>
+        <button type="button" class="theme-pill-btn" data-theme-val="dark" onclick="applyTheme('dark', true)" title="Night Mode (Dark)">🌙</button>
+        <button type="button" class="theme-pill-btn" data-theme-val="high-contrast" onclick="applyTheme('high-contrast', true)" title="Sunlight Mode (High Contrast)">☀️</button>
+        <button type="button" class="theme-pill-btn" data-theme-val="harvest" onclick="applyTheme('harvest', true)" title="Golden Harvest (Amber)">🌾</button>
+      </div>
+
       <span class="badge badge-success" id="live-weather-badge">☁ Weather Sync</span>
       <!-- User Account Action Button (Auto-Remembered / No Mandatory Login) -->
       <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
@@ -1138,26 +1146,33 @@
 
             <div class="form-group" style="margin-top:14px;">
               <label style="font-weight:700; margin-bottom:8px; display:block;" data-i18n="set_label_theme">Visual Display Mode</label>
-              <div class="theme-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
-                <label class="theme-option-card" style="border:2px solid #059669; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#f0fdf4;">
-                  <input type="radio" name="display-theme" value="standard" checked onchange="applyTheme(this.value)" style="margin-bottom:6px;">
+              <div class="theme-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
+                <label class="theme-option-card" id="card-theme-standard" style="border:2px solid #059669; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#f0fdf4;">
+                  <input type="radio" name="display-theme" value="standard" checked onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
                   <span style="font-size:1.4rem;">🌿</span>
                   <strong style="font-size:0.85rem; color:#065f46;" data-i18n="theme_standard">Farm Green</strong>
                   <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_standard_sub">Standard Balanced</span>
                 </label>
 
-                <label class="theme-option-card" style="border:2px solid #e2e8f0; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#ffffff;">
-                  <input type="radio" name="display-theme" value="high-contrast" onchange="applyTheme(this.value)" style="margin-bottom:6px;">
+                <label class="theme-option-card" id="card-theme-dark" style="border:2px solid #374151; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#1e293b; color:white;">
+                  <input type="radio" name="display-theme" value="dark" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌙</span>
+                  <strong style="font-size:0.85rem; color:#f8fafc;" data-i18n="theme_night">Night Mode</strong>
+                  <span style="font-size:0.75rem; color:#94a3b8;" data-i18n="theme_night_sub">Dark Low-Glare</span>
+                </label>
+
+                <label class="theme-option-card" id="card-theme-high-contrast" style="border:2px solid #000000; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#ffffff;">
+                  <input type="radio" name="display-theme" value="high-contrast" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
                   <span style="font-size:1.4rem;">☀️</span>
                   <strong style="font-size:0.85rem; color:#0f172a;" data-i18n="theme_sunlight">Sunlight Mode</strong>
                   <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_sunlight_sub">High Contrast Field</span>
                 </label>
 
-                <label class="theme-option-card" style="border:2px solid #e2e8f0; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#1e293b; color:white;">
-                  <input type="radio" name="display-theme" value="dark" onchange="applyTheme(this.value)" style="margin-bottom:6px;">
-                  <span style="font-size:1.4rem;">🌙</span>
-                  <strong style="font-size:0.85rem; color:#f8fafc;" data-i18n="theme_night">Night Mode</strong>
-                  <span style="font-size:0.75rem; color:#94a3b8;" data-i18n="theme_night_sub">Dark Low-Glare</span>
+                <label class="theme-option-card" id="card-theme-harvest" style="border:2px solid #fed7aa; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#fffbeb;">
+                  <input type="radio" name="display-theme" value="harvest" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌾</span>
+                  <strong style="font-size:0.85rem; color:#92400e;" data-i18n="theme_harvest">Golden Harvest</strong>
+                  <span style="font-size:0.75rem; color:#b45309;" data-i18n="theme_harvest_sub">Warm Amber Earth</span>
                 </label>
               </div>
             </div>

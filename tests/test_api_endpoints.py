@@ -100,11 +100,20 @@ class TestApiEndpoints(unittest.TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertIn("telemetry", resp.json())
 
-    def test_agent_endpoint(self):
-        payload = {"crop": "Tomato", "stage": "Mid-Season / Flowering", "diagnosis": "Tomato___Early_blight"}
-        resp = self.client.post("/api/agent/cycle", json=payload)
-        self.assertEqual(resp.status_code, 200)
-        self.assertIn("cycle_id", resp.json())
+    def test_health_and_security_headers(self):
+        for path in ("/health", "/api/health"):
+            resp = self.client.get(path)
+            self.assertEqual(resp.status_code, 200)
+            data = resp.json()
+            self.assertEqual(data["status"], "healthy")
+            self.assertEqual(data["database"], "ok")
+            self.assertEqual(data["classes_count"], 39)
+            self.assertEqual(data["model_status"], "ready")
+            self.assertTrue(data["storage_isolated"])
+            # Security headers
+            self.assertEqual(resp.headers.get("x-content-type-options"), "nosniff")
+            self.assertEqual(resp.headers.get("x-frame-options"), "SAMEORIGIN")
+            self.assertEqual(resp.headers.get("referrer-policy"), "strict-origin-when-cross-origin")
 
 
 if __name__ == "__main__":

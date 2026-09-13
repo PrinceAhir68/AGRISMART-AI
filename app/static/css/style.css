@@ -30,6 +30,52 @@ body {
   color: var(--text-main);
   line-height: 1.5;
   padding-bottom: 40px;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+body, .navbar, .card, .tab-btn, .form-control, .modal-card, .footer {
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Theme Switcher Pill in Navbar */
+.theme-pill-selector {
+  display: inline-flex;
+  align-items: center;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  padding: 2px 4px;
+  gap: 3px;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+}
+
+.theme-pill-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 1rem;
+  padding: 3px 6px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.65;
+}
+
+.theme-pill-btn:hover {
+  opacity: 1;
+  transform: scale(1.15);
+  background: rgba(0, 0, 0, 0.06);
+}
+
+.theme-pill-btn.active {
+  opacity: 1;
+  background: var(--surface);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+  border-color: var(--border);
+  transform: scale(1.08);
 }
 
 .navbar {
@@ -1690,43 +1736,58 @@ body.large-text .card-desc {
 }
 
 /* ======================================================== */
-/* Visual Modes: Dark Night Mode & Sunlight Field Mode     */
+/* Multi-Theme System: Dark, Sunlight, Harvest, Standard    */
 /* ======================================================== */
-body.dark-mode {
-  --bg: #090d16;
-  --surface: #111827;
-  --text-main: #f9fafb;
-  --text-muted: #9ca3af;
-  --border: #1f2937;
-  background-color: #090d16;
-  color: #f9fafb;
+
+/* --- 1. DARK NIGHT MODE --- */
+body.dark-mode, [data-theme="dark"] {
+  --bg: #090e17;
+  --surface: #111a28;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #203047;
+  --primary: #10b981;
+  --primary-dark: #059669;
+  --primary-deep: #064e3b;
+  --primary-light: #062a22;
+  --primary-mint: #34d399;
+  --accent: #fbbf24;
+  --accent-gold: #f59e0b;
+  background-color: #090e17;
+  color: #f8fafc;
 }
 
-body.dark-mode .navbar {
-  background: #111827;
-  border-bottom: 1px solid #1f2937;
+body.dark-mode .navbar, [data-theme="dark"] .navbar {
+  background: #111a28;
+  border-bottom: 1px solid #203047;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-body.dark-mode .card {
-  background: #111827;
-  border-color: #1f2937;
-  color: #f9fafb;
+body.dark-mode .card, [data-theme="dark"] .card {
+  background: #111a28;
+  border-color: #203047;
+  color: #f8fafc;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
 }
 
 body.dark-mode .form-control,
-body.dark-mode select.form-control {
-  background: #1f2937;
-  color: #f9fafb;
-  border-color: #374151;
+body.dark-mode select.form-control,
+body.dark-mode input.form-control,
+[data-theme="dark"] .form-control,
+[data-theme="dark"] select.form-control,
+[data-theme="dark"] input.form-control {
+  background: #182436;
+  color: #f8fafc;
+  border-color: #2b3d56;
 }
 
-body.dark-mode .crop-chip {
-  background: #1f2937;
-  border-color: #374151;
-  color: #e5e7eb;
+body.dark-mode .crop-chip, [data-theme="dark"] .crop-chip {
+  background: #182436;
+  border-color: #2b3d56;
+  color: #e2e8f0;
 }
 
-body.dark-mode .crop-chip.active {
+body.dark-mode .crop-chip.active, [data-theme="dark"] .crop-chip.active {
   background: #064e3b;
   border-color: #10b981;
   color: #a7f3d0;
@@ -1734,54 +1795,205 @@ body.dark-mode .crop-chip.active {
 
 body.dark-mode #settings-password-box,
 body.dark-mode div[style*="background:#f8fafc"],
-body.dark-mode div[style*="background: #f8fafc"] {
-  background: #1f2937 !important;
-  border-color: #374151 !important;
+body.dark-mode div[style*="background: #f8fafc"],
+[data-theme="dark"] #settings-password-box,
+[data-theme="dark"] div[style*="background:#f8fafc"],
+[data-theme="dark"] div[style*="background: #f8fafc"] {
+  background: #182436 !important;
+  border-color: #2b3d56 !important;
+  color: #f8fafc !important;
 }
 
-body.dark-mode .tab-btn {
-  background: #1f2937;
-  color: #9ca3af;
-  border-color: #374151;
+body.dark-mode .tab-btn, [data-theme="dark"] .tab-btn {
+  background: #182436;
+  color: #94a3b8;
+  border-color: #2b3d56;
 }
 
-body.dark-mode .tab-btn.active {
-  background: #047857;
+body.dark-mode .tab-btn:hover, [data-theme="dark"] .tab-btn:hover {
+  background: #203047;
+  color: #f8fafc;
+}
+
+body.dark-mode .tab-btn.active, [data-theme="dark"] .tab-btn.active {
+  background: #059669;
   color: #ffffff;
+  border-color: #10b981;
 }
 
-/* Sunlight High-Contrast Field Mode */
-body.high-contrast {
+body.dark-mode .modal-card, [data-theme="dark"] .modal-card {
+  background: #111a28;
+  border: 1px solid #2b3d56;
+  color: #f8fafc;
+}
+
+body.dark-mode .modal-header, [data-theme="dark"] .modal-header {
+  border-bottom: 1px solid #203047;
+}
+
+body.dark-mode .footer, [data-theme="dark"] .footer {
+  background: #060a12;
+  border-top: 1px solid #203047;
+  color: #94a3b8;
+}
+
+body.dark-mode .btn-secondary, [data-theme="dark"] .btn-secondary {
+  background: #1e293b;
+  color: #f8fafc;
+  border-color: #334155;
+}
+
+body.dark-mode .badge, [data-theme="dark"] .badge {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- 2. SUNLIGHT FIELD MODE (High-Contrast) --- */
+body.high-contrast, [data-theme="high-contrast"] {
   --bg: #ffffff;
   --surface: #ffffff;
   --text-main: #000000;
   --text-muted: #1e293b;
   --border: #000000;
+  --primary: #047857;
+  --primary-dark: #022c22;
+  --primary-light: #d1fae5;
+  background-color: #ffffff;
+  color: #000000;
 }
 
-body.high-contrast .card {
+body.high-contrast .navbar, [data-theme="high-contrast"] .navbar {
+  background: #ffffff;
+  border-bottom: 2px solid #000000;
+}
+
+body.high-contrast .card, [data-theme="high-contrast"] .card {
+  background: #ffffff;
   border: 2px solid #000000 !important;
   box-shadow: none !important;
+  color: #000000;
 }
 
-body.high-contrast .form-control {
+body.high-contrast .card h3,
+body.high-contrast .card h4,
+[data-theme="high-contrast"] .card h3,
+[data-theme="high-contrast"] .card h4 {
+  color: #000000 !important;
+  font-weight: 800;
+}
+
+body.high-contrast .form-control,
+[data-theme="high-contrast"] .form-control {
   border: 2px solid #000000 !important;
   color: #000000 !important;
   font-weight: 600;
+  background: #ffffff !important;
 }
 
-body.high-contrast .tab-btn {
+body.high-contrast .tab-btn, [data-theme="high-contrast"] .tab-btn {
   border: 2px solid #000000 !important;
   color: #000000;
   font-weight: 700;
+  background: #ffffff;
 }
 
-body.high-contrast .tab-btn.active {
+body.high-contrast .tab-btn.active, [data-theme="high-contrast"] .tab-btn.active {
   background: #000000 !important;
   color: #ffffff !important;
+  border-color: #000000 !important;
 }
 
-/* Chat Typing Indicator & Enhancements */
+body.high-contrast .btn, [data-theme="high-contrast"] .btn {
+  border: 2px solid #000000;
+  font-weight: 700;
+}
+
+body.high-contrast .modal-card, [data-theme="high-contrast"] .modal-card {
+  border: 2px solid #000000;
+}
+
+/* --- 3. GOLDEN HARVEST MODE (Amber / Earth) --- */
+body.harvest-mode, [data-theme="harvest"] {
+  --bg: #fcf9f2;
+  --surface: #ffffff;
+  --text-main: #451a03;
+  --text-muted: #78350f;
+  --border: #fed7aa;
+  --primary: #d97706;
+  --primary-dark: #b45309;
+  --primary-deep: #78350f;
+  --primary-light: #fffbeb;
+  --primary-mint: #fde68a;
+  --accent: #ea580c;
+  --accent-gold: #c2410c;
+  background-color: #fcf9f2;
+  color: #451a03;
+}
+
+body.harvest-mode .navbar, [data-theme="harvest"] .navbar {
+  background: #fffdfa;
+  border-bottom: 1.5px solid #fed7aa;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.05);
+}
+
+body.harvest-mode .card, [data-theme="harvest"] .card {
+  background: #ffffff;
+  border-color: #fed7aa;
+  color: #451a03;
+  box-shadow: 0 4px 15px rgba(217, 119, 6, 0.06);
+}
+
+body.harvest-mode .card-header h3, [data-theme="harvest"] .card-header h3 {
+  color: #78350f;
+}
+
+body.harvest-mode .form-control,
+[data-theme="harvest"] .form-control {
+  border-color: #fed7aa;
+  color: #451a03;
+  background: #fffdfa;
+}
+
+body.harvest-mode .form-control:focus,
+[data-theme="harvest"] .form-control:focus {
+  border-color: #d97706;
+  box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+}
+
+body.harvest-mode .tab-btn, [data-theme="harvest"] .tab-btn {
+  background: #fffdfa;
+  border-color: #fed7aa;
+  color: #78350f;
+}
+
+body.harvest-mode .tab-btn:hover, [data-theme="harvest"] .tab-btn:hover {
+  background: #fffbeb;
+  color: #451a03;
+}
+
+body.harvest-mode .tab-btn.active, [data-theme="harvest"] .tab-btn.active {
+  background: #d97706;
+  color: #ffffff;
+  border-color: #b45309;
+}
+
+body.harvest-mode .btn-primary, [data-theme="harvest"] .btn-primary {
+  background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+  border-color: #b45309;
+}
+
+body.harvest-mode .crop-chip.active, [data-theme="harvest"] .crop-chip.active {
+  background: #fffbeb;
+  border-color: #d97706;
+  color: #92400e;
+}
+
+body.harvest-mode .badge-success, [data-theme="harvest"] .badge-success {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+}
+
+/* --- Chat Assistant Styling Across All Themes --- */
 .chat-typing-bubble {
   font-style: italic;
   background: #f0fdf4 !important;
@@ -1806,36 +2018,56 @@ body.high-contrast .tab-btn.active {
   100% { transform: rotate(0deg); }
 }
 
-body.dark-mode .chat-window {
+body.dark-mode .chat-window, [data-theme="dark"] .chat-window {
   background: #0b1120;
   border-color: #334155;
 }
 
-body.dark-mode .chat-msg.bot {
+body.dark-mode .chat-msg.bot, [data-theme="dark"] .chat-msg.bot {
   background: #1e293b;
   color: #f1f5f9;
   border-color: #334155;
 }
 
-body.dark-mode .chat-typing-bubble {
+body.dark-mode .chat-typing-bubble, [data-theme="dark"] .chat-typing-bubble {
   background: #064e3b !important;
   border-color: #059669 !important;
   color: #a7f3d0 !important;
 }
 
-body.dark-mode .chat-input-bar input {
+body.dark-mode .chat-input-bar input, [data-theme="dark"] .chat-input-bar input {
   background: #1e293b;
   color: #f8fafc;
   border-color: #334155;
 }
 
-body.dark-mode .chat-consensus-bar {
+body.dark-mode .chat-consensus-bar, [data-theme="dark"] .chat-consensus-bar {
   background: #064e3b !important;
   border-color: #059669 !important;
 }
 
-body.dark-mode .chat-consensus-bar span {
+body.dark-mode .chat-consensus-bar span, [data-theme="dark"] .chat-consensus-bar span {
   color: #a7f3d0 !important;
+}
+
+body.harvest-mode .chat-window, [data-theme="harvest"] .chat-window {
+  background: #fffdfa;
+  border-color: #fed7aa;
+}
+
+body.harvest-mode .chat-msg.bot, [data-theme="harvest"] .chat-msg.bot {
+  background: #fffbeb;
+  color: #451a03;
+  border-color: #fed7aa;
+}
+
+body.harvest-mode .chat-consensus-bar, [data-theme="harvest"] .chat-consensus-bar {
+  background: #fffbeb !important;
+  border-color: #fde68a !important;
+}
+
+body.harvest-mode .chat-consensus-bar span, [data-theme="harvest"] .chat-consensus-bar span {
+  color: #92400e !important;
 }
 
 

@@ -65,7 +65,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.modules.rate_limiter import get_rate_limiter, extract_client_ip, RateLimitResult
 
 # Import core and bonus modules
-from model.predict import predict, InvalidPlantImageError
+from model.predict import predict, InvalidPlantImageError, CLASSES
 from app.modules.crop_recommender import recommend_crops, INDIAN_DISTRICTS
 from app.modules.smart_irrigation import calculate_smart_irrigation
 from app.modules.weather_service import get_weather_intelligence
@@ -112,6 +112,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def security_headers_middleware(request: Request, call_next):
+    """
+    Appends hardened enterprise security headers to every response to prevent
+    clickjacking, MIME-sniffing, and XSS vulnerabilities in production.
+    """
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+    return response
 
 
 # -------------------------------------------------------------
@@ -201,6 +215,8 @@ async def rate_limit_middleware(request: Request, call_next):
     # Exclude non-API paths, static files, openapi documentation
     # Exclude continuous background hardware telemetry & polling endpoints so live sensors don't lock out farmers
     exempt_paths = (
+        "/health",
+        "/api/health",
         "/api/iot/status",
         "/api/iot/telemetry",
         "/api/system/network-ip",
@@ -276,6 +292,38 @@ def serve_index():
     if os.path.exists(index_file):
         return FileResponse(index_file)
     return {"message": "AgriSmart AI API is active. UI file loading."}
+
+
+@app.get("/health")
+@app.get("/api/health")
+def api_health():
+    """
+    Production health check endpoint for container orchestrators, load balancers,
+    Docker HEALTHCHECK, Render, and cloud uptime monitors.
+    """
+    db_status = "ok"
+    try:
+        from app.database import get_db_connection
+        conn = get_db_connection()
+        cur = conn.cursor()
+        cur.execute("SELECT 1")
+        conn.close()
+    except Exception as e:
+        db_status = f"unhealthy: {type(e).__name__}"
+
+    model_ready = len(CLASSES) > 0
+    overall_status = "healthy" if (db_status == "ok" and model_ready) else "degraded"
+
+    return {
+        "status": overall_status,
+        "service": "AgriSmart AI",
+        "version": "2.0.0",
+        "database": db_status,
+        "classes_count": len(CLASSES),
+        "model_status": "ready" if model_ready else "degraded",
+        "storage_isolated": os.path.isdir(ISOLATED_UPLOAD_DIR),
+        "environment": os.environ.get("ENVIRONMENT", "production")
+    }
 
 
 # -------------------------------------------------------------

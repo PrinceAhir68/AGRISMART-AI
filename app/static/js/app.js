@@ -312,6 +312,8 @@ const TRANSLATIONS = {
     "theme_sunlight_sub": "High Contrast Field",
     "theme_night": "Night Mode",
     "theme_night_sub": "Dark Low-Glare",
+    "theme_harvest": "Golden Harvest",
+    "theme_harvest_sub": "Warm Amber Earth",
     "set_label_fontsize": "Font Readability Size",
     "font_normal": "Standard (100%)",
     "font_large": "Senior / Large (115%)",
@@ -596,6 +598,8 @@ const TRANSLATIONS = {
     "theme_sunlight_sub": "खेत में तेज धूप हेतु",
     "theme_night": "नाइट मोड (डार्क)",
     "theme_night_sub": "रात में कम चमक",
+    "theme_harvest": "सुनहरी फसल (हार्वेस्ट)",
+    "theme_harvest_sub": "गर्म अंबर व मिट्टी रंग",
     "set_label_fontsize": "अक्षर आकार (फॉन्ट साइज़)",
     "font_normal": "मानक (100%)",
     "font_large": "बड़ा आकार (115% वरिष्ठ)",
@@ -880,6 +884,8 @@ const TRANSLATIONS = {
     "theme_sunlight_sub": "ખેતરમાં તેજ તડકા માટે",
     "theme_night": "નાઇટ મોડ (ડાર્ક)",
     "theme_night_sub": "ઓછી ચમકવાળો અંધકાર મોડ",
+    "theme_harvest": "સુવર્ણ લણણી (હાર્વેસ્ટ)",
+    "theme_harvest_sub": "હૂંફાળો અંબર રંગ",
     "set_label_fontsize": "ફોન્ટ વાંચન કદ",
     "font_normal": "સામાન્ય (100%)",
     "font_large": "મોટું કદ (115% વરિષ્ઠ)",
@@ -1164,6 +1170,8 @@ const TRANSLATIONS = {
     "theme_sunlight_sub": "शेतात कडक उन्हासाठी",
     "theme_night": "नाईट मोड (डार्क)",
     "theme_night_sub": "कमी प्रकाशाचा गडद मोड",
+    "theme_harvest": "सोनेरी कापणी (हार्वेस्ट)",
+    "theme_harvest_sub": "उबदार अंबर माती रंग",
     "set_label_fontsize": "फॉन्ट आकार (वाचनीयता)",
     "font_normal": "मानक (100%)",
     "font_large": "मोठा आकार (115% ज्येष्ठ)",
@@ -3781,9 +3789,20 @@ function initSettingsTab() {
   // Load stored preferences
   try {
     const savedPref = JSON.parse(localStorage.getItem('agrismart_preferences') || '{}');
+    const directTheme = localStorage.getItem('agrismart_theme');
+    if (directTheme) savedPref.theme = directTheme;
     currentPreferences = { ...currentPreferences, ...savedPref };
   } catch (e) {
     console.error('Error loading preferences:', e);
+  }
+
+  // Auto-detect system preference if user hasn't chosen one
+  if (!currentPreferences.theme) {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      currentPreferences.theme = 'dark';
+    } else {
+      currentPreferences.theme = 'standard';
+    }
   }
 
   // Apply saved theme and font scale immediately
@@ -4046,19 +4065,62 @@ function saveWebsitePreferences() {
 }
 
 function applyTheme(theme, showFeedback = false) {
+  if (!['standard', 'dark', 'high-contrast', 'harvest'].includes(theme)) {
+    theme = 'standard';
+  }
   currentPreferences.theme = theme;
-  document.body.classList.remove('dark-mode', 'high-contrast');
+  document.body.classList.remove('dark-mode', 'high-contrast', 'harvest-mode');
+  document.documentElement.setAttribute('data-theme', theme);
+  document.body.setAttribute('data-theme', theme);
 
   if (theme === 'dark') {
     document.body.classList.add('dark-mode');
   } else if (theme === 'high-contrast') {
     document.body.classList.add('high-contrast');
+  } else if (theme === 'harvest') {
+    document.body.classList.add('harvest-mode');
   }
 
-  localStorage.setItem('agrismart_theme', theme);
-  if (showFeedback) {
-    showToast(`Theme updated to ${theme.replace('-', ' ')}`, 'info');
+  // Synchronize Settings tab radio buttons
+  const radio = document.querySelector(`input[name="display-theme"][value="${theme}"]`);
+  if (radio) radio.checked = true;
+
+  // Highlight active theme option card in settings
+  document.querySelectorAll('.theme-option-card').forEach(card => {
+    card.style.outline = 'none';
+  });
+  const activeCard = document.getElementById(`card-theme-${theme}`);
+  if (activeCard) {
+    if (theme === 'standard') activeCard.style.outline = '2px solid #059669';
+    else if (theme === 'dark') activeCard.style.outline = '2px solid #10b981';
+    else if (theme === 'high-contrast') activeCard.style.outline = '2px solid #000000';
+    else if (theme === 'harvest') activeCard.style.outline = '2px solid #d97706';
   }
+
+  // Synchronize quick navbar theme pill buttons
+  document.querySelectorAll('.theme-pill-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.getAttribute('data-theme-val') === theme);
+  });
+
+  localStorage.setItem('agrismart_theme', theme);
+  localStorage.setItem('agrismart_preferences', JSON.stringify(currentPreferences));
+
+  if (showFeedback) {
+    const themeNames = {
+      'standard': '🌿 Farm Green (Standard)',
+      'dark': '🌙 Night Mode (Dark)',
+      'high-contrast': '☀️ Sunlight Mode (High-Contrast)',
+      'harvest': '🌾 Golden Harvest (Amber)'
+    };
+    showToast(`Theme updated to ${themeNames[theme] || theme}`, 'info');
+  }
+}
+
+function cycleAppTheme() {
+  const themes = ['standard', 'dark', 'high-contrast', 'harvest'];
+  const curIdx = themes.indexOf(currentPreferences.theme || 'standard');
+  const nextTheme = themes[(curIdx + 1) % themes.length];
+  applyTheme(nextTheme, true);
 }
 
 function applyFontScale(scale, showFeedback = false) {
