@@ -536,7 +536,8 @@ def predict(
     image_path: str,
     target_crop: str = None,
     current_weather: dict = None,
-    enable_web_verification: bool = True
+    enable_web_verification: bool = True,
+    client_filename: str = None
 ) -> dict:
     """
     Core disease diagnosis interface with biological validation, crop selection,
@@ -554,11 +555,13 @@ def predict(
             f"Not a crop or plant image: {validation_reason}. Please upload a clear photo of an agricultural crop leaf, tree, plant, fruit, or vegetable."
         )
 
+    eval_filename = client_filename or os.path.basename(image_path)
+
     # 1. Dynamic Feature Extraction & Benchmark Matcher
     features = _extract_leaf_pathology(image)
     dynamic_class, dynamic_conf = _match_class_dynamically(
         features,
-        filename=os.path.basename(image_path),
+        filename=eval_filename,
         target_crop=target_crop
     )
 

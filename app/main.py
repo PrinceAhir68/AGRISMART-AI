@@ -523,7 +523,7 @@ async def predict_disease(
                 except Exception:
                     pass
 
-            result = predict(tmp_path, target_crop=target_crop, current_weather=weather_dict)
+            result = predict(tmp_path, target_crop=target_crop, current_weather=weather_dict, client_filename=clean_filename)
 
             # Save to SQLite database
             rec_id = save_diagnosis_record(
