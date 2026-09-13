@@ -25,10 +25,11 @@ if hasattr(sys.stdout, "reconfigure"):
     except Exception:
         pass
 
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Query, Depends
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Query, Depends, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse, JSONResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
+from app.modules.rate_limiter import get_rate_limiter, extract_client_ip, RateLimitResult
 
 # Import core and bonus modules
 from model.predict import predict, InvalidPlantImageError
@@ -66,6 +67,64 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# -------------------------------------------------------------
+# TIERED RATE LIMITING MIDDLEWARE (Public & Authenticated)
+# -------------------------------------------------------------
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    limiter = get_rate_limiter()
+    path = request.url.path
+    
+    # Exclude non-API paths, static files, openapi documentation
+    # Also exclude authentication routes (they are rate-limited with per-account exponential backoff inside route handlers)
+    auth_paths = (
+        "/api/auth/login",
+        "/api/auth/register",
+        "/api/user/change-password",
+        "/api/auth/reset-password"
+    )
+    if (
+        not path.startswith("/api/")
+        or path.startswith("/static")
+        or path.startswith("/report-assets")
+        or path in auth_paths
+        or path.startswith("/docs")
+        or path.startswith("/openapi.json")
+    ):
+        return await call_next(request)
+    
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    
+    # Check if request has authenticated user context
+    user_id = request.query_params.get("user_id") or request.headers.get("X-User-Id") or request.headers.get("x-user-id")
+    
+    if user_id:
+        res = limiter.check_authenticated_rate_limit(user_id=user_id, ip=client_ip, endpoint=path)
+    else:
+        res = limiter.check_public_rate_limit(ip=client_ip, endpoint=path)
+        
+    if not res.allowed:
+        return JSONResponse(
+            status_code=429,
+            content={
+                "error": "rate_limit_exceeded",
+                "detail": res.detail,
+                "retry_after": res.retry_after,
+                "limit": res.limit,
+                "limit_type": res.limit_type
+            },
+            headers=res.to_headers()
+        )
+        
+    response = await call_next(request)
+    
+    # Attach standard rate limit headers
+    for k, v in res.to_headers().items():
+        response.headers[k] = v
+        
+    return response
+
 # Static files mount
 STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
@@ -97,9 +156,22 @@ class RegisterRequest(BaseModel):
 
 
 @app.post("/api/auth/register")
-def api_register(req: RegisterRequest):
+def api_register(req: RegisterRequest, request: Request):
+    limiter = get_rate_limiter()
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    
+    rate_check = limiter.check_auth_rate_limit(account=req.email_or_phone, ip=client_ip)
+    if not rate_check.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=rate_check.detail,
+            headers=rate_check.to_headers()
+        )
+    
     if len(req.password) < 4:
+        limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
         raise HTTPException(status_code=400, detail="Password must be at least 4 characters.")
+        
     res = register_user(
         name=req.name,
         email_or_phone=req.email_or_phone,
@@ -109,8 +181,10 @@ def api_register(req: RegisterRequest):
         language=req.language
     )
     if not res["success"]:
+        limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
         raise HTTPException(status_code=400, detail=res["error"])
     
+    limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=True)
     # Attempt background sync to Supabase
     sync_user_to_supabase(res["user"])
     return res
@@ -122,11 +196,68 @@ class LoginRequest(BaseModel):
 
 
 @app.post("/api/auth/login")
-def api_login(req: LoginRequest):
+def api_login(req: LoginRequest, request: Request):
+    limiter = get_rate_limiter()
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    
+    rate_check = limiter.check_auth_rate_limit(account=req.email_or_phone, ip=client_ip)
+    if not rate_check.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=rate_check.detail,
+            headers=rate_check.to_headers()
+        )
+        
     res = authenticate_user(email_or_phone=req.email_or_phone, password=req.password)
     if not res["success"]:
+        limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
         raise HTTPException(status_code=401, detail=res["error"])
+        
+    # Reset backoff counters on successful login
+    limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=True)
     return res
+
+
+class ResetPasswordRequest(BaseModel):
+    email_or_phone: str
+    new_password: str
+
+
+@app.post("/api/auth/reset-password")
+def api_reset_password(req: ResetPasswordRequest, request: Request):
+    limiter = get_rate_limiter()
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    
+    rate_check = limiter.check_auth_rate_limit(account=req.email_or_phone, ip=client_ip)
+    if not rate_check.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=rate_check.detail,
+            headers=rate_check.to_headers()
+        )
+    
+    if len(req.new_password) < 4:
+        limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
+        raise HTTPException(status_code=400, detail="Password must be at least 4 characters.")
+        
+    from app.database import get_db_connection, hash_password
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id FROM users WHERE email_or_phone = ?", (req.email_or_phone.strip().lower(),))
+    user_row = cursor.fetchone()
+    if not user_row:
+        conn.close()
+        limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=False)
+        raise HTTPException(status_code=404, detail="User account not found.")
+        
+    user_id = user_row["id"]
+    pwd_hash, salt = hash_password(req.new_password)
+    cursor.execute("UPDATE users SET password_hash = ?, password_salt = ? WHERE id = ?", (pwd_hash, salt, user_id))
+    conn.commit()
+    conn.close()
+    
+    limiter.record_auth_result(account=req.email_or_phone, ip=client_ip, success=True)
+    return {"success": True, "message": "Password reset successfully. You may now log in with your new password."}
 
 
 @app.get("/api/history")
@@ -173,15 +304,62 @@ class ChangePasswordRequest(BaseModel):
 
 
 @app.post("/api/user/change-password")
-def api_change_password(req: ChangePasswordRequest):
+def api_change_password(req: ChangePasswordRequest, request: Request):
+    limiter = get_rate_limiter()
+    client_ip = extract_client_ip(request.headers, request.client.host if request.client else None)
+    account_key = f"user_id:{req.user_id}"
+    
+    rate_check = limiter.check_auth_rate_limit(account=account_key, ip=client_ip)
+    if not rate_check.allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=rate_check.detail,
+            headers=rate_check.to_headers()
+        )
+        
     res = change_user_password(
         user_id=req.user_id,
         old_password=req.old_password,
         new_password=req.new_password
     )
     if not res.get("success"):
+        limiter.record_auth_result(account=account_key, ip=client_ip, success=False)
         raise HTTPException(status_code=400, detail=res.get("error", "Failed to change password"))
+        
+    limiter.record_auth_result(account=account_key, ip=client_ip, success=True)
     return res
+
+
+# -------------------------------------------------------------
+# DYNAMIC RATE LIMIT CONFIGURATION (Runtime Configurable)
+# -------------------------------------------------------------
+class UpdateRateLimitConfigRequest(BaseModel):
+    enabled: Optional[bool] = None
+    auth_ip_max: Optional[int] = None
+    auth_ip_window: Optional[int] = None
+    auth_account_threshold: Optional[int] = None
+    auth_backoff_base: Optional[float] = None
+    auth_backoff_factor: Optional[float] = None
+    auth_backoff_max: Optional[float] = None
+    public_ip_max: Optional[int] = None
+    public_ip_window: Optional[int] = None
+    authed_user_max: Optional[int] = None
+    authed_user_window: Optional[int] = None
+
+
+@app.get("/api/system/rate-limit-config")
+def api_get_rate_limit_config():
+    limiter = get_rate_limiter()
+    return {"status": "success", "config": limiter.get_config()}
+
+
+@app.post("/api/system/rate-limit-config")
+def api_update_rate_limit_config(req: UpdateRateLimitConfigRequest):
+    limiter = get_rate_limiter()
+    data = req.model_dump() if hasattr(req, "model_dump") else req.dict()
+    updates = {k: v for k, v in data.items() if v is not None}
+    updated = limiter.update_config(updates)
+    return {"status": "success", "config": updated}
 
 
 @app.get("/api/user/export-data")
