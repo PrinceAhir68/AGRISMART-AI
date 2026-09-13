@@ -1262,7 +1262,7 @@ document.addEventListener('DOMContentLoaded', () => {
   refreshComPorts();
   loadArduinoSketch();
   fetchNetworkIp();
-  setInterval(checkIoTStatusAndTelemetry, 3000);
+  scheduleIoTTelemetryPolling();
 
   // 6. Drag & drop support
   const dropZone = document.getElementById('drop-zone');
@@ -1333,6 +1333,19 @@ function changeGlobalLanguage(lang, save = true) {
   }
 }
 
+let iotTelemetryTimer = null;
+
+function scheduleIoTTelemetryPolling() {
+  if (iotTelemetryTimer) {
+    clearInterval(iotTelemetryTimer);
+    iotTelemetryTimer = null;
+  }
+  const iotTab = document.getElementById('tab-iot');
+  const isIotActive = iotTab && iotTab.classList.contains('active');
+  const intervalMs = isIotActive ? 3000 : 10000;
+  iotTelemetryTimer = setInterval(checkIoTStatusAndTelemetry, intervalMs);
+}
+
 function switchTab(tabId) {
   document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1340,12 +1353,17 @@ function switchTab(tabId) {
   const activeContent = document.getElementById(tabId);
   if (activeContent) activeContent.classList.add('active');
 
-  const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(tabId));
+  const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
   if (activeBtn) activeBtn.classList.add('active');
 
   if (tabId === 'tab-settings') {
     populateSettingsForm();
   }
+
+  if (tabId === 'tab-iot') {
+    checkIoTStatusAndTelemetry();
+  }
+  scheduleIoTTelemetryPolling();
 }
 
 // =================================================================
@@ -2471,7 +2489,13 @@ async function handleAuthSubmit() {
         body: JSON.stringify(payload)
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || 'Registration failed');
+      if (!res.ok) {
+        if (res.status === 429) {
+          const waitSec = data.retry_after || 2;
+          throw new Error(`⏳ ${data.detail || `Rate limit active. Please wait ${waitSec}s before retrying.`}`);
+        }
+        throw new Error(data.detail || 'Registration failed');
+      }
       
       currentUser = data.user;
       currentUser.is_guest = false;
@@ -2495,7 +2519,13 @@ async function handleAuthSubmit() {
         body: JSON.stringify({ email_or_phone: emailPhone, password: password })
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.detail || 'Login failed');
+      if (!res.ok) {
+        if (res.status === 429) {
+          const waitSec = data.retry_after || 2;
+          throw new Error(`⏳ ${data.detail || `Rate limit active. Please wait ${waitSec}s before retrying.`}`);
+        }
+        throw new Error(data.detail || 'Login failed');
+      }
 
       currentUser = data.user;
       currentUser.is_guest = false;
@@ -3084,7 +3114,9 @@ let isWebSerialReading = false;
 async function fetchIoTTelemetry() {
   try {
     const res = await fetch('/api/iot/telemetry');
+    if (!res.ok) return;
     const data = await res.json();
+    if (!data || data.error) return;
     renderIoTTelemetryUI(data);
   } catch (e) {
     console.error('IoT telemetry fetch error:', e);
@@ -3095,7 +3127,12 @@ async function fetchIoTTelemetry() {
 async function checkIoTStatusAndTelemetry() {
   try {
     const resStatus = await fetch('/api/iot/status');
+    if (!resStatus.ok) {
+      if (resStatus.status === 429) return; // rate-limit backoff, silent
+      return;
+    }
     const statusData = await resStatus.json();
+    if (!statusData || statusData.error) return;
     updateIoTConnectionBadge(statusData);
 
     // Update live terminal log if available
@@ -3109,7 +3146,9 @@ async function checkIoTStatusAndTelemetry() {
 
     // Fetch telemetry
     const res = await fetch('/api/iot/telemetry');
+    if (!res.ok) return;
     const data = await res.json();
+    if (!data || data.error) return;
     renderIoTTelemetryUI(data);
   } catch (e) {
     // Non-blocking on network error
@@ -4025,7 +4064,13 @@ async function handleChangePassword() {
       })
     });
     const data = await res.json();
-    if (!res.ok) throw new Error(data.detail || 'Password change failed');
+    if (!res.ok) {
+      if (res.status === 429) {
+        const waitSec = data.retry_after || 2;
+        throw new Error(`⏳ ${data.detail || `Rate limit active. Please wait ${waitSec}s before retrying.`}`);
+      }
+      throw new Error(data.detail || 'Password change failed');
+    }
 
     showToast('🔒 Password updated successfully!', 'success');
     document.getElementById('form-change-password').reset();

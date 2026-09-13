@@ -25,20 +25,20 @@ class RateLimitConfig:
     enabled: bool = True
     
     # Tier 1: Authentication Routes (stricter)
-    auth_ip_max: int = 10                  # Max attempts per IP per window
+    auth_ip_max: int = 30                 # Max attempts per IP per window (generous for multi-user NAT/household)
     auth_ip_window: int = 60              # Seconds for IP window
-    auth_account_threshold: int = 3       # Free attempts per account before backoff escalates
-    auth_ip_backoff_threshold: int = 10   # Free failed attempts per IP before IP backoff escalates
+    auth_account_threshold: int = 5       # Free attempts per account before backoff escalates
+    auth_ip_backoff_threshold: int = 15   # Free failed attempts per IP before IP backoff escalates
     auth_backoff_base: float = 2.0        # Base delay (seconds)
     auth_backoff_factor: float = 2.0      # Exponential multiplier
     auth_backoff_max: float = 300.0       # Max delay cap (seconds = 5 min)
     
     # Tier 2: Public Endpoints (moderate)
-    public_ip_max: int = 30               # Max requests per IP per window
+    public_ip_max: int = 180              # Max requests per IP per window (3 req/sec headroom for rapid clicks & multi-tab)
     public_ip_window: int = 60            # Seconds for public window
     
     # Tier 3: Authenticated User Actions (looser)
-    authed_user_max: int = 120            # Max requests per user per window
+    authed_user_max: int = 300            # Max requests per user per window (5 req/sec)
     authed_user_window: int = 60          # Seconds for authenticated window
 
     @classmethod
@@ -46,16 +46,16 @@ class RateLimitConfig:
         """Loads configuration from environment variables with fallback defaults."""
         return cls(
             enabled=os.getenv("RATE_LIMIT_ENABLED", "true").lower() in ("true", "1", "yes"),
-            auth_ip_max=int(os.getenv("RATE_LIMIT_AUTH_IP_MAX", "10")),
+            auth_ip_max=int(os.getenv("RATE_LIMIT_AUTH_IP_MAX", "30")),
             auth_ip_window=int(os.getenv("RATE_LIMIT_AUTH_IP_WINDOW", "60")),
-            auth_account_threshold=int(os.getenv("RATE_LIMIT_AUTH_ACCOUNT_THRESHOLD", "3")),
-            auth_ip_backoff_threshold=int(os.getenv("RATE_LIMIT_AUTH_IP_BACKOFF_THRESHOLD", "10")),
+            auth_account_threshold=int(os.getenv("RATE_LIMIT_AUTH_ACCOUNT_THRESHOLD", "5")),
+            auth_ip_backoff_threshold=int(os.getenv("RATE_LIMIT_AUTH_IP_BACKOFF_THRESHOLD", "15")),
             auth_backoff_base=float(os.getenv("RATE_LIMIT_AUTH_BACKOFF_BASE", "2.0")),
             auth_backoff_factor=float(os.getenv("RATE_LIMIT_AUTH_BACKOFF_FACTOR", "2.0")),
             auth_backoff_max=float(os.getenv("RATE_LIMIT_AUTH_BACKOFF_MAX", "300.0")),
-            public_ip_max=int(os.getenv("RATE_LIMIT_PUBLIC_IP_MAX", "30")),
+            public_ip_max=int(os.getenv("RATE_LIMIT_PUBLIC_IP_MAX", "180")),
             public_ip_window=int(os.getenv("RATE_LIMIT_PUBLIC_IP_WINDOW", "60")),
-            authed_user_max=int(os.getenv("RATE_LIMIT_AUTHED_USER_MAX", "120")),
+            authed_user_max=int(os.getenv("RATE_LIMIT_AUTHED_USER_MAX", "300")),
             authed_user_window=int(os.getenv("RATE_LIMIT_AUTHED_USER_WINDOW", "60"))
         )
 

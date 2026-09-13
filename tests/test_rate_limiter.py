@@ -274,6 +274,34 @@ class TestTieredRateLimiter(unittest.TestCase):
         resp_b = self.client.post("/api/auth/login", json={"email_or_phone": account_b, "password": "wrong"}, headers=headers_b)
         self.assertEqual(resp_b.status_code, 401)
 
+    def test_telemetry_endpoints_exempt_from_rate_limit(self):
+        """Verify that background IoT telemetry & hardware polling endpoints never trigger 429 and do not deplete user quota."""
+        # Set public_ip_max to a tiny limit of 2 requests
+        self.limiter.update_config({"public_ip_max": 2, "public_ip_window": 60})
+        headers = {"X-Forwarded-For": "10.50.60.70"}
+
+        # 1. Repeated calls to /api/iot/status and /api/iot/telemetry (simulating rapid 3s polling)
+        for _ in range(25):
+            status_resp = self.client.get("/api/iot/status", headers=headers)
+            self.assertEqual(status_resp.status_code, 200, "IoT status should never be blocked by rate limiting")
+            
+            telemetry_resp = self.client.get("/api/iot/telemetry", headers=headers)
+            self.assertEqual(telemetry_resp.status_code, 200, "IoT telemetry should never be blocked by rate limiting")
+
+            net_resp = self.client.get("/api/system/network-ip", headers=headers)
+            self.assertEqual(net_resp.status_code, 200, "Network IP should never be blocked by rate limiting")
+
+        # 2. Verify that public browsing quota was NOT consumed by the 75 telemetry calls above
+        resp1 = self.client.get("/api/districts", headers=headers)
+        self.assertEqual(resp1.status_code, 200, "First regular API call must succeed")
+        
+        resp2 = self.client.get("/api/districts", headers=headers)
+        self.assertEqual(resp2.status_code, 200, "Second regular API call must succeed")
+
+        # 3. Third regular API call hits the public_ip_max=2 limit as expected
+        resp3 = self.client.get("/api/districts", headers=headers)
+        self.assertEqual(resp3.status_code, 429, "Third regular API call should be rate limited")
+
 
 if __name__ == "__main__":
     unittest.main()

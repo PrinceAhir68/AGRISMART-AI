@@ -77,6 +77,15 @@ async def rate_limit_middleware(request: Request, call_next):
     path = request.url.path
     
     # Exclude non-API paths, static files, openapi documentation
+    # Exclude continuous background hardware telemetry & polling endpoints so live sensors don't lock out farmers
+    exempt_paths = (
+        "/api/iot/status",
+        "/api/iot/telemetry",
+        "/api/system/network-ip",
+        "/api/iot/arduino-sketch",
+        "/api/iot/ports",
+        "/api/supabase/status",
+    )
     # Also exclude authentication routes (they are rate-limited with per-account exponential backoff inside route handlers)
     auth_paths = (
         "/api/auth/login",
@@ -89,6 +98,7 @@ async def rate_limit_middleware(request: Request, call_next):
         or path.startswith("/static")
         or path.startswith("/report-assets")
         or path in auth_paths
+        or path in exempt_paths
         or path.startswith("/docs")
         or path.startswith("/openapi.json")
     ):
