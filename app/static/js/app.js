@@ -53,10 +53,18 @@ let currentUser = savedUser;
 
 // Default language: Hindi ('hi') unless farmer has previously selected another language
 let currentLanguage = localStorage.getItem('agrismart_lang') || (currentUser && currentUser.language) || 'hi';
+// Persistent Location state (Restores last saved GPS or manual district)
+let savedLoc = null;
+try {
+  savedLoc = JSON.parse(localStorage.getItem('agrismart_last_location') || 'null');
+} catch (e) {
+  savedLoc = null;
+}
+
 let currentDiagnosisData = null;
-let userLatitude = 23.0225; // Default: Ahmedabad, Gujarat
-let userLongitude = 72.5714;
-let userLocationName = "Ahmedabad, Gujarat";
+let userLatitude = (savedLoc && typeof savedLoc.lat === 'number') ? savedLoc.lat : 23.0225; // Default: Ahmedabad, Gujarat
+let userLongitude = (savedLoc && typeof savedLoc.lon === 'number') ? savedLoc.lon : 72.5714;
+let userLocationName = (savedLoc && savedLoc.name) ? savedLoc.name : "Ahmedabad, Gujarat";
 let isSpeaking = false;
 let authMode = 'login'; // 'login' or 'register'
 let currentLocMode = 'gps'; // 'gps' or 'manual'
@@ -229,6 +237,11 @@ const TRANSLATIONS = {
     "auth_loc_label": "State / Region:",
     "auth_crop_label": "Primary Crop:",
     "auth_lang_label": "Preferred Language:",
+    "auth_theme_label": "🎨 Theme & Display Mode:",
+    "theme_opt_standard": "🌿 Farm Green (Standard)",
+    "theme_opt_dark": "🌙 Night Mode (Dark)",
+    "theme_opt_contrast": "☀️ High Sunlight Contrast",
+    "theme_opt_harvest": "🌾 Golden Harvest (Amber)",
     "btn_login_submit": "Sign In to Farm Account",
     "btn_register_submit": "Create My Farm Account",
     "btn_back_home": "⬅ Back to Scanner",
@@ -516,6 +529,11 @@ const TRANSLATIONS = {
     "auth_loc_label": "राज्य / जिला:",
     "auth_crop_label": "मुख्य फसल:",
     "auth_lang_label": "पसंदीदा भाषा:",
+    "auth_theme_label": "🎨 थीम और प्रदर्शन मोड:",
+    "theme_opt_standard": "🌿 खेत हरा (मानक)",
+    "theme_opt_dark": "🌙 रात्रि मोड (डार्क)",
+    "theme_opt_contrast": "☀️ तीव्र धूप मोड (हाई कंट्रास्ट)",
+    "theme_opt_harvest": "🌾 सुनहरी फसल (एम्बर)",
     "btn_login_submit": "खाते में लॉग इन करें",
     "btn_register_submit": "मेरा किसान खाता बनाएं",
     "btn_back_home": "⬅ मुख्य स्कैनर पर वापस",
@@ -803,6 +821,11 @@ const TRANSLATIONS = {
     "auth_loc_label": "જિલ્લો / રાજ્ય:",
     "auth_crop_label": "મુખ્ય પાક:",
     "auth_lang_label": "પસંદગીની ભાષા:",
+    "auth_theme_label": "🎨 થીમ અને ડિસ્પ્લે મોડ:",
+    "theme_opt_standard": "🌿 ખેતર લીલું (સ્ટાન્ડર્ડ)",
+    "theme_opt_dark": "🌙 રાત્રિ મોડ (ડાર્ક)",
+    "theme_opt_contrast": "☀️ તેજ તડકો મોડ (હાઈ કોન્ટ્રાસ્ટ)",
+    "theme_opt_harvest": "🌾 સોનેરી લણણી (એમ્બર)",
     "btn_login_submit": "ખાતામાં લૉગ ઇન કરો",
     "btn_register_submit": "મારું ખેડૂત ખાતું બનાવો",
     "btn_back_home": "⬅ મુખ્ય સ્કેનર પર પાછા",
@@ -1090,6 +1113,11 @@ const TRANSLATIONS = {
     "auth_loc_label": "राज्य / जिल्हा:",
     "auth_crop_label": "मुख्य पीक:",
     "auth_lang_label": "पसंतीची भाषा:",
+    "auth_theme_label": "🎨 थीम आणि डिस्प्ले मोड:",
+    "theme_opt_standard": "🌿 शेत हिरवा (प्रमाणित)",
+    "theme_opt_dark": "🌙 रात्रीचा मोड (डार्क)",
+    "theme_opt_contrast": "☀️ प्रखर सूर्यप्रकाश मोड (हाय कॉन्ट्रास्ट)",
+    "theme_opt_harvest": "🌾 सोनेरी कापणी (अंबर)",
     "btn_login_submit": "खात्यात प्रवेश करा",
     "btn_register_submit": "माझे शेतकरी खाते उघडा",
     "btn_back_home": "⬅ मुख्य स्कॅनरवर परत",
@@ -1330,15 +1358,22 @@ document.addEventListener('DOMContentLoaded', () => {
   // 8. Try auto GPS detection if in GPS mode
   if (currentLocMode === 'gps' && navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
-      pos => {
+      async (pos) => {
         userLatitude = pos.coords.latitude;
         userLongitude = pos.coords.longitude;
-        userLocationName = `Field GPS (${userLatitude.toFixed(2)}, ${userLongitude.toFixed(2)})`;
-        const liveBadge = document.getElementById('live-weather-badge');
-        if (liveBadge) liveBadge.innerText = "📍 GPS Synced";
-        fetchLiveWeather();
+        const nearest = findNearestDistrict(userLatitude, userLongitude);
+        userLocationName = `${nearest.district}, ${nearest.state}`;
+        localStorage.setItem('agrismart_last_location', JSON.stringify({
+          lat: userLatitude,
+          lon: userLongitude,
+          name: userLocationName,
+          state: nearest.state,
+          district: nearest.district
+        }));
+        await fetchLiveWeather();
       },
-      err => { console.log("GPS prompt skipped, using default location."); }
+      (err) => { console.log("GPS prompt skipped, using current/saved location:", userLocationName); },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 60000 }
     );
   }
 });
@@ -1439,11 +1474,38 @@ function setLocMode(mode) {
   }
 }
 
+function findNearestDistrict(lat, lon) {
+  let minDistance = Infinity;
+  let bestState = "Gujarat";
+  let bestDistrict = "Ahmedabad";
+
+  for (const [state, districts] of Object.entries(DISTRICT_DATA)) {
+    for (const [district, info] of Object.entries(districts)) {
+      if (info && typeof info.lat === 'number' && typeof info.lon === 'number') {
+        const dLat = (lat - info.lat);
+        const dLon = (lon - info.lon);
+        const distSq = (dLat * dLat) + (dLon * dLon);
+        if (distSq < minDistance) {
+          minDistance = distSq;
+          bestState = state;
+          bestDistrict = district;
+        }
+      }
+    }
+  }
+  return { state: bestState, district: bestDistrict };
+}
+
 function initManualLocationSelectors() {
   const stateSel = document.getElementById('sel-state');
   if (!stateSel) return;
-  const selectedState = stateSel.value || 'Gujarat';
+  const selectedState = (savedLoc && savedLoc.state) || stateSel.value || 'Gujarat';
+  stateSel.value = selectedState;
   populateDistricts(selectedState);
+  if (savedLoc && savedLoc.district) {
+    const distSel = document.getElementById('sel-district');
+    if (distSel) distSel.value = savedLoc.district;
+  }
 }
 
 function populateDistricts(stateName) {
@@ -1481,6 +1543,13 @@ function onDistrictChanged(districtName) {
     userLatitude = info.lat;
     userLongitude = info.lon;
     userLocationName = `${districtName}, ${stateName}`;
+    localStorage.setItem('agrismart_last_location', JSON.stringify({
+      lat: userLatitude,
+      lon: userLongitude,
+      name: userLocationName,
+      state: stateName,
+      district: districtName
+    }));
     fetchLiveWeather();
 
     // Sync Tab 2 dropdowns
@@ -1529,6 +1598,13 @@ function syncCropDistrictCoords() {
     userLatitude = info.lat;
     userLongitude = info.lon;
     userLocationName = `${districtName}, ${stateName}`;
+    localStorage.setItem('agrismart_last_location', JSON.stringify({
+      lat: userLatitude,
+      lon: userLongitude,
+      name: userLocationName,
+      state: stateName,
+      district: districtName
+    }));
     fetchLiveWeather();
     const cropSoil = document.getElementById('crop-soil');
     if (cropSoil && info.soil) cropSoil.value = info.soil;
@@ -1543,20 +1619,86 @@ function detectGPSLocation() {
     return;
   }
 
+  const liveBadge = document.getElementById('live-weather-badge');
+  if (liveBadge) liveBadge.innerText = "📍 Detecting GPS...";
+
   navigator.geolocation.getCurrentPosition(
-    (pos) => {
+    async (pos) => {
       userLatitude = pos.coords.latitude;
       userLongitude = pos.coords.longitude;
-      userLocationName = `GPS Location (${userLatitude.toFixed(3)}°N, ${userLongitude.toFixed(3)}°E)`;
-      const liveBadge = document.getElementById('live-weather-badge');
-      if (liveBadge) liveBadge.innerText = "📍 GPS Synced ✓";
-      fetchLiveWeather();
+
+      // 1. Immediately determine nearest district and state
+      const nearest = findNearestDistrict(userLatitude, userLongitude);
+      let cityName = nearest.district;
+      let stateName = nearest.state;
+      userLocationName = `${cityName}, ${stateName}`;
+
+      // 2. Immediately update the live weather badge with the real city & state name
+      if (liveBadge) {
+        liveBadge.innerText = `📍 ${cityName}, ${stateName}`;
+      }
+
+      // 3. Sync manual state & district selectors in navbar and crop tab
+      const stateSel = document.getElementById('sel-state');
+      if (stateSel) {
+        stateSel.value = stateName;
+        populateDistricts(stateName);
+        const distSel = document.getElementById('sel-district');
+        if (distSel) distSel.value = cityName;
+      }
+      const cropState = document.getElementById('crop-state-input');
+      if (cropState) {
+        cropState.value = stateName;
+        syncCropDistrictOptions(stateName);
+        const cropDist = document.getElementById('crop-district-input');
+        if (cropDist) cropDist.value = cityName;
+      }
+
+      // 4. Save to localStorage so on refresh it shows the exact same city name
+      localStorage.setItem('agrismart_last_location', JSON.stringify({
+        lat: userLatitude,
+        lon: userLongitude,
+        name: userLocationName,
+        state: stateName,
+        district: cityName
+      }));
+
+      // 5. Query reverse geocode asynchronously to refine if hyper-local town/locality exists
+      try {
+        const geoPromise = fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${userLatitude}&longitude=${userLongitude}&localityLanguage=en`);
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 2500));
+        const geoRes = await Promise.race([geoPromise, timeoutPromise]);
+        if (geoRes && geoRes.ok) {
+          const geoData = await geoRes.json();
+          const fineCity = geoData.city || geoData.locality || geoData.principalSubdivisionDistrict;
+          const fineState = geoData.principalSubdivision || stateName;
+          if (fineCity && fineCity.toLowerCase() !== 'unnamed') {
+            cityName = fineCity;
+            stateName = fineState;
+            userLocationName = `${cityName}, ${stateName}`;
+            localStorage.setItem('agrismart_last_location', JSON.stringify({
+              lat: userLatitude,
+              lon: userLongitude,
+              name: userLocationName,
+              state: stateName,
+              district: cityName
+            }));
+          }
+        }
+      } catch (e) {
+        // Fallback to nearest district
+      }
+
+      // 6. Fetch live weather with real city name
+      await fetchLiveWeather();
       calculateIrrigation();
-      showToast("✓ GPS location synced successfully.", "success");
+      showToast(`✓ Field GPS Synced: ${userLocationName}`, "success");
     },
     (err) => {
+      if (liveBadge) liveBadge.innerText = `☁ ${userLocationName}`;
       alert("Could not access GPS location. Please allow location permissions in your browser: " + err.message);
-    }
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
   );
 }
 
@@ -1585,7 +1727,11 @@ async function fetchLiveWeather() {
 
     const liveBadge = document.getElementById('live-weather-badge');
     if (liveBadge) {
-      liveBadge.innerText = `☁ ${data.current_weather.temperature_c}°C | ${data.location.split('(')[0].trim()}`;
+      let locDisplay = (data.location || userLocationName || '').split('(')[0].replace(/GPS Location|Field GPS|city name/gi, '').trim();
+      if (!locDisplay || locDisplay.length < 2) {
+        locDisplay = userLocationName;
+      }
+      liveBadge.innerText = `☁ ${data.current_weather.temperature_c}°C | ${locDisplay}`;
     }
 
     // Render alerts
@@ -2502,6 +2648,10 @@ function updateAuthUI() {
 function openAuthModal() {
   document.getElementById('auth-modal').classList.add('active');
   setAuthMode('login');
+  const themeSelect = document.getElementById('auth-theme-select');
+  if (themeSelect) {
+    themeSelect.value = currentPreferences.theme || 'standard';
+  }
 }
 
 function closeAuthModal() {
@@ -2543,6 +2693,9 @@ async function handleAuthSubmit() {
     return;
   }
 
+  // Read preferred theme chosen by user in the auth modal
+  const chosenTheme = document.getElementById('auth-theme-select')?.value || 'standard';
+
   if (authMode === 'register') {
     const name = document.getElementById('auth-name').value.trim();
     if (name.length < 2) {
@@ -2580,6 +2733,7 @@ async function handleAuthSubmit() {
       if (currentUser.language) {
         changeGlobalLanguage(currentUser.language, true);
       }
+      applyTheme(chosenTheme, false);
       closeAuthModal();
       updateAuthUI();
       showToast(`Welcome to AgriSmart AI, ${currentUser.name}! You are logged in permanently.`, 'success');
@@ -2610,6 +2764,7 @@ async function handleAuthSubmit() {
       if (currentUser.language) {
         changeGlobalLanguage(currentUser.language, true);
       }
+      applyTheme(chosenTheme, false);
       closeAuthModal();
       updateAuthUI();
       showToast(`Welcome back, ${currentUser.name}! Logged in permanently.`, 'success');

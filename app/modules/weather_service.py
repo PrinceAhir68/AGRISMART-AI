@@ -18,6 +18,25 @@ import datetime
 from typing import Dict, Any, List
 
 
+def resolve_nearest_district_name(lat: float, lon: float) -> str:
+    """
+    Resolves geographic coordinates to the nearest known Indian agricultural district.
+    """
+    try:
+        from app.modules.crop_recommender import INDIAN_DISTRICTS
+        best_name = "Ahmedabad, Gujarat"
+        min_d = float('inf')
+        for state, dists in INDIAN_DISTRICTS.items():
+            for dist, info in dists.items():
+                d = (lat - info.get("lat", 0))**2 + (lon - info.get("lon", 0))**2
+                if d < min_d:
+                    min_d = d
+                    best_name = f"{dist}, {state}"
+        return best_name
+    except Exception:
+        return "Ahmedabad, Gujarat"
+
+
 def get_weather_intelligence(
     latitude: float = 23.0225,   # Default: Ahmedabad, Gujarat (Hackathon Host Region)
     longitude: float = 72.5714,
@@ -27,6 +46,9 @@ def get_weather_intelligence(
     Fetches real-time and 7-day forecast agrometeorology from Open-Meteo
     and derives actionable crop management intelligence.
     """
+    # Sanitize and resolve location name if placeholder or generic GPS string
+    if not location_name or any(k in location_name.lower() for k in ("city name", "field gps", "gps location", "unknown")):
+        location_name = resolve_nearest_district_name(latitude, longitude)
     url = (
         f"https://api.open-meteo.com/v1/forecast?"
         f"latitude={latitude}&longitude={longitude}&"

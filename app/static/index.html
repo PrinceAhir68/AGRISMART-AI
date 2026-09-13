@@ -45,75 +45,74 @@
 
   <!-- Top Navigation Header -->
   <header class="navbar">
-    <div class="nav-brand">
-      <div class="logo-icon" style="background:#ecfdf5; border:1.5px solid #a7f3d0; border-radius:12px; width:48px; height:48px; display:flex; align-items:center; justify-content:center;">
-        <svg viewBox="0 0 64 64" fill="none" style="width:34px; height:34px;" xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 10C22 14 16 26 16 38C16 46 22 52 32 54C42 52 48 46 48 38C48 26 42 14 32 10Z" fill="#047857"/>
-          <path d="M32 12V52" stroke="#6EE7B7" stroke-width="3" stroke-linecap="round"/>
-          <path d="M32 24L42 18" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M32 32L44 26" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
-          <path d="M32 20L22 16" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
-          <circle cx="42" cy="18" r="2.5" fill="#FCD34D"/>
-          <circle cx="44" cy="26" r="2.5" fill="#FCD34D"/>
-          <circle cx="22" cy="16" r="2.5" fill="#6EE7B7"/>
-        </svg>
-      </div>
-      <div>
-        <h1 data-i18n="app_title">AgriSmart AI</h1>
-        <span class="subtext" data-i18n="app_subtitle">Autonomous Agricultural Intelligence & Pathology System</span>
-      </div>
-    </div>
-
-    <!-- Global Language Switcher -->
-    <div class="lang-bar">
-      <span class="lang-label" data-i18n="language_label">🌐 भाषा (Language):</span>
-      <select id="global-lang-select" class="lang-select" onchange="changeGlobalLanguage(this.value)">
-        <option value="hi" selected>हिन्दी (Hindi)</option>
-        <option value="gu">ગુજરાતી (Gujarati)</option>
-        <option value="mr">मराठी (Marathi)</option>
-        <option value="en">English</option>
-      </select>
-    </div>
-
-    <!-- Location Control Bar (GPS vs Manual State/District) -->
-    <div class="location-control-bar">
-      <button class="loc-mode-btn active" id="btn-loc-gps" onclick="setLocMode('gps')">
-        <span>📍</span> <span data-i18n="loc_gps_mode">GPS Auto</span>
-      </button>
-      <button class="loc-mode-btn" id="btn-loc-manual" onclick="setLocMode('manual')">
-        <span>🗺️</span> <span data-i18n="loc_manual_mode">State & District</span>
-      </button>
-      <div class="manual-loc-wrap" id="manual-loc-inputs" style="display:none;">
-        <select id="sel-state" class="manual-loc-select" onchange="onStateChanged(this.value)">
-          <option value="Gujarat">Gujarat (ગુજરાત)</option>
-          <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
-          <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
-          <option value="Haryana">Haryana (हरियाणा)</option>
-          <option value="Rajasthan">Rajasthan (राजस्थान)</option>
-          <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
-          <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
-          <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
-        </select>
-        <select id="sel-district" class="manual-loc-select" onchange="onDistrictChanged(this.value)">
-          <!-- Populated dynamically via JS -->
-        </select>
-      </div>
-    </div>
-
-    <div class="nav-badges">
-      <!-- Quick Theme Switcher Pill -->
-      <div class="theme-pill-selector" title="Switch Theme (Farm Green, Dark, Sunlight, Harvest)">
-        <button type="button" class="theme-pill-btn active" data-theme-val="standard" onclick="applyTheme('standard', true)" title="Farm Green (Standard)">🌿</button>
-        <button type="button" class="theme-pill-btn" data-theme-val="dark" onclick="applyTheme('dark', true)" title="Night Mode (Dark)">🌙</button>
-        <button type="button" class="theme-pill-btn" data-theme-val="high-contrast" onclick="applyTheme('high-contrast', true)" title="Sunlight Mode (High Contrast)">☀️</button>
-        <button type="button" class="theme-pill-btn" data-theme-val="harvest" onclick="applyTheme('harvest', true)" title="Golden Harvest (Amber)">🌾</button>
+    <!-- Left Group: Brand, Live Temperature Badge, Location Switcher -->
+    <div class="nav-left">
+      <div class="nav-brand" onclick="switchTab('tab-core')" style="cursor:pointer;" title="AgriSmart AI Home">
+        <div class="logo-icon" style="background:#ecfdf5; border:1.5px solid #a7f3d0; border-radius:12px; width:48px; height:48px; display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 64 64" fill="none" style="width:34px; height:34px;" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 10C22 14 16 26 16 38C16 46 22 52 32 54C42 52 48 46 48 38C48 26 42 14 32 10Z" fill="#047857"/>
+            <path d="M32 12V52" stroke="#6EE7B7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 24L42 18" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M32 32L44 26" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M32 20L22 16" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="42" cy="18" r="2.5" fill="#FCD34D"/>
+            <circle cx="44" cy="26" r="2.5" fill="#FCD34D"/>
+            <circle cx="22" cy="16" r="2.5" fill="#6EE7B7"/>
+          </svg>
+        </div>
+        <div>
+          <h1 data-i18n="app_title">AgriSmart AI</h1>
+          <span class="subtext" data-i18n="app_subtitle">Autonomous Agricultural Intelligence & Pathology System</span>
+        </div>
       </div>
 
+      <!-- Temperature & Live Weather Badge (Left Side) -->
       <span class="badge badge-success" id="live-weather-badge">☁ Weather Sync</span>
+
+      <!-- Location Control Bar (Left Side: GPS vs Manual State/District) -->
+      <div class="location-control-bar">
+        <button class="loc-mode-btn active" id="btn-loc-gps" onclick="setLocMode('gps')">
+          <span>📍</span> <span data-i18n="loc_gps_mode">GPS Auto</span>
+        </button>
+        <button class="loc-mode-btn" id="btn-loc-manual" onclick="setLocMode('manual')">
+          <span>🗺️</span> <span data-i18n="loc_manual_mode">State & District</span>
+        </button>
+        <div class="manual-loc-wrap" id="manual-loc-inputs" style="display:none;">
+          <select id="sel-state" class="manual-loc-select" onchange="onStateChanged(this.value)">
+            <option value="Gujarat">Gujarat (ગુજરાત)</option>
+            <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+            <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
+            <option value="Haryana">Haryana (हरियाणा)</option>
+            <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+            <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+            <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+            <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
+          </select>
+          <select id="sel-district" class="manual-loc-select" onchange="onDistrictChanged(this.value)">
+            <!-- Populated dynamically via JS -->
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Group: Global Language, Farmer Account, and Single Settings & Profile Button -->
+    <div class="nav-right">
+      <!-- Global Language Switcher -->
+      <div class="lang-bar">
+        <span class="lang-label" data-i18n="language_label">🌐 भाषा (Language):</span>
+        <select id="global-lang-select" class="lang-select" onchange="changeGlobalLanguage(this.value)">
+          <option value="hi" selected>हिन्दी (Hindi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
       <!-- User Account Action Button (Auto-Remembered / No Mandatory Login) -->
       <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
         <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
       </button>
+
       <!-- Single Dedicated Settings & Profile Button on the Far Right Side -->
       <button class="btn btn-settings-header" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings">
         <span>⚙️</span> <span data-i18n="nav_settings">Settings & Profile</span>
@@ -1452,6 +1451,17 @@
             <option value="hi">हिन्दी (Hindi)</option>
             <option value="gu">ગુજરાતી (Gujarati)</option>
             <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+
+        <!-- Preferred Appearance Theme / Mode (Asked during login / account setup) -->
+        <div class="form-group" id="group-theme-pref">
+          <label data-i18n="auth_theme_label">🎨 Theme & Display Mode:</label>
+          <select id="auth-theme-select" class="form-control" onchange="applyTheme(this.value, false)">
+            <option value="standard" selected data-i18n="theme_opt_standard">🌿 Farm Green (Standard)</option>
+            <option value="dark" data-i18n="theme_opt_dark">🌙 Night Mode (Dark)</option>
+            <option value="high-contrast" data-i18n="theme_opt_contrast">☀️ High Sunlight Contrast</option>
+            <option value="harvest" data-i18n="theme_opt_harvest">🌾 Golden Harvest (Amber)</option>
           </select>
         </div>
 
