@@ -212,6 +212,230 @@ BASE_DOMAINS = [
 ]
 
 
+# -------------------------------------------------------------
+# Multilingual Tokenizer, Stemmer, Crop & Domain Matchers
+# -------------------------------------------------------------
+IRREGULARS = {
+    "tomatoes": "tomato", "potatoes": "potato", "mangoes": "mango", "leaves": "leaf", "fungi": "fungus",
+    "chillies": "chilli", "chiles": "chilli", "fertilizers": "fertilizer", "fertilisers": "fertilizer",
+    "fertiliser": "fertilizer", "pesticides": "pesticide", "fungicides": "fungicide", "herbicides": "herbicide",
+    "insecticides": "insecticide", "caterpillars": "caterpillar", "bollworms": "bollworm", "aphids": "aphid",
+    "whiteflies": "whitefly", "thrips": "thrips", "weeds": "weed", "diseases": "disease", "treatments": "treat",
+    "treatment": "treat", "remedies": "remedy", "spraying": "spray", "sprayed": "spray", "sprays": "spray",
+    "irrigate": "irrigation", "irrigating": "irrigation", "irrigations": "irrigation"
+}
+
+
+def tokenize_multilingual(text: str) -> List[str]:
+    """
+    Unicode-safe multilingual tokenizer.
+    Matches sequences of characters excluding punctuation, whitespace, brackets, quotes.
+    Preserves all Devanagari, Gujarati, Gurmukhi, and Latin scripts with combining marks/matras.
+    """
+    raw_tokens = re.findall(r"[^\s\.,;:\?!()\[\]\{\}\'\"/\\<>@#$%^&*+=|~`\-–—_]+", text)
+    tokens = []
+    for t in raw_tokens:
+        clean = t.strip().lower()
+        if len(clean) >= 2:
+            tokens.append(clean)
+    return tokens
+
+
+def stem_token(word: str) -> str:
+    """Stem/normalize English agricultural terms, plurals, and common suffixes."""
+    w = word.lower()
+    if len(w) <= 3:
+        return w
+    if w in IRREGULARS:
+        return IRREGULARS[w]
+    if w.endswith("ies") and len(w) > 4:
+        return w[:-3] + "y"
+    if w.endswith("ves") and len(w) > 4:
+        return w[:-3] + "f"
+    if w.endswith("es") and len(w) > 4 and (w.endswith("shes") or w.endswith("ches") or w.endswith("sses") or w.endswith("xes")):
+        return w[:-2]
+    if w.endswith("ing") and len(w) > 5:
+        return w[:-3]
+    if w.endswith("ed") and len(w) > 4:
+        return w[:-2]
+    if w.endswith("s") and not w.endswith("ss") and len(w) > 3:
+        return w[:-1]
+    return w
+
+
+# Comprehensive Crop Lookup Table
+CROP_ALIASES: List[Tuple[str, str]] = []
+
+for crop_en, crop_hi, crop_gu, crop_mr in EXTENDED_CROPS:
+    canonical = crop_en
+    # English variations
+    for p in re.findall(r"[A-Za-z]+", crop_en.lower()):
+        if len(p) >= 3:
+            CROP_ALIASES.append((p, canonical))
+            CROP_ALIASES.append((p + "s", canonical))
+            CROP_ALIASES.append((p + "es", canonical))
+    # Native variations
+    for text in [crop_hi, crop_gu, crop_mr]:
+        for token in tokenize_multilingual(text):
+            if len(token) >= 2:
+                CROP_ALIASES.append((token, canonical))
+
+EXTRA_CROP_ALIASES = [
+    ("tomato", "Tomato"), ("tomatoes", "Tomato"), ("tamatar", "Tomato"), ("tamata", "Tomato"), ("ટામેટા", "Tomato"), ("ટામેટાં", "Tomato"), ("ટોમॅટો", "Tomato"), ("टोमॅटो", "Tomato"), ("टमाटर", "Tomato"),
+    ("potato", "Potato"), ("potatoes", "Potato"), ("aloo", "Potato"), ("alu", "Potato"), ("batata", "Potato"), ("બટાટા", "Potato"), ("બટાકા", "Potato"), ("बटाटा", "Potato"), ("आलू", "Potato"),
+    ("rice", "Rice (Paddy)"), ("paddy", "Rice (Paddy)"), ("chawal", "Rice (Paddy)"), ("dhan", "Rice (Paddy)"), ("ડાંગર", "Rice (Paddy)"), ("ચોખા", "Rice (Paddy)"), ("भात", "Rice (Paddy)"), ("धान", "Rice (Paddy)"),
+    ("wheat", "Wheat"), ("gehu", "Wheat"), ("gehun", "Wheat"), ("ghau", "Wheat"), ("gahu", "Wheat"), ("गव्हा", "Wheat"), ("ઘઉં", "Wheat"), ("गहू", "Wheat"), ("गेहूं", "Wheat"),
+    ("corn", "Maize (Corn)"), ("maize", "Maize (Corn)"), ("makka", "Maize (Corn)"), ("makai", "Maize (Corn)"), ("મકાઈ", "Maize (Corn)"), ("मका", "Maize (Corn)"), ("मक्का", "Maize (Corn)"),
+    ("cotton", "Cotton"), ("kapas", "Cotton"), ("kapus", "Cotton"), ("કપાસ", "Cotton"), ("कापूस", "Cotton"), ("कपास", "Cotton"),
+    ("mustard", "Mustard (Rapeseed)"), ("sarson", "Mustard (Rapeseed)"), ("sarso", "Mustard (Rapeseed)"), ("rai", "Mustard (Rapeseed)"), ("રાઈ", "Mustard (Rapeseed)"), ("મોહરી", "Mustard (Rapeseed)"), ("सरसों", "Mustard (Rapeseed)"),
+    ("chickpea", "Chickpea (Gram)"), ("gram", "Chickpea (Gram)"), ("chana", "Chickpea (Gram)"), ("chane", "Chickpea (Gram)"), ("harbhara", "Chickpea (Gram)"), ("ચણા", "Chickpea (Gram)"), ("हरभरा", "Chickpea (Gram)"), ("चना", "Chickpea (Gram)"),
+    ("arhar", "Pigeonpea (Arhar/Tur)"), ("tur", "Pigeonpea (Arhar/Tur)"), ("tuver", "Pigeonpea (Arhar/Tur)"), ("તુવેર", "Pigeonpea (Arhar/Tur)"), ("तूर", "Pigeonpea (Arhar/Tur)"), ("अरहर", "Pigeonpea (Arhar/Tur)"),
+    ("moong", "Moong (Green Gram)"), ("mung", "Moong (Green Gram)"), ("mag", "Moong (Green Gram)"), ("મગ", "Moong (Green Gram)"), ("मूग", "Moong (Green Gram)"), ("मूंग", "Moong (Green Gram)"),
+    ("urad", "Urad (Black Gram)"), ("udad", "Urad (Black Gram)"), ("અડદ", "Urad (Black Gram)"), ("उडीद", "Urad (Black Gram)"), ("उड़द", "Urad (Black Gram)"),
+    ("sugarcane", "Sugarcane"), ("ganna", "Sugarcane"), ("sherdi", "Sugarcane"), ("oos", "Sugarcane"), ("શેરડી", "Sugarcane"), ("ऊस", "Sugarcane"), ("गन्ना", "Sugarcane"),
+    ("onion", "Onion"), ("onions", "Onion"), ("kanda", "Onion"), ("dungri", "Onion"), ("pyaz", "Onion"), ("ડુંગળી", "Onion"), ("कांदा", "Onion"), ("प्याज", "Onion"),
+    ("garlic", "Garlic"), ("lahsun", "Garlic"), ("lasan", "Garlic"), ("lasun", "Garlic"), ("લસણ", "Garlic"), ("लसूण", "Garlic"), ("लहसुन", "Garlic"),
+    ("chilli", "Chilli (Hot Pepper)"), ("chillies", "Chilli (Hot Pepper)"), ("mirch", "Chilli (Hot Pepper)"), ("mirchi", "Chilli (Hot Pepper)"), ("marcha", "Chilli (Hot Pepper)"), ("મરચાં", "Chilli (Hot Pepper)"), ("મરચી", "Chilli (Hot Pepper)"), ("मिरची", "Chilli (Hot Pepper)"), ("मिर्च", "Chilli (Hot Pepper)"),
+    ("brinjal", "Brinjal (Eggplant)"), ("eggplant", "Brinjal (Eggplant)"), ("baingan", "Brinjal (Eggplant)"), ("ringan", "Brinjal (Eggplant)"), ("vangi", "Brinjal (Eggplant)"), ("રીંગણ", "Brinjal (Eggplant)"), ("वांगी", "Brinjal (Eggplant)"), ("बैंगन", "Brinjal (Eggplant)"),
+    ("okra", "Okra (Ladyfinger)"), ("ladyfinger", "Okra (Ladyfinger)"), ("bhindi", "Okra (Ladyfinger)"), ("bhinda", "Okra (Ladyfinger)"), ("bhendi", "Okra (Ladyfinger)"), ("ભીંડા", "Okra (Ladyfinger)"), ("भेंडी", "Okra (Ladyfinger)"), ("भिंडी", "Okra (Ladyfinger)"),
+    ("apple", "Apple"), ("apples", "Apple"), ("seb", "Apple"), ("safarjan", "Apple"), ("safarchand", "Apple"),
+    ("grape", "Grape"), ("grapes", "Grape"), ("angur", "Grape"), ("draksh", "Grape"), ("drax", "Grape"),
+    ("banana", "Banana"), ("bananas", "Banana"), ("kela", "Banana"), ("kera", "Banana"), ("keli", "Banana"),
+    ("mango", "Mango"), ("mangoes", "Mango"), ("aam", "Mango"), ("keri", "Mango"), ("amba", "Mango")
+]
+CROP_ALIASES.extend(EXTRA_CROP_ALIASES)
+CROP_ALIASES.sort(key=lambda x: len(x[0]), reverse=True)
+
+
+def detect_crop_in_query(query: str) -> Optional[str]:
+    """Identifies mentioned crop from English, Hindi, Gujarati, Marathi text and inflections."""
+    q_lower = query.lower()
+    tokens = tokenize_multilingual(query)
+    
+    # 1. Exact token or stemmed token match
+    for t in tokens:
+        st = stem_token(t)
+        for alias, canonical in CROP_ALIASES:
+            if t == alias or st == alias:
+                return canonical
+                
+    # 2. Substring matching for Indic inflections (e.g. ટામેટામાં -> contains ટામેટા, टोमॅटोतील -> contains टोमॅटो)
+    for alias, canonical in CROP_ALIASES:
+        if len(alias) >= 3:
+            for t in tokens:
+                if alias in t:
+                    return canonical
+            if alias in q_lower:
+                return canonical
+    return None
+
+
+DOMAIN_KEYWORD_MAP = {
+    "early_blight": [
+        "early blight", "target spot", "alternaria", "concentric rings", "blight", "foliar spot", "leaf spot",
+        "झुलसा", "अगेती", "अगेती झुलसा", "धब्बा", "पत्ती धब्बा",
+        "સુકારો", "અગેતરો", "અગેતરો સુકારો", "ટપકા",
+        "करपा", "लवकर येणारा करपा", "ठिपके", "पानावरील ठिपके"
+    ],
+    "late_blight": [
+        "late blight", "phytophthora", "water soaked", "pacheti",
+        "पछेती", "पछेती झुलसा", "सड़न",
+        "પાછતરો", "પાછતરો સુકારો", "સડો",
+        "उशिरा येणारा करपा", "सड"
+    ],
+    "rust_powdery": [
+        "rust", "powdery mildew", "pustules", "churna", "geru", "tambera", "mildew", "smut",
+        "रतुआ", "गेरू", "चूर्णिल", "फफूंद",
+        "ગેરુ", "ભૂરી", "છારો",
+        "तांबेरा", "भुरी", "काजळी"
+    ],
+    "sucking_pests": [
+        "aphids", "thrips", "whitefly", "whiteflies", "mava", "tudtude", "chikta", "jassids", "sucking", "mites", "mite",
+        "माहू", "मोवा", "मावा", "सफेद मक्खी", "थ्रिप्स", "तेला",
+        "સફેદ માખી", "થ્રિપ્સ", "મોલો", "મસી", "ચીકટો", "ચૂસિયા",
+        "पांढरी माशी", "थ्रिप्स", "मावा", "तुडतुडे", "रस शोषक"
+    ],
+    "borers_caterpillars": [
+        "caterpillar", "caterpillars", "borer", "borers", "bollworm", "bollworms", "fruit borer", "stem borer", "illii", "illi", "dali", "worm", "worms", "larva", "larvae",
+        "सुंडी", "इल्ली", "छेदक", "कीड़ा", "कीड़े",
+        "ઈયળ", "બોલવર્મ", "કાતરા", "ખોડિયા",
+        "अळी", "बोंड अळी", "खोडाळी", "किडा"
+    ],
+    "nitrogen_dosing": [
+        "nitrogen", "urea", "fertilizer", "fertilizers", "fertilisers", "fertiliser", "pale leaves", "split application", "urea dosage", "tillering",
+        "यूरिया", "नाइट्रोजन", "नीम लेपित", "खाद", "उर्वरक",
+        "યૂરિયા", "નાઇટ્રોજન", "ખાતર",
+        "युरिया", "नायट्रोजन", "खत"
+    ],
+    "phosphorus_potassium": [
+        "phosphorus", "potassium", "dap", "ssp", "mop", "root", "pod filling", "potash", "grain weight",
+        "फास्फोरस", "पोटाश", "डीएपी", "एमओपी", "एसएसपी", "दाना भराव",
+        "ફોસ્ફરસ", "પોટાશ", "ડીએપી", "દાણા",
+        "फॉस्फरस", "पोटॅश", "डीएपी", "दाणे"
+    ],
+    "zinc_micronutrients": [
+        "zinc", "iron", "boron", "khaira", "chlorosis", "yellowing", "micronutrient", "micronutrients", "flower drop",
+        "जिंक", "बोरॉन", "आयरन", "खैरा", "पीलापन", "फूल झड़ना",
+        "ઝિંક", "બોરોન", "લોહતત્વ", "સૂક્ષ્મ", "ફૂલ ખરવા",
+        "झिंक", "बोरॉन", "लोह", "फुलगळ"
+    ],
+    "soil_ph_lime_gypsum": [
+        "ph", "acidic", "alkaline", "gypsum", "lime", "saline", "soil test", "reclamation",
+        "पीएच", "चूना", "जिप्सम", "क्षारीय", "अम्लीय", "मिट्टी जांच",
+        "પીએચ", "ચૂનો", "જીપ્સમ", "ક્ષારીય", "એસિડિક",
+        "सामू", "चुना", "जिप्सम", "खारवट", "आम्लयुक्त"
+    ],
+    "drip_irrigation_timing": [
+        "drip", "irrigation", "irrigation schedule", "water stress", "drought", "sinchai", "water", "watering", "sprinkler", "delay irrigation",
+        "सिंचाई", "पानी", "ड्रिप", "टपक", "सूखा",
+        "સિંચાઈ", "પાણી", "ટપક", "પિયત", "દુષ્કાળ",
+        "सिंचन", "पाणी", "ठिबक", "पाण्याची पाळी"
+    ],
+    "organic_farming_jeevamrut": [
+        "organic", "jeevamrut", "natural farming", "fym", "vermicompost", "neemastra", "natural", "bio-fertilizer", "trichoderma", "reduce chemical",
+        "जीवामृत", "जैविक", "प्राकृतिक", "केंचुआ", "गोबर खाद",
+        "જીવામૃત", "જૈવિક", "સજીવ ખેતી", "પ્રાકૃતિક",
+        "जिवामृत", "सेंद्रिय", "नैसर्गिक", "गांडूळ खत"
+    ],
+    "weed_management_herbicides": [
+        "weed", "weeds", "herbicide", "herbicides", "kharpatwar", "nindai", "pendimethalin", "weeding",
+        "खरपतवार", "निराई", "गुड़ाई", "खरपतवारनाशी",
+        "નીંદણ", "નીંદામણ", "ખુરપી", "નીંદણનાશક",
+        "तण", "तणनाशक", "खुरपणी"
+    ]
+}
+
+
+def detect_domain_in_query(query: str) -> Optional[str]:
+    """Identifies agronomic domain from multilingual keywords and phrases."""
+    q_lower = query.lower()
+    tokens = tokenize_multilingual(query)
+    expanded = set(tokens)
+    for t in tokens:
+        expanded.add(stem_token(t))
+        
+    best_domain = None
+    max_score = 0
+    
+    for dom_id, kw_list in DOMAIN_KEYWORD_MAP.items():
+        score = 0
+        for kw in kw_list:
+            kw_lower = kw.lower()
+            if " " in kw_lower:
+                if kw_lower in q_lower:
+                    score += 5  # Strong multi-word match
+            else:
+                if kw_lower in expanded:
+                    score += 3
+                elif len(kw_lower) >= 3 and any(kw_lower in t for t in tokens):
+                    score += 2
+        if score > max_score:
+            max_score = score
+            best_domain = dom_id
+            
+    return best_domain if max_score >= 2 else None
+
+
 class FarmingQAEngine:
     """
     Massive In-Memory Agricultural Q&A Semantic Retrieval Engine.
@@ -220,7 +444,7 @@ class FarmingQAEngine:
 
     def __init__(self):
         self.corpus: List[Dict[str, Any]] = []
-        self.inverted_index: Dict[str, List[int]] = {}
+        self.inverted_index: Dict[str, Set[int]] = {}
         self._build_large_corpus()
 
     def _build_large_corpus(self):
@@ -256,15 +480,17 @@ class FarmingQAEngine:
                 crop_specific_gu = f"{crop_gu} માટે: {domain['ans_gu']}"
                 crop_specific_mr = f"{crop_mr} साठी: {domain['ans_mr']}"
 
+                domain_kws = DOMAIN_KEYWORD_MAP.get(domain["id"], domain["keywords"])
                 combined_keywords = [
                     crop_en.lower(), crop_hi.lower(), crop_gu.lower(), crop_mr.lower()
-                ] + domain["keywords"]
+                ] + domain_kws
 
                 for var_idx, template in enumerate(variation_templates):
                     query_text = template.format(topic=domain["title"].lower(), crop=crop_en.lower())
                     entry = {
                         "id": doc_id,
                         "crop": crop_en,
+                        "domain_id": domain["id"],
                         "topic": f"{crop_en} - {domain['title']} (Q&A #{doc_id+1})",
                         "query_sample": query_text,
                         "keywords": combined_keywords + [f"v{var_idx}"],
@@ -275,7 +501,13 @@ class FarmingQAEngine:
                         "source": f"{domain['source']} & Agricultural Package of Practices for {crop_en}"
                     }
                     self.corpus.append(entry)
-                    self._index_document(doc_id, combined_keywords + [crop_en, domain["title"], query_text])
+                    
+                    tokens_to_index = (
+                        combined_keywords +
+                        [crop_en, crop_hi, crop_gu, crop_mr, domain["title"], query_text] +
+                        [crop_specific_hi, crop_specific_gu, crop_specific_mr]
+                    )
+                    self._index_document(doc_id, tokens_to_index)
                     doc_id += 1
 
         print(f"[AgriSmart QA Engine] Successfully indexed {len(self.corpus)} agricultural Q&A knowledge nodes (Target: >10,000 nodes).")
@@ -284,30 +516,70 @@ class FarmingQAEngine:
     def total_nodes(self) -> int:
         return len(self.corpus)
 
-    def _index_document(self, doc_id: int, tokens: List[str]):
-        for token in tokens:
-            for word in re.findall(r"\w+", token.lower()):
-                if len(word) >= 3:
-                    if word not in self.inverted_index:
-                        self.inverted_index[word] = []
-                    self.inverted_index[word].append(doc_id)
+    def _index_document(self, doc_id: int, text_list: List[str]):
+        seen_words: Set[str] = set()
+        for text in text_list:
+            for token in tokenize_multilingual(text):
+                seen_words.add(token)
+                stemmed = stem_token(token)
+                if stemmed != token:
+                    seen_words.add(stemmed)
+        
+        for word in seen_words:
+            if word not in self.inverted_index:
+                self.inverted_index[word] = set()
+            self.inverted_index[word].add(doc_id)
 
-    def search(self, query: str, top_k: int = 3) -> List[Dict[str, Any]]:
-        words = [w.lower() for w in re.findall(r"\w+", query) if len(w) >= 3]
-        if not words:
+    def search(self, query: str, top_k: int = 3, user_primary_crop: Optional[str] = None) -> List[Dict[str, Any]]:
+        tokens = tokenize_multilingual(query)
+        if not tokens:
             return self.corpus[:top_k]
+
+        detected_crop = detect_crop_in_query(query) or user_primary_crop
+        detected_domain = detect_domain_in_query(query)
+
+        # Expand tokens with stem
+        expanded_tokens: Set[str] = set()
+        for t in tokens:
+            expanded_tokens.add(t)
+            expanded_tokens.add(stem_token(t))
 
         score_map: Dict[int, float] = {}
 
-        for w in words:
-            doc_ids = self.inverted_index.get(w, [])
+        for w in expanded_tokens:
+            doc_ids = self.inverted_index.get(w, set())
             df = len(doc_ids)
+            if df == 0:
+                continue
             idf = math.log((len(self.corpus) + 1.0) / (df + 1.0)) + 1.0
+            term_weight = (len(w) ** 0.5)
             for did in doc_ids:
-                score_map[did] = score_map.get(did, 0.0) + idf * (len(w) ** 0.5)
+                score_map[did] = score_map.get(did, 0.0) + idf * term_weight
 
         if not score_map:
-            return [self.corpus[0]]
+            # Fallback if no exact inverted index tokens matched
+            matching = self.corpus
+            if detected_crop:
+                matching = [d for d in matching if d["crop"] == detected_crop]
+            if detected_domain:
+                matching = [d for d in matching if d["domain_id"] == detected_domain]
+            return matching[:top_k] if matching else [self.corpus[0]]
+
+        # Crop boost & cross-crop penalty
+        if detected_crop:
+            for did in list(score_map.keys()):
+                doc = self.corpus[did]
+                if doc["crop"] == detected_crop:
+                    score_map[did] += 2000.0
+                else:
+                    score_map[did] *= 0.01  # Heavy penalty for wrong crops
+
+        # Domain boost
+        if detected_domain:
+            for did in list(score_map.keys()):
+                doc = self.corpus[did]
+                if doc["domain_id"] == detected_domain:
+                    score_map[did] += 1000.0
 
         ranked_doc_ids = sorted(score_map.keys(), key=lambda x: score_map[x], reverse=True)[:top_k]
         return [self.corpus[did] for did in ranked_doc_ids]
@@ -326,5 +598,6 @@ def get_qa_engine() -> FarmingQAEngine:
 if __name__ == "__main__":
     engine = get_qa_engine()
     print("Total Q&A items indexed:", len(engine.corpus))
-    match = engine.search("tomato early blight control")[0]
+    match = engine.search("How do I treat Early Blight on tomatoes?")[0]
     print("Match:", match["topic"])
+

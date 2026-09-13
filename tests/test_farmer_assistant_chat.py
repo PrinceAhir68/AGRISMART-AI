@@ -50,19 +50,26 @@ class TestFarmerAssistantChat(unittest.TestCase):
             self.assertTrue(len(res["answer"]) > 50)
 
     def test_agronomy_qa_crop_questions(self):
-        """Verify domain crop questions return verified ICAR answers."""
+        """Verify domain crop questions return verified ICAR answers with correct crop and domain matching."""
         queries = [
-            ("How do I treat Early Blight on tomatoes?", "en"),
-            ("टमाटर में झुलसा रोग का उपचार", "hi"),
-            ("ઘઉંમાં ખાતર કેટલું નાખવું", "gu"),
-            ("What is the organic treatment for corn rust?", "en"),
+            ("How do I treat Early Blight on tomatoes?", "en", "Tomato", "Early Blight"),
+            ("टमाटर में झुलसा रोग का उपचार", "hi", "Tomato", "Early Blight"),
+            ("ઘઉંમાં ખાતર કેટલું નાખવું", "gu", "Wheat", "Nitrogen"),
+            ("What is the organic treatment for corn rust?", "en", "Corn", "Rust"),
+            ("કપાસમાં ઈયળનું નિયંત્રણ", "gu", "Cotton", "Borer"),
+            ("टोमॅटोतील करपा रोगावर काय उपाय करावा?", "mr", "Tomato", "Early Blight"),
+            ("When should I delay irrigation?", "en", None, "Irrigation"),
         ]
-        for q, lang in queries:
+        for q, lang, expected_crop, expected_domain in queries:
             res = ask_farmer_assistant(q, lang)
-            self.assertEqual(res["status"], "success")
-            self.assertEqual(res["intent"], "agronomy_answer")
+            self.assertEqual(res["status"], "success", f"Failed for query: {q}")
+            self.assertEqual(res["intent"], "agronomy_answer", f"Failed intent for: {q}")
             self.assertTrue(bool(res["answer"]))
             self.assertTrue(bool(res["topic"]))
+            if expected_crop:
+                self.assertIn(expected_crop, res["topic"], f"Crop {expected_crop} not in topic '{res['topic']}' for query: {q}")
+            if expected_domain:
+                self.assertIn(expected_domain, res["topic"], f"Domain {expected_domain} not in topic '{res['topic']}' for query: {q}")
             self.assertIn("consensus_score_pct", res)
             self.assertTrue(res["consensus_score_pct"] >= 70.0)
 
