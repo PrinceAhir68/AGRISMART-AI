@@ -16,7 +16,7 @@ from typing import Dict, Any, List, Optional
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
-DB_PATH = os.path.join(PROJECT_ROOT, "agrismart.db")
+DB_PATH = os.getenv("AGRISMART_DB_PATH", os.path.join(PROJECT_ROOT, "agrismart.db"))
 
 
 def get_db_connection():

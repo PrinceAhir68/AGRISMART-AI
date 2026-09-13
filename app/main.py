@@ -18,6 +18,39 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 sys.path.insert(0, PROJECT_ROOT)
 
+
+def load_dotenv_file(dotenv_path: Optional[str] = None) -> bool:
+    """
+    Lightweight, zero-dependency .env loader.
+    Loads key-value pairs from .env into os.environ without overwriting existing environment variables.
+    """
+    if dotenv_path is None:
+        dotenv_path = os.path.join(PROJECT_ROOT, ".env")
+    if not os.path.isfile(dotenv_path):
+        return False
+    try:
+        with open(dotenv_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    key, val = line.split("=", 1)
+                    key = key.strip()
+                    val = val.strip()
+                    if (val.startswith('"') and val.endswith('"')) or (val.startswith("'") and val.endswith("'")):
+                        val = val[1:-1]
+                    if key and key not in os.environ:
+                        os.environ[key] = val
+        return True
+    except Exception as err:
+        print(f"[AgriSmart Env] Warning: Failed to parse .env file: {err}")
+        return False
+
+
+# Auto-load .env configuration if present
+load_dotenv_file()
+
 if hasattr(sys.stdout, "reconfigure"):
     try:
         sys.stdout.reconfigure(encoding="utf-8")

@@ -1,8 +1,36 @@
+# Byte-compiled / optimized files
 __pycache__/
 *.py[cod]
 *$py.class
-*.log
+**/*.pyc
+**/__pycache__/
+
+# Local Environment Variables & Secrets
 .env
+.env.*
+*.env
+!.env.example
+*.pem
+*.key
+*.cert
+*.pfx
+*.p12
+credentials.json
+client_secret*.json
+
+# SQLite Databases & Local Test Data
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs and runtime artifacts
+*.log
+
+# Virtual Environments & IDEs
 venv/
+.venv/
+env/
 .vscode/
 .idea/
+.DS_Store
+

@@ -10,13 +10,24 @@ import requests
 import json
 from typing import Dict, Any, Optional
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
+def get_supabase_url() -> str:
+    return os.environ.get("SUPABASE_URL", "").strip()
+
+
+def get_supabase_key() -> str:
+    return os.environ.get("SUPABASE_KEY", "").strip()
+
+
+# Module-level aliases for backward compatibility
+SUPABASE_URL = get_supabase_url()
+SUPABASE_KEY = get_supabase_key()
 
 
 def is_supabase_configured() -> bool:
     """Checks if valid Supabase connection credentials exist."""
-    return bool(SUPABASE_URL and SUPABASE_KEY and "supabase.co" in SUPABASE_URL)
+    url = get_supabase_url()
+    key = get_supabase_key()
+    return bool(url and key and "supabase.co" in url)
 
 
 def sync_user_to_supabase(user_data: Dict[str, Any]) -> bool:
@@ -24,10 +35,10 @@ def sync_user_to_supabase(user_data: Dict[str, Any]) -> bool:
     if not is_supabase_configured():
         return False
 
-    url = f"{SUPABASE_URL.rstrip('/')}/rest/v1/users"
+    url = f"{get_supabase_url().rstrip('/')}/rest/v1/users"
     headers = {
-        "apikey": SUPABASE_KEY,
-        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "apikey": get_supabase_key(),
+        "Authorization": f"Bearer {get_supabase_key()}",
         "Content-Type": "application/json",
         "Prefer": "resolution=merge-duplicates"
     }
@@ -53,10 +64,10 @@ def sync_diagnosis_to_supabase(diag_data: Dict[str, Any]) -> bool:
     if not is_supabase_configured():
         return False
 
-    url = f"{SUPABASE_URL.rstrip('/')}/rest/v1/diagnoses"
+    url = f"{get_supabase_url().rstrip('/')}/rest/v1/diagnoses"
     headers = {
-        "apikey": SUPABASE_KEY,
-        "Authorization": f"Bearer {SUPABASE_KEY}",
+        "apikey": get_supabase_key(),
+        "Authorization": f"Bearer {get_supabase_key()}",
         "Content-Type": "application/json"
     }
 
@@ -73,7 +84,7 @@ def get_supabase_status() -> Dict[str, Any]:
     configured = is_supabase_configured()
     return {
         "configured": configured,
-        "url": SUPABASE_URL if configured else "Not Set",
+        "url": get_supabase_url() if configured else "Not Set",
         "status": "Connected to Supabase Cloud" if configured else "Local SQLite Active (Ready for Supabase)",
         "setup_guide": "Add SUPABASE_URL and SUPABASE_KEY in your .env file or environment variables to enable cloud sync."
     }
