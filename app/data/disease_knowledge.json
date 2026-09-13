@@ -1,0 +1,1133 @@
+{
+  "Tomato___Early_blight": {
+    "display_name": "Tomato Early Blight",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Alternaria solani (Fungus)",
+    "symptoms": "Dark brown to black spots with concentric rings ('bullseye' pattern) starting on lower older leaves, yellowing halos around lesions.",
+    "precautions": [
+      "Prune and burn/dispose of lower infected leaves immediately to prevent upward spore splash.",
+      "Avoid overhead sprinkler irrigation; switch strictly to root drip irrigation to keep foliage dry.",
+      "Ensure adequate plant spacing (60cm x 45cm) to promote good air circulation."
+    ],
+    "organic_treatment": "Spray Neem oil (0.5%) or Trichoderma viride / harzianum bio-fungicide @ 5g/L during early morning.",
+    "chemical_treatment": "Apply Mancozeb 75% WP @ 2.5g/L or Chlorothalonil 75% WP @ 2g/L at 10-day intervals if disease incidence exceeds 10%.",
+    "prevention": "Practice 3-year crop rotation avoiding Solanaceous crops (potato, eggplant). Mulch the soil bed with straw to prevent soil splash.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - अगेती झुलसा (अर्ली ब्लाइट)",
+        "action": "निचली संक्रमित पत्तियों को तुरंत तोड़कर खेत से दूर नष्ट करें। पत्तों पर सीधे पानी का छिड़काव न करें, ड्रिप सिंचाई अपनाएं। नीम तेल या मेंकोजेब का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - પાનનો સુકારો (અર્લી બ્લાઇટ)",
+        "action": "ચેપગ્રસ્ત નીચેના પાંદડા તરત જ કાપીને નાશ કરો. પાંદડા પર ઉપરથી પાણી છાંટવાનું ટાળો, ડ્રિપ પદ્ધતિ વાપરો. લીમડાનું તેલ અથવા મેન્કોઝેબનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - लवकर येणारा करपा (अगेती करपा)",
+        "action": "खालची बाधित पाने ताबडतोब खुडून नष्ट करा. ठिबक सिंचन वापरा. निंबोळी अर्क किंवा मँकोझेब २.५ ग्रॅम प्रति लिटर फवारा."
+      }
+    }
+  },
+  "Tomato___Late_blight": {
+    "display_name": "Tomato Late Blight",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Phytophthora infestans (Oomycete)",
+    "symptoms": "Water-soaked irregular pale green lesions turning dark brown rapidly; white fuzzy fungal growth on undersides of leaves during humid weather.",
+    "precautions": [
+      "Quarantine the affected plot; Late Blight spreads aggressively across entire fields within 48-72 hours under wet cool conditions.",
+      "Destroy heavily infested plants immediately to protect remaining crop.",
+      "Cease all foliar sprays and overhead watering immediately."
+    ],
+    "organic_treatment": "Foliar spray with Copper Hydroxide or Bordeaux mixture (1%) as a protective protective shield.",
+    "chemical_treatment": "Spray Metalaxyl 8% + Mancozeb 64% WP (Ridomil MZ) @ 2g/L or Cymoxanil + Mancozeb @ 2g/L at first sign of infection.",
+    "prevention": "Plant certified disease-free resistant varieties. Avoid planting near potato fields.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - पछेती झुलसा (लेट ब्लाइट)",
+        "action": "यह अत्यंत तीव्र बीमारी है। संक्रमित पौधों को तुरंत नष्ट करें। रिडोमिल (Metalaxyl + Mancozeb) 2 ग्राम प्रति लीटर पानी में मिलाकर तुरंत छिड़कें।"
+      },
+      "gu": {
+        "title": "ટામેટા - પાછોતરો સુકારો (લેટ બ્લાઇટ)",
+        "action": "આ રોગ ખૂબ ઝડપથી ફેલાય છે. અસરગ્રસ્ત છોડને તાત્કાલિક બાળી નાખો અને રિડોમિલ એમઝેડ ૨ ગ્રામ પ્રતિ લિટર પાણીમાં ભેળવી છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - उशिरा येणारा करपा (लेट ब्लाइट)",
+        "action": "हा रोग वेगाने पसरतो. बाधित झाडे त्वरित नष्ट करा. रिडोमिल एमझेड २ ग्रॅम प्रति लिटर पाण्यात मिसळून ताबडतोब फवारणी करा."
+      }
+    }
+  },
+  "Tomato___Leaf_Mold": {
+    "display_name": "Tomato Leaf Mould",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Passalora fulva (Fungus)",
+    "symptoms": "Pale green to yellowish spots on upper leaf surfaces; olive-green to brown velvety fungal patches on lower leaf surfaces.",
+    "precautions": [
+      "Improve greenhouse/polyhouse ventilation to lower relative humidity below 80%.",
+      "Prune sucker branches and lower leaves to maximize airflow.",
+      "Space rows widely and ensure good sunlight penetration."
+    ],
+    "organic_treatment": "Spray Bacillus subtilis bio-fungicide or compost tea extract.",
+    "chemical_treatment": "Apply Difenoconazole 25% EC @ 1ml/L or Azoxystrobin @ 1ml/L if humidity remains above 85%.",
+    "prevention": "Ensure optimal daytime ventilation in protected cultivation; sanitize polyhouse structures.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - पत्ती का फफूंद (लीफ मोल्ड)",
+        "action": "हवा का संचार बढ़ाएं और नमी 80% से कम रखें। प्रभावित पत्तियां हटाएं और डाईफेनोकोनाजोल का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - પાનની ફૂગ (લીફ મોલ્ડ)",
+        "action": "હવાની અવરજવર વધારો અને ભેજ નિયંત્રિત કરો. રોગગ્રસ્ત પાન દૂર કરી યોગ્ય ફૂગનાશકનો ઉપયોગ કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - पानांवरील बुरशी (लीफ मोल्ड)",
+        "action": "हवेचे खेळते प्रमाण वाढवा. कॉपर ऑक्सिक्लोराईड २.५ ग्रॅम प्रति लिटर किंवा बोर्डो मिश्रण १% फवारा."
+      }
+    }
+  },
+  "Tomato___Bacterial_spot": {
+    "display_name": "Tomato Bacterial Spot",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Xanthomonas campestris pv. vesicatoria (Bacterium)",
+    "symptoms": "Small, water-soaked dark circular spots (less than 3mm) on leaves, stems, and fruits, often surrounded by yellow halos.",
+    "precautions": [
+      "Do not work in fields when leaves are wet to prevent spreading bacteria via hands and tools.",
+      "Sterilize all pruning shears and stakes with 10% sodium hypochlorite solution.",
+      "Remove severely infected seedlings immediately."
+    ],
+    "organic_treatment": "Apply Copper sulfate + hydrated lime (Bordeaux mixture 0.5%) or Streptomyces bio-bactericide.",
+    "chemical_treatment": "Spray Copper Oxychloride 50% WP @ 2.5g/L mixed with Streptocycline @ 0.1g/L (1g per 10 liters water).",
+    "prevention": "Use certified hot-water treated seeds. Rotate with non-host crops like maize or sorghum.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - जीवाणु धब्बा रोग (बैक्टीरियल स्पॉट)",
+        "action": "गीले पौधों को हाथ न लगाएं। कॉपर ऑक्सीक्लोराइड 2.5 ग्राम + स्ट्रेप्टोसाइक्लिन 1 ग्राम प्रति 10 लीटर पानी में मिलाकर छिड़कें।"
+      },
+      "gu": {
+        "title": "ટામેટા - જીવાણુ ડાઘ (બેક્ટેરિયલ સ્પોટ)",
+        "action": "ભીના પાંદડાઓને અડકશો નહીં. કોપર ઓક્સીક્લોરાઇડ અને સ્ટ્રેપ્ટોસાયક્લિનનું મિશ્રણ બનાવી છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - जिवाणूजन्य ठिपके (बॅक्टेरियल स्पॉट)",
+        "action": "स्ट्रेप्टोसायक्लिन १ ग्रॅम + कॉपर ऑक्सिक्लोराईड ३० ग्रॅम प्रति १० लिटर पाण्यात मिसळून फवारा."
+      }
+    }
+  },
+  "Tomato___healthy": {
+    "display_name": "Tomato Healthy",
+    "crop": "Tomato",
+    "is_disease": false,
+    "pathogen": "None (Plant is healthy and vigorous)",
+    "symptoms": "Deep green foliage, robust stems, no chlorosis, necrotic spotting, or fungal sporulation.",
+    "precautions": [
+      "Maintain regular drip irrigation scheduling according to soil moisture sensor readings.",
+      "Apply balanced NPK fertilization (19:19:19 @ 5g/L foliar or fertigation).",
+      "Inspect undersides of leaves weekly for early pest/vector presence (whiteflies, aphids)."
+    ],
+    "organic_treatment": "Preventative neem oil spray (3ml/L) every 14 days as prophylactic defense.",
+    "chemical_treatment": "No chemical application required. Save input costs.",
+    "prevention": "Continue good agricultural practices (GAP), mulch maintenance, and timely weeding.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - स्वस्थ पौधा",
+        "action": "पौधा पूरी तरह स्वस्थ है। किसी भी रासायनिक छिड़काव की आवश्यकता नहीं है। संतुलित पोषण और ड्रिप सिंचाई जारी रखें।"
+      },
+      "gu": {
+        "title": "ટામેટા - તંદુરસ્ત છોડ",
+        "action": "છોડ સંપૂર્ણપણે સ્વસ્થ છે. કોઈ દવાની જરૂર નથી. નિયમિત પાણી અને ખાતરની માવજત ચાલુ રાખો."
+      },
+      "mr": {
+        "title": "टोमॅटो - निरोगी पीक",
+        "action": "पीक पूर्णपणे निरोगी आणि सशक्त आहे. नियमित निरीक्षण ठेवा आणि संतुलित खत व्यवस्थापन चालू ठेवा."
+      }
+    }
+  },
+  "Potato___Early_blight": {
+    "display_name": "Potato Early Blight",
+    "crop": "Potato",
+    "is_disease": true,
+    "pathogen": "Alternaria solani (Fungus)",
+    "symptoms": "Brown to black concentric target-board lesions on older leaves, causing leaf drying and premature defoliation.",
+    "precautions": [
+      "Maintain adequate soil nitrogen and potassium; nutrient-stressed potato crops are more susceptible.",
+      "Avoid wounding potato foliage during cultivation.",
+      "Do not irrigate late in the evening."
+    ],
+    "organic_treatment": "Spray Trichoderma viride formulation @ 4g/L on foliage.",
+    "chemical_treatment": "Foliar application of Mancozeb 75% WP @ 2g/L or Propineb 70% WP @ 2g/L.",
+    "prevention": "Ensure balanced nutrition, certified seed tubers, and destroy volunteer potato plants.",
+    "translations": {
+      "hi": {
+        "title": "आलू - अगेती झुलसा",
+        "action": "संतुलित नाइट्रोजन और पोटाश खाद दें। शाम के समय सिंचाई से बचें। मेंकोजेब 2 ग्राम प्रति लीटर पानी का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "બટાટા - અર્લી બ્લાઇટ",
+        "action": "છોડને યોગ્ય પોષણ આપો. સાંજે પાણી આપવાનું ટાળો. મેન્કોઝેબ ૨ ગ્રામ પ્રતિ લિટર પાણીમાં છાંટો."
+      },
+      "mr": {
+        "title": "बटाटा - लवकर येणारा करपा (अगेती करपा)",
+        "action": "बाधित पाने शेतातून काढून नष्ट करा. मॅन्कोझेब २.५ ग्रॅम किंवा कॉपर हायड्रॉक्साइड २ ग्रॅम प्रति लिटर फवारा."
+      }
+    }
+  },
+  "Potato___Late_blight": {
+    "display_name": "Potato Late Blight",
+    "crop": "Potato",
+    "is_disease": true,
+    "pathogen": "Phytophthora infestans (Oomycete)",
+    "symptoms": "Rapidly expanding water-soaked black-brown blights with white mildew underneath; tuber rotting with reddish-brown dry rot.",
+    "precautions": [
+      "Monitor weather: High relative humidity (>90%) with temperatures between 10-20°C creates high alert.",
+      "Hill up soil well around tuber rows to prevent zoospores washing down into tubers.",
+      "Kill potato haulms (vines) 10-14 days before harvest if late blight is active in the area."
+    ],
+    "organic_treatment": "Spray Copper Oxychloride 50 WP @ 3g/L preventatively.",
+    "chemical_treatment": "Immediately spray Dimethomorph 50% WP @ 1g/L + Mancozeb @ 2g/L or Fenamidone + Mancozeb (Sectin) @ 2.5g/L.",
+    "prevention": "Plant resistant cultivars (e.g. Kufri Girdhari, Kufri Himalini). Use only certified disease-free seed tubers.",
+    "translations": {
+      "hi": {
+        "title": "आलू - पछेती झुलसा (लेट ब्लाइट)",
+        "action": "मौसम में नमी बढ़ते ही सतर्क रहें। तुरंत डाइमेथोमोर्फ + मेंकोजेब का छिड़काव करें। मिट्टी चढ़ाएं ताकि कंद सुरक्षित रहें।"
+      },
+      "gu": {
+        "title": "બટાટા - પાછોતરો સુકારો (લેટ બ્લાઇટ)",
+        "action": "ખેતરમાં ભેજ વધતાં જ રોગ ફેલાય છે. તાત્કાલિક ડાઇમેથોમોર્ફ અને મેન્કોઝેબનો છંટકાવ કરો અને થડ પાસે માટી ચડાવો."
+      },
+      "mr": {
+        "title": "बटाटा - उशिरा येणारा करपा (लेट ब्लाइट)",
+        "action": "हवामानात जास्त आर्द्रता असल्यास सायमोक्सॅनील + मॅन्कोझेब किंवा रिडोमिल २.५ ग्रॅम प्रति लिटर त्वरित फवारा."
+      }
+    }
+  },
+  "Potato___healthy": {
+    "display_name": "Potato Healthy",
+    "crop": "Potato",
+    "is_disease": false,
+    "pathogen": "None",
+    "symptoms": "Lush emerald foliage, uniform vegetative canopy, clean leaf undersides.",
+    "precautions": [
+      "Keep soil moisture at 65-75% available water capacity during tuber initiation and bulking.",
+      "Earth up soil around plants to protect developing tubers from sun greening and tuber moth.",
+      "Scout foliage 2-3 times a week."
+    ],
+    "organic_treatment": "Weekly inspection; apply seaweed extract @ 2ml/L for vigorous root and tuber growth.",
+    "chemical_treatment": "None required.",
+    "prevention": "Maintain proper ridging and clean drainage ditches to prevent waterlogging.",
+    "translations": {
+      "hi": {
+        "title": "आलू - स्वस्थ पौधा",
+        "action": "पौधा रोगमुक्त और स्वस्थ है। आलू के कंदों के विकास के लिए मिट्टी चढ़ाएं और जलभराव न होने दें।"
+      },
+      "gu": {
+        "title": "બટાટા - તંદુરસ્ત છોડ",
+        "action": "છોડ એકદમ સ્વસ્થ છે. બટાટા સારા બેસે તે માટે પાળા ચડાવો અને પાણી ભરાવા ન દો."
+      },
+      "mr": {
+        "title": "बटाटा - निरोगी पीक",
+        "action": "बटाट्याची पाने निरोगी आहेत. झाडांना नियमित भर द्या आणि पाण्याचा निचरा व्यवस्थित ठेवा."
+      }
+    }
+  },
+  "Corn___Common_rust": {
+    "display_name": "Corn Common Rust",
+    "crop": "Corn (Maize)",
+    "is_disease": true,
+    "pathogen": "Puccinia sorghi (Fungus)",
+    "symptoms": "Cinnamon-brown oval to elongate pustules (uredinia) on both leaf surfaces that rupture the epidermis to release powdery spores.",
+    "precautions": [
+      "Monitor upper canopy leaves before and during tassel stage.",
+      "Avoid planting susceptible hybrid varieties in late-planted fields.",
+      "Early detected pustules on lower leaves can be tolerated if weather turns warm and dry (>30°C)."
+    ],
+    "organic_treatment": "Apply bio-control agents or sulfur dust @ 15-20 kg/ha in early morning.",
+    "chemical_treatment": "Spray Azoxystrobin 18.2% + Difenoconazole 11.4% SC (Amistar Top) @ 1ml/L or Propiconazole 25% EC @ 1ml/L.",
+    "prevention": "Plant rust-resistant hybrids; follow recommended planting dates to avoid high spore flights.",
+    "translations": {
+      "hi": {
+        "title": "मक्का - सामान्य गेरूई (कॉमन रस्ट)",
+        "action": "पत्तियों पर भूरे रंग के उभरे हुए दाने दिखाई देते हैं। प्रोपिकोनाजोल 1 मिली प्रति लीटर पानी में मिलाकर छिड़कें।"
+      },
+      "gu": {
+        "title": "મકાઈ - ગેરુ રોગ (કોમન રસ્ટ)",
+        "action": "પાંદડા પર બદામી રંગના ફોલ્લા જોવા મળે છે. પ્રોપીકોનાઝોલ ૧ મિલી પ્રતિ લિટર પાણીમાં છાંટો."
+      },
+      "mr": {
+        "title": "मका - तांबेरा रोग (कॉमन रस्ट)",
+        "action": "मँकोझेब २.५ ग्रॅम किंवा प्रॉपिकोनाझोल १ मिली प्रति लिटर पाण्यात मिसळून रोगाच्या सुरुवातीला फवारा."
+      }
+    }
+  },
+  "Corn___Gray_leaf_spot": {
+    "display_name": "Corn Gray Leaf Spot",
+    "crop": "Corn (Maize)",
+    "is_disease": true,
+    "pathogen": "Cercospora zeae-maydis (Fungus)",
+    "symptoms": "Narrow, rectangular lesions restricted by leaf veins (gray to tan in color), merging to blight large leaf areas.",
+    "precautions": [
+      "Avoid minimum tillage or continuous corn-on-corn without residue burial.",
+      "Scout fields during silking and grain fill stages.",
+      "Ensure balanced soil potassium levels."
+    ],
+    "organic_treatment": "Foliar application of fermented cow urine + neem leaf extract (5%).",
+    "chemical_treatment": "Spray Pyraclostrobin 20% WG @ 1g/L or Mancozeb 75% WP @ 2.5g/L when lesions reach two leaves below ear leaf.",
+    "prevention": "Practice crop rotation with soybeans or pulses. Plant hybrids with high tolerance ratings.",
+    "translations": {
+      "hi": {
+        "title": "मक्का - धूसर पर्ण दाग (ग्रे लीफ स्पॉट)",
+        "action": "आयताकार भूरे-धूसर धब्बे नसों के बीच बनते हैं। दलहनी फसलों के साथ फसल चक्र अपनाएं और पाइराक्लोस्ट्रोबिन का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "મકાઈ - રાખોડી ટપકાનો રોગ (ગ્રે લીફ સ્પોટ)",
+        "action": "પાંદડાની નસો વચ્ચે લંબચોરસ ડાઘ પડે છે. પાકની ફેરબદલી કરો અને યોગ્ય ફૂગનાશકનો ઉપયોગ કરો."
+      },
+      "mr": {
+        "title": "मका - राखाडी पानांचे ठिपके (ग्रे लीफ स्पॉट)",
+        "action": "अझॉक्सीस्ट्रोबिन + डिफेनोकोनाझोल १ मिली प्रति लिटर फवारा. पिकांची फेरपालट करा."
+      }
+    }
+  },
+  "Corn___healthy": {
+    "display_name": "Corn Healthy",
+    "crop": "Corn (Maize)",
+    "is_disease": false,
+    "pathogen": "None",
+    "symptoms": "Broad dark green leaves, erect stature, thick stalks, absence of foliar lesions or discoloration.",
+    "precautions": [
+      "Ensure sufficient irrigation during critical silking and grain filling phases.",
+      "Apply split dose of Urea/Nitrogen at knee-high and tassel initiation stages.",
+      "Regularly inspect whorl for fall armyworm larvae."
+    ],
+    "organic_treatment": "Install pheromone traps (5 traps/acre) for preventative pest surveillance.",
+    "chemical_treatment": "None required.",
+    "prevention": "Optimal row spacing (60 x 20 cm) and timely weed management in early 30 days.",
+    "translations": {
+      "hi": {
+        "title": "मक्का - स्वस्थ फसल",
+        "action": "मक्का की फसल पूर्णतः स्वस्थ है। घुटने की ऊंचाई और दाना बनते समय उचित सिंचाई और यूरिया की खुराक दें।"
+      },
+      "gu": {
+        "title": "મકાઈ - તંદુરસ્ત પાક",
+        "action": "પાક સંપૂર્ણપણે નિરોગી છે. ફૂલ અને દાણા બેસવાના સમયે જરૂરી પાણી અને નાઇટ્રોજન ખાતર આપો."
+      },
+      "mr": {
+        "title": "मका - निरोगी पीक",
+        "action": "मका पीक पूर्णपणे निरोगी आहे. नत्र खताचा दुसरा हप्ता वेळेवर द्या आणि सिंचन व्यवस्थापन योग्य ठेवा."
+      }
+    }
+  },
+  "Apple___Apple_scab": {
+    "display_name": "Apple Scab",
+    "crop": "Apple",
+    "is_disease": true,
+    "pathogen": "Venturia inaequalis (Fungus)",
+    "symptoms": "Dull olive-green to black velvety spots on leaves and fruit, causing leaf crinkling and fruit corky cracking.",
+    "precautions": [
+      "Rake and shred or compost fallen apple leaves in autumn to eliminate primary winter ascospore inoculum.",
+      "Prune orchard canopy to allow maximum sunlight and rapid leaf drying.",
+      "Monitor Mills infection periods following rain events."
+    ],
+    "organic_treatment": "Apply wettable sulfur @ 3g/L or lime sulfur dormant sprays.",
+    "chemical_treatment": "Spray Difenoconazole 25% EC @ 0.3ml/L or Captan 50% WP @ 2.5g/L at pink bud or petal fall stage.",
+    "prevention": "Plant scab-resistant cultivars (e.g. Florina, Prima, Enterprise).",
+    "translations": {
+      "hi": {
+        "title": "सेब - स्कैब रोग (खुरंड)",
+        "action": "पत्तियों और फलों पर काले-जैतूनी धब्बे पड़ते हैं। गिरे हुए पत्तों को नष्ट करें और कैप्टान या डाईफेनोकोनाजोल का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "સફરજન - સ્કેબ રોગ",
+        "action": "પાંદડા અને ફળો પર કાળા ડાઘ પડે છે. બગીચાની સફાઈ રાખો અને કેપ્ટન અથવા ડાઇફેનોકોનાઝોલનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "सफरचंद - खरुज रोग (ॲपल स्कॅब)",
+        "action": "गळून पडलेली पाने गोळा करून नष्ट करा. कॅप्टन ५०% डब्ल्यूपी २ ग्रॅम किंवा मॅन्कोझेब २.५ ग्रॅम प्रति लिटर फवारा."
+      }
+    }
+  },
+  "Apple___Black_rot": {
+    "display_name": "Apple Black Rot",
+    "crop": "Apple",
+    "is_disease": true,
+    "pathogen": "Botryosphaeria obtusa (Fungus)",
+    "symptoms": "Frogeye leaf spots (purple margins with tan centers), black sunken limb cankers, and completely mummified black rotting fruit.",
+    "precautions": [
+      "Prune out dead wood, fire blight strikes, and cankers at least 15 cm below infected tissue.",
+      "Remove all mummified fruit hanging on trees or lying on orchard floor.",
+      "Sanitize pruning tools between cuts with 70% alcohol."
+    ],
+    "organic_treatment": "Bordeaux mixture (1%) applied before bud burst.",
+    "chemical_treatment": "Spray Thiophanate Methyl 70% WP @ 1g/L or Mancozeb 75% WP @ 2.5g/L.",
+    "prevention": "Control insect injuries that create entry points for spores; maintain tree vigor.",
+    "translations": {
+      "hi": {
+        "title": "सेब - ब्लैक रॉट (काला सड़न)",
+        "action": "सुखी टहनियों और सड़े हुए फलों (ममी) को पेड़ से काटकर दूर फेंकें। थायोफिनेट मिथाइल 1 ग्राम प्रति लीटर पानी का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "સફરજન - બ્લેક રોટ (કાળો સડો)",
+        "action": "સૂકી ડાળીઓ અને સડેલા ફળો દૂર કરો. થિયોફિનેટ મિથાઇલ ૧ ગ્રામ પ્રતિ લિટર પાણીમાં છાંટો."
+      },
+      "mr": {
+        "title": "सफरचंद - काळा कूज रोग (ब्लॅक रॉट)",
+        "action": "वाळलेल्या फांद्या कापून काढा. कॉपर ऑक्सिक्लोराईड ३ ग्रॅम प्रति लिटर किंवा थायोफॅनेट मिथाईल १ ग्रॅम फवारा."
+      }
+    }
+  },
+  "Apple___healthy": {
+    "display_name": "Apple Healthy",
+    "crop": "Apple",
+    "is_disease": false,
+    "pathogen": "None",
+    "symptoms": "Vibrant foliage, clean fruit surface, absence of cankers or spotting.",
+    "precautions": [
+      "Ensure proper basin irrigation or micro-sprinkler system during fruit development.",
+      "Apply calcium chloride foliar sprays (0.5%) to prevent bitter pit in fruit flesh.",
+      "Maintain tree canopy training and summer pruning for sunlight exposure."
+    ],
+    "organic_treatment": "Apply compost and bio-fertilizers around tree basin in early spring.",
+    "chemical_treatment": "None needed.",
+    "prevention": "Routine orchard hygiene and tree canopy management.",
+    "translations": {
+      "hi": {
+        "title": "सेब - स्वस्थ पेड़",
+        "action": "सेब का पेड़ स्वस्थ है। फलों के विकास के लिए संतुलित सिंचाई और कैल्शियम का स्प्रे करें।"
+      },
+      "gu": {
+        "title": "સફરજન - તંદુરસ્ત ઝાડ",
+        "action": "ઝાડ સંપૂર્ણપણે સ્વસ્થ છે. ફળોના સારા વિકાસ માટે યોગ્ય સિંચાઈ અને કેલ્શિયમ આપો."
+      },
+      "mr": {
+        "title": "सफरचंद - निरोगी पाने",
+        "action": "झाडाची पाने सशक्त व निरोगी आहेत. फळांच्या वाढीसाठी सूक्ष्म अन्नद्रव्यांची फवारणी करा."
+      }
+    }
+  },
+  "Grape___Black_rot": {
+    "display_name": "Grape Black Rot",
+    "crop": "Grape",
+    "is_disease": true,
+    "pathogen": "Guignardia bidwellii (Fungus)",
+    "symptoms": "Reddish-brown circular leaf spots with dark margins and tiny black pycnidia; infected berries turn into hard, black, shriveled mummies.",
+    "precautions": [
+      "Prune vines to open up the fruit zone to maximum aeration and direct sunlight.",
+      "Remove and destroy all mummified grape clusters during winter dormant pruning.",
+      "Cultivate or bury vineyard floor litter to cover overwintering ascocarps."
+    ],
+    "organic_treatment": "Spray Copper Hydroxide or Lime Sulfur during pre-bloom stage.",
+    "chemical_treatment": "Spray Myclobutanil 10% WP @ 0.5g/L or Azoxystrobin 23% SC @ 0.5ml/L at 10-14 day intervals.",
+    "prevention": "Maintain diligent spray schedules from bud break through 4 weeks post-bloom.",
+    "translations": {
+      "hi": {
+        "title": "अंगूर - ब्लैक रॉट (काला सड़न)",
+        "action": "अंगूर के गुच्छों में सूखे काले फल तुरंत हटाएं। हवा और धूप के लिए छंटाई करें और माइक्लोबुटानिल का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "દ્રાક્ષ - કાળો સડો (બ્લેક રોટ)",
+        "action": "સુકાઈ ગયેલી દ્રાક્ષની લૂમો દૂર કરો. સૂર્યપ્રકાશ મળે તે રીતે વેલાની છાંટણી કરો અને યોગ્ય ફૂગનાશક વાપરો."
+      },
+      "mr": {
+        "title": "द्राक्ष - काळा कूज (ब्लॅक रॉट)",
+        "action": "हवेचे खेळते प्रमाण वाढवा. मॅन्कोझेब २.५ ग्रॅम किंवा मायक्लोब्युटॅनिल ०.५ ग्रॅम प्रति लिटर पाण्यात फवारा."
+      }
+    }
+  },
+  "Grape___healthy": {
+    "display_name": "Grape Healthy",
+    "crop": "Grape",
+    "is_disease": false,
+    "pathogen": "None",
+    "symptoms": "Glossy green vine canopy, firm healthy fruit clusters with natural bloom, clear canes.",
+    "precautions": [
+      "Practice regulated deficit irrigation (RDI) after veraison for high berry brix/sugar content.",
+      "Maintain canopy training (Bower or Y-trellis system) to prevent microclimate moisture traps.",
+      "Monitor vine petiole nutrient analysis."
+    ],
+    "organic_treatment": "Potassium silicate foliar spray (2ml/L) to strengthen cuticle defenses.",
+    "chemical_treatment": "None needed.",
+    "prevention": "Canopy shoot thinning and berry thinning as per yield targets.",
+    "translations": {
+      "hi": {
+        "title": "अंगूर - स्वस्थ बेल",
+        "action": "अंगूर की बेल स्वस्थ है। अच्छी मिठास और गुणवत्ता के लिए जल प्रबंधन और बेल की सही छंटाई बनाए रखें।"
+      },
+      "gu": {
+        "title": "દ્રાક્ષ - તંદુરસ્ત વેલો",
+        "action": "દ્રાક્ષનો વેલો સ્વસ્થ છે. સારી ગુણવત્તા માટે નિયમિત કાળજી અને સિંચાઈ નિયંત્રણ જાળવો."
+      },
+      "mr": {
+        "title": "द्राक्ष - निरोगी वेल",
+        "action": "द्राक्षाची पाने निरोगी आहेत. कॅनोपी व्यवस्थापन चांगले ठेवा आणि अतिरिक्त वाढ नियंत्रित करा."
+      }
+    }
+  },
+  "Pepper__bell___Bacterial_spot": {
+    "display_name": "Bell Pepper Bacterial Spot",
+    "crop": "Bell Pepper (Capsicum)",
+    "is_disease": true,
+    "pathogen": "Xanthomonas euvesicatoria (Bacterium)",
+    "symptoms": "Water-soaked circular or irregular dark brown spots on leaves, becoming necrotic and causing heavy lower leaf drop; rough scabby spots on fruit.",
+    "precautions": [
+      "Avoid handling pepper plants when wet with morning dew or rain.",
+      "Disinfect greenhouse benches, trays, and transplanting tools with bleach or quaternary ammonium.",
+      "Immediately rogue and bury badly infected pepper seedlings."
+    ],
+    "organic_treatment": "Spray copper sulfate (Bordeaux mixture 0.5%) or systemic acquired resistance (SAR) inducers.",
+    "chemical_treatment": "Apply Copper Hydroxide 77% WP @ 2g/L tank-mixed with Streptocycline @ 0.1g/L at 7-day intervals during warm rainy weather.",
+    "prevention": "Use certified pathogen-free seeds; do not plant after tomato or eggplant for 2-3 years.",
+    "translations": {
+      "hi": {
+        "title": "शिमला मिर्च - जीवाणु धब्बा रोग",
+        "action": "गीले पौधों को न छुएं। कॉपर हाइड्रोक्साइड 2 ग्राम + स्ट्रेप्टोसाइक्लिन 1 ग्राम प्रति 10 लीटर पानी में मिलाकर तुरंत छिड़कें।"
+      },
+      "gu": {
+        "title": "કેપ્સીકમ મરચાં - જીવાણુ ડાઘ",
+        "action": "ભીના છોડમાં કામ ન કરો. કોપર હાઇડ્રોક્સાઇડ અને સ્ટ્રેપ્ટોસાયક્લિનના દ્રાવણનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "ढोबळी मिरची - जिवाणूजन्य ठिपके",
+        "action": "कॉपर हायड्रॉक्साइड २ ग्रॅम + स्ट्रेप्टोसायक्लिन ०.१ ग्रॅम प्रति लिटर पाण्यात मिसळून फवारणी करा."
+      }
+    }
+  },
+  "Pepper__bell___healthy": {
+    "display_name": "Bell Pepper Healthy",
+    "crop": "Bell Pepper (Capsicum)",
+    "is_disease": false,
+    "pathogen": "None",
+    "symptoms": "Thick dark green foliage, vigorous branching, clean flowers and bell peppers free from blemishes.",
+    "precautions": [
+      "Maintain consistent soil moisture to prevent blossom end rot (calcium deficiency induced by dry-wet swings).",
+      "Apply calcium nitrate fertigation @ 3g/L during fruit set.",
+      "Provide light shading (shade net 35%) during harsh summer heat waves."
+    ],
+    "organic_treatment": "Apply vermicompost and neem cake to root zone.",
+    "chemical_treatment": "None needed.",
+    "prevention": "Drip fertigation and silver-black reflective plastic mulch to deter thrips and aphids.",
+    "translations": {
+      "hi": {
+        "title": "शिमला मिर्च - स्वस्थ पौधा",
+        "action": "पौधा पूर्णतः स्वस्थ है। फलों को सड़न से बचाने के लिए नियमित सिंचाई और कैल्शियम युक्त खाद दें।"
+      },
+      "gu": {
+        "title": "કેપ્સીકમ મરચાં - તંદુરસ્ત છોડ",
+        "action": "છોડ સંપૂર્ણપણે તંદુરસ્ત છે. ફળોના સારા વિકાસ માટે નિયમિત પાણી અને કેલ્શિયમ આપો."
+      },
+      "mr": {
+        "title": "ढोबळी मिरची - निरोगी पीक",
+        "action": "मिरचीचे पीक निरोगी आहे. मावा व तुडतुडे नियंत्रणासाठी पिवळे चिकट सापळे लावा."
+      }
+    }
+  },
+  "Apple___Cedar_apple_rust": {
+    "display_name": "Apple Cedar Apple Rust",
+    "crop": "Apple",
+    "is_disease": true,
+    "pathogen": "Gymnosporangium juniperi-virginianae (Fungus)",
+    "symptoms": "Bright yellow-orange or reddish spots on upper leaf surfaces; cup-shaped structures (aecia) producing powdery orange spores on leaf undersides.",
+    "precautions": [
+      "Remove Eastern red cedar or juniper trees within 1-2 miles if possible.",
+      "Prune infected branches and gall formations during dormant winter period.",
+      "Avoid planting susceptible apple varieties near cedar windbreaks."
+    ],
+    "organic_treatment": "Spray sulfur-based bio-fungicide or Copper hydroxide at tight cluster to petal fall stage.",
+    "chemical_treatment": "Apply Myclobutanil (Systhane) @ 1.5g/L or Mancozeb 75% WP @ 2.5g/L at 7 to 10 day intervals during spring spore release.",
+    "prevention": "Plant rust-resistant apple cultivars (such as Enterprise, Freedom, Liberty).",
+    "translations": {
+      "hi": {
+        "title": "सेब - सीडर रस्ट (गेरुआ रोग)",
+        "action": "संक्रमित शाखाओं की छंटाई करें। कवकनाशी माइक्लोब्युटानिल या मेंकोजेब का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "સફરજન - સીડર રસ્ટ રોગ",
+        "action": "ચેપી ડાળીઓ કાપો. માયક્લોબ્યુટાનિલ અથવા મેન્કોઝેબનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "सफरचंद - सीडर रस्ट",
+        "action": "सफरचंदावरील नारिंगी डागांसाठी मायक्लोब्युटानिल किंवा मँकोझेब फवारा."
+      }
+    }
+  },
+  "Blueberry___healthy": {
+    "display_name": "Blueberry Healthy",
+    "crop": "Blueberry",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Vibrant green, smooth, elliptical foliage with no lesions, wilting, or fungal discoloration.",
+    "precautions": [
+      "Maintain acidic soil pH between 4.5 and 5.2.",
+      "Apply pine bark mulch (5-8 cm depth) to conserve soil moisture.",
+      "Ensure regular irrigation during berry development."
+    ],
+    "organic_treatment": "Apply organic compost and elemental sulfur to maintain acidic rhizosphere.",
+    "chemical_treatment": "No chemical fungicide required. Maintain standard micronutrient foliar spray (chelated iron).",
+    "prevention": "Regular field sanitization, drip irrigation, and annual canopy pruning.",
+    "translations": {
+      "hi": {
+        "title": "ब्लूबेरी - स्वस्थ पौधा",
+        "action": "फसल पूर्णतः स्वस्थ है। मिट्टी का पीएच 4.5-5.2 बनाए रखें।"
+      },
+      "gu": {
+        "title": "બ્લુબેરી - તંદુરસ્ત પાક",
+        "action": "પાક સંપૂર્ણ સ્વસ્થ છે. જમીનમાં ભેજ જાળવી રાખો."
+      },
+      "mr": {
+        "title": "ब्लूबेरी - निरोगी पीक",
+        "action": "झाड पूर्णपणे निरोगी आहे. योग्य खत आणि पाणी द्या."
+      }
+    }
+  },
+  "Cherry___Powdery_mildew": {
+    "display_name": "Cherry Powdery Mildew",
+    "crop": "Cherry",
+    "is_disease": true,
+    "pathogen": "Podosphaera clandestina (Fungus)",
+    "symptoms": "White powdery fungal patches on leaf surfaces and young shoots; curling, distortion, and premature defoliation.",
+    "precautions": [
+      "Prune inner canopy to improve solar penetration and reduce relative humidity.",
+      "Avoid excessive nitrogen fertilization which stimulates overly succulent susceptible growth.",
+      "Remove and destroy infected water sprouts."
+    ],
+    "organic_treatment": "Spray Potassium bicarbonate (3g/L) or wettable sulfur (2g/L) early in the morning.",
+    "chemical_treatment": "Apply Triadimefon 25% WP @ 1g/L or Tebuconazole 25.9% EC @ 1ml/L at petal fall and shuck fall.",
+    "prevention": "Ensure good orchard ventilation and practice dormant oil sprays.",
+    "translations": {
+      "hi": {
+        "title": "चेरी - चूर्णिल आसिता (पाउडरी मिल्ड्यू)",
+        "action": "पत्तियों पर सफेद चूर्ण दिखने पर घुलनशील गंधक (Sulfur) या टेबुकोनाज़ोल का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ચેરી - ભૂકી છારો (પાવડરી માઇલ્ડ્યુ)",
+        "action": "સફેદ પાવડર જેવા ડાઘા માટે સલ્ફર અથવા ટેબુકોનાઝોલનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "चेरी - भुरी रोग",
+        "action": "पानांवर पांढऱ्या बुरशीसाठी विद्राव्य गंधक किंवा टेबुकोनॅझोल फवारा."
+      }
+    }
+  },
+  "Cherry___healthy": {
+    "display_name": "Cherry Healthy",
+    "crop": "Cherry",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Deep green glossy leaves without spots, powdery fungal coating, or necrotic edges.",
+    "precautions": [
+      "Ensure regular irrigation during fruit swell and stone hardening.",
+      "Protect against frost during spring bloom.",
+      "Conduct light summer pruning to balance canopy aeration."
+    ],
+    "organic_treatment": "Apply organic sea-weed extract or vermicompost tea as foliar tonic.",
+    "chemical_treatment": "No fungicide needed. Apply balanced NPK 10:10:10 after harvest.",
+    "prevention": "Sanitize pruning shears between trees and maintain mulch layer.",
+    "translations": {
+      "hi": {
+        "title": "चेरी - स्वस्थ पौधा",
+        "action": "पौधा रोगमुक्त और स्वस्थ है। नियमित सिंचाई और संतुलित पोषण दें।"
+      },
+      "gu": {
+        "title": "ચેરી - તંદુરસ્ત પાક",
+        "action": "ઝાડ તંદુરસ્ત છે. નિયમિત પાણી આપો."
+      },
+      "mr": {
+        "title": "चेरी - निरोगी पीक",
+        "action": "झाड उत्तम स्थितीत आहे. योग्य निगा राखा."
+      }
+    }
+  },
+  "Corn___Northern_Leaf_Blight": {
+    "display_name": "Corn Northern Leaf Blight",
+    "crop": "Corn (Maize)",
+    "is_disease": true,
+    "pathogen": "Exserohilum turcicum (Fungus)",
+    "symptoms": "Long, elliptical cigar-shaped grayish-green to tan lesions (2.5 to 15 cm long) with smooth margins progressing from lower leaves upward.",
+    "precautions": [
+      "Shred and plow down crop debris after harvest to bury fungal inocula.",
+      "Avoid high plant densities that restrict inter-row air velocity.",
+      "Rotate maize with non-host crops (soybean, groundnut) for at least 2 seasons."
+    ],
+    "organic_treatment": "Apply Bacillus subtilis or Trichoderma viride foliar sprays @ 5g/L.",
+    "chemical_treatment": "Apply Azoxystrobin 18.2% + Difenoconazole 11.4% SC @ 1ml/L or Mancozeb 75% WP @ 2.5g/L at tasseling.",
+    "prevention": "Sow resistant maize hybrids and avoid continuous monocropping.",
+    "translations": {
+      "hi": {
+        "title": "मक्का - उत्तरी पत्ती झुलसा (नार्दन लीफ ब्लाइट)",
+        "action": "सिगार के आकार के भूरे धब्बों के लिए एजॉक्सीस्ट्रोबिन या मेंकोजेब का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "મકાઈ - પાનનો મોટો સુકારો",
+        "action": "મોટા લાંબા ડાઘા માટે એઝોક્સીસ્ટ્રોબિન અથવા મેન્કોઝેબ છાંટો."
+      },
+      "mr": {
+        "title": "मका - करपा (लीफ ब्लाइट)",
+        "action": "लांबट करड्या डागांसाठी मॅन्कोझेब किंवा अझॉक्सीस्ट्रॉबिन फवारा."
+      }
+    }
+  },
+  "Grape___Esca_(Black_Measles)": {
+    "display_name": "Grape Esca (Black Measles)",
+    "crop": "Grape",
+    "is_disease": true,
+    "pathogen": "Phaeomoniella chlamydospora & Fomitiporia mediterranea (Fungal Complex)",
+    "symptoms": "Tiger-stripe leaf pattern with interveinal yellowing and necrosis surrounded by dark margins; berries show dark purple measles-like spots.",
+    "precautions": [
+      "Disinfect pruning shears in 70% isopropyl alcohol between vines.",
+      "Delay pruning until late winter to minimize wound infection window.",
+      "Paint all pruning wounds greater than 1 cm with pruning wound sealant containing fungicide."
+    ],
+    "organic_treatment": "Treat fresh pruning wounds with Trichoderma atroviride protective paste.",
+    "chemical_treatment": "Paint pruning cuts with thiophanate-methyl or copper octanoate paste immediately after cutting.",
+    "prevention": "Remove dead wood and avoid stress on young grapevines.",
+    "translations": {
+      "hi": {
+        "title": "अंगूर - एस्का / ब्लैक मीसल्स",
+        "action": "पत्तियों पर धारियों और छंटाई के घावों पर कवकनाशी पेस्ट लगाएं। संक्रमित बेलों को चिन्हित करें।"
+      },
+      "gu": {
+        "title": "દ્રાક્ષ - એસ્કા રોગ",
+        "action": "છાંટેલા ભાગ પર બોર્ડો મિશ્રણ લગાવો અને વાઈનયાર્ડ સ્વચ્છ રાખો."
+      },
+      "mr": {
+        "title": "द्राक्ष - एस्का (काळी देवी)",
+        "action": "छाटणीच्या जखमांवर बुरशीनाशक पेस्ट लावा आणि बाधित वेली वेगळ्या ठेवा."
+      }
+    }
+  },
+  "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)": {
+    "display_name": "Grape Leaf Blight (Isariopsis Spot)",
+    "crop": "Grape",
+    "is_disease": true,
+    "pathogen": "Pseudocercospora cladosporioides (Fungus)",
+    "symptoms": "Irregular dark brown necrotic spots on upper leaf surfaces; velvety olive-brown spore layer on lower surfaces; premature leaf dropping.",
+    "precautions": [
+      "Ensure optimal canopy management and lateral shoot thinning to facilitate airflow.",
+      "Collect and destroy fallen infected leaves before bud break.",
+      "Avoid sprinkler irrigation wetting the vineyard foliage."
+    ],
+    "organic_treatment": "Spray Copper Oxychloride 50% WP @ 2.5g/L or Bordeaux Mixture (1%).",
+    "chemical_treatment": "Spray Carbendazim 50% WP @ 1g/L or Kresoxim-methyl 44.3% SC @ 0.7ml/L at 12-day intervals.",
+    "prevention": "Regular canopy management and post-harvest sanitation.",
+    "translations": {
+      "hi": {
+        "title": "अंगूर - पत्ती झुलसा (इसारियोप्सिस लीफ स्पॉट)",
+        "action": "पत्तियों पर भूरे धब्बों के लिए कार्बेन्डाजिम या कॉपर ऑक्सीक्लोराइड का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "દ્રાક્ષ - પાનનો સુકારો",
+        "action": "તાંબાયુક્ત દવા અથવા કાર્બેન્ડાઝિમનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "द्राक्ष - पानावरील ठिपके",
+        "action": "कॉपर ऑक्सिक्लोराईड किंवा कार्बेन्डाझिमची फवारणी करा."
+      }
+    }
+  },
+  "Orange___Haunglongbing_(Citrus_greening)": {
+    "display_name": "Citrus Greening (Huanglongbing)",
+    "crop": "Orange (Citrus)",
+    "is_disease": true,
+    "pathogen": "Candidatus Liberibacter asiaticus (Bacteria vectored by Asian Citrus Psyllid)",
+    "symptoms": "Asymmetric blotchy mottling on leaves, vein yellowing, corky veins, lopsided small bitter fruit with dark aborted seeds.",
+    "precautions": [
+      "Rigorously manage and control Asian Citrus Psyllid vector populations using sticky traps and insecticidal sprays.",
+      "Uproot and burn severely infected trees to prevent orchard-wide transmission.",
+      "Plant only certified pathogen-free nursery budwood."
+    ],
+    "organic_treatment": "Foliar spray with Neem oil (2%) + fish amino acid and balanced zinc/iron micronutrient correction.",
+    "chemical_treatment": "Control vector with Imidacloprid 17.8% SL @ 0.5ml/L or Thiamethoxam 25% WG @ 0.3g/L. Apply Tetracycline antibiotic trunk injection under expert supervision.",
+    "prevention": "Strict psyllid vector management and elimination of infected source trees.",
+    "translations": {
+      "hi": {
+        "title": "संतरा / नींबू - साइट्रस ग्रीनिंग (हुआंगलोंगबिंग)",
+        "action": "यह अत्यंत गंभीर रोग है। कीट (सिट्रस साइला) को इमिडाक्लोप्रिड से नियंत्रित करें और सूक्ष्म पोषक तत्व दें।"
+      },
+      "gu": {
+        "title": "સંતરા / લીંબુ - સાઇટ્રસ ગ્રીનિંગ રોગ",
+        "action": "સાયલા કીટક નિયંત્રણ માટે ઇમિડાક્લોપ્રિડ છાંટો અને સૂક્ષ્મ પોષક તત્વો આપો."
+      },
+      "mr": {
+        "title": "संत्रा - सायट्रस ग्रीनिंग",
+        "action": "मावा/सायला कीटकांचे नियंत्रण करा. झाडांना जस्त व लोहाचा पुरवठा करा."
+      }
+    }
+  },
+  "Peach___Bacterial_spot": {
+    "display_name": "Peach Bacterial Spot",
+    "crop": "Peach",
+    "is_disease": true,
+    "pathogen": "Xanthomonas arboricola pv. pruni (Bacteria)",
+    "symptoms": "Angular water-soaked spots turning purple-black; centers fall out giving a 'shot-hole' appearance; fruit exhibits cracked dark lesions.",
+    "precautions": [
+      "Avoid high-nitrogen fertilizer applications that generate soft lush growth.",
+      "Plant windbreaks to reduce windblown sand and rain abrasions.",
+      "Disinfect pruning equipment between orchard blocks."
+    ],
+    "organic_treatment": "Apply Copper sulfate pentahydrate or Copper Hydroxide at low rates during early foliage.",
+    "chemical_treatment": "Apply Streptocycline @ 0.1g/L + Copper Oxychloride @ 2g/L or Oxytetracycline during shuck split to petal fall.",
+    "prevention": "Plant bacterial spot tolerant peach cultivars (e.g. Biscoe, Candor).",
+    "translations": {
+      "hi": {
+        "title": "आड़ू (पीच) - जीवाणु धब्बा रोग (बैक्टीरियल स्पॉट)",
+        "action": "पत्तियों में छेद होने पर स्ट्रेप्टोसाइक्लिन और कॉपर ऑक्सीक्लोराइड का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "પીચ - બેક્ટેરિયલ સ્પોટ રોગ",
+        "action": "પાંદડા પરના કાણાં માટે સ્ટ્રેપ્ટોસાયક્લીન અને કોપર દવાનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "पीच - जिवाणूजन्य ठिपके (शॉट-होल)",
+        "action": "स्ट्रेप्टोमायसीन आणि कॉपर ऑक्सिक्लोराईडची फवारणी करा."
+      }
+    }
+  },
+  "Peach___healthy": {
+    "display_name": "Peach Healthy",
+    "crop": "Peach",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Lush lanceolate deep green leaves free of bacterial shot-holes, leaf curl, or cankers.",
+    "precautions": [
+      "Maintain soil drainage; peach roots are susceptible to waterlogging.",
+      "Apply balanced annual fertilizer based on soil testing.",
+      "Dormant copper spray in late winter to prevent Peach Leaf Curl."
+    ],
+    "organic_treatment": "Foliar application of bio-stimulants and neem cake around base.",
+    "chemical_treatment": "No fungicide needed. Routine pest scouting for peach fruit borer.",
+    "prevention": "Annual open-center training pruning and adequate summer irrigation.",
+    "translations": {
+      "hi": {
+        "title": "आड़ू (पीच) - स्वस्थ पौधा",
+        "action": "फसल स्वस्थ है। उचित जल निकासी और संतुलित उर्वरक प्रबंधन बनाए रखें।"
+      },
+      "gu": {
+        "title": "પીચ - તંદુરસ્ત પાક",
+        "action": "ઝાડ તંદુરસ્ત છે. જમીનમાં પાણી ભરાવા ન દો."
+      },
+      "mr": {
+        "title": "पीच - निरोगी पीक",
+        "action": "पीक निरोगी आहे. पाणी साचू देऊ नका आणि योग्य खते द्या."
+      }
+    }
+  },
+  "Raspberry___healthy": {
+    "display_name": "Raspberry Healthy",
+    "crop": "Raspberry",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Compound serrated deep green leaves without yellow mosaic veins, rust pustules, or cane blights.",
+    "precautions": [
+      "Trellis canes off the ground to improve sun exposure and reduce soil-splash.",
+      "Prune out fruited floricanes immediately after harvesting.",
+      "Maintain 8 cm woodchip mulch."
+    ],
+    "organic_treatment": "Compost dressing and foliar micronutrient seaweed spray.",
+    "chemical_treatment": "None required. Maintain root rot protection with good drainage.",
+    "prevention": "Select disease-free canes and maintain adequate inter-row spacing.",
+    "translations": {
+      "hi": {
+        "title": "रास्पबेरी - स्वस्थ पौधा",
+        "action": "पौधा रोगमुक्त है। जड़ों के पास पानी न जमने दें और मल्चिंग करें।"
+      },
+      "gu": {
+        "title": "રાસબેરી - તંદુરસ્ત પાક",
+        "action": "પાક તંદુરસ્ત છે. જમીનમાં સેન્દ્રિય ખાતર ઉમેરો."
+      },
+      "mr": {
+        "title": "रास्पबेरी - निरोगी पीक",
+        "action": "पीक उत्तम स्थितीत आहे. नियमित छाटणी करा."
+      }
+    }
+  },
+  "Soybean___healthy": {
+    "display_name": "Soybean Healthy",
+    "crop": "Soybean",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Trifoliate clean green leaves with vibrant chlorophyll and healthy active root nodules.",
+    "precautions": [
+      "Inoculate seeds with Rhizobium japonicum before sowing.",
+      "Ensure weed-free environment during first 45 days after emergence.",
+      "Monitor for early pest emergence (stem fly, girdle beetle)."
+    ],
+    "organic_treatment": "Soil application of Trichoderma viride and Pseudomonas fluorescens.",
+    "chemical_treatment": "No fungicide needed. Apply balanced phosphorus and potash.",
+    "prevention": "Crop rotation with wheat or maize and ridge-and-furrow planting.",
+    "translations": {
+      "hi": {
+        "title": "सोयाबीन - स्वस्थ पौधा",
+        "action": "सोयाबीन की फसल पूरी तरह स्वस्थ है। खेत में जलभराव न होने दें।"
+      },
+      "gu": {
+        "title": "સોયાબીન - તંદુરસ્ત પાક",
+        "action": "પાક તંદુરસ્ત છે. નીંદણ નિયંત્રણ યોગ્ય સમયે કરો."
+      },
+      "mr": {
+        "title": "सोयाबीन - निरोगी पीक",
+        "action": "सोयाबीन पीक निरोगी आहे. योग्य वेळी तणनियंत्रण करा."
+      }
+    }
+  },
+  "Squash___Powdery_mildew": {
+    "display_name": "Squash Powdery Mildew",
+    "crop": "Squash (Cucurbits)",
+    "is_disease": true,
+    "pathogen": "Podosphaera xanthii (Fungus)",
+    "symptoms": "White flour-like fungal talcum powder spots on upper and lower surfaces of leaves and stems; leaves turn yellow, brown, and brittle.",
+    "precautions": [
+      "Provide ample spacing between vines to permit unimpeded air movement.",
+      "Switch to drip irrigation to prevent foliar splashing.",
+      "Avoid overhead evening irrigation that extends humidity duration."
+    ],
+    "organic_treatment": "Foliar spray with Milk solution (1:9 ratio with water) or Potassium Bicarbonate (4g/L) or Neem oil (0.5%).",
+    "chemical_treatment": "Apply Dinocap 48% EC @ 1ml/L or Azoxystrobin 23% SC @ 1ml/L or Difenoconazole 25% EC @ 0.5ml/L upon initial spot sighting.",
+    "prevention": "Grow powdery-mildew resistant squash varieties and destroy crop refuse promptly.",
+    "translations": {
+      "hi": {
+        "title": "कद्दू / तोरई (स्क्वैश) - चूर्णिल आसिता (पाउडरी मिल्ड्यू)",
+        "action": "सफेद पाउडर जैसे धब्बों के लिए घुलनशील गंधक या एजॉक्सीस्ट्रोबिन का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "કોળું / દૂધી - ભૂકી છારો (પાવડરી માઇલ્ડ્યુ)",
+        "action": "સફેદ પાવડર જેવા રોગ માટે દૂધનું મિશ્રણ અથવા અઝોક્સીસ્ટ્રોબિન છાંટો."
+      },
+      "mr": {
+        "title": "भोपळा / वेलवर्गीय - भुरी रोग",
+        "action": "पानांवरील पांढऱ्या बुरशीसाठी पोटॅशियम बायकार्बोनेट किंवा अझॉक्सीस्ट्रॉबिन फवारा."
+      }
+    }
+  },
+  "Strawberry___Leaf_scorch": {
+    "display_name": "Strawberry Leaf Scorch",
+    "crop": "Strawberry",
+    "is_disease": true,
+    "pathogen": "Diplocarpon earlianum (Fungus)",
+    "symptoms": "Numerous irregular purple-to-dark brown blotches on upper leaf surfaces without light centers; whole leaf turns brown and scorched at margins.",
+    "precautions": [
+      "Mow, rake, and burn old leaves after harvest season.",
+      "Maintain narrow plant rows to allow leaves to dry rapidly after rain.",
+      "Avoid excessive nitrogen fertilization in early spring."
+    ],
+    "organic_treatment": "Spray Copper hydroxide @ 2g/L or Bordeaux mixture (1%) post-renovation.",
+    "chemical_treatment": "Apply Captan 50% WP @ 2.5g/L or Pyraclostrobin + Boscalid (Pristine) @ 1.5g/L at bloom and early leaf growth.",
+    "prevention": "Use certified disease-free strawberry runners and renew mulch annually.",
+    "translations": {
+      "hi": {
+        "title": "स्ट्रॉबेरी - पत्ती झुलसा (लीफ स्कॉर्च)",
+        "action": "पत्तियों के झुलसने पर कॉपर हाइड्रोक्साइड या कैप्टन कवकनाशी का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "સ્ટ્રોબેરી - પાનનો કરચલો રોગ (લીફ સ્કોર્ચ)",
+        "action": "પાંદડા બળેલા દેખાય ત્યારે કેપ્ટાન અથવા કોપર દવાનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "स्ट्रॉबेरी - करपा / पानांची जळ",
+        "action": "पानांच्या करपलेल्या कडांसाठी कॅप्टन किंवा कॉपर बुरशीनाशक फवारा."
+      }
+    }
+  },
+  "Strawberry___healthy": {
+    "display_name": "Strawberry Healthy",
+    "crop": "Strawberry",
+    "is_disease": false,
+    "pathogen": "None (Healthy Foliage)",
+    "symptoms": "Vibrant trifoliate serrated leaves, bright white flowers, and strong crown formation.",
+    "precautions": [
+      "Use black plastic or clean straw mulch to keep fruit and leaves off soil.",
+      "Maintain adequate soil moisture with drip irrigation under plastic mulch.",
+      "Remove runners to concentrate crown vitality."
+    ],
+    "organic_treatment": "Apply bio-fertilizers (Azotobacter, PSB) and seaweed extract.",
+    "chemical_treatment": "No fungicide required. Balanced fertigation with potassium during berry sizing.",
+    "prevention": "Raised bed planting and annual replanting rotation.",
+    "translations": {
+      "hi": {
+        "title": "स्ट्रॉबेरी - स्वस्थ पौधा",
+        "action": "पौधा स्वस्थ और फलने के लिए तैयार है। ड्रिप सिंचाई और मल्चिंग बनाए रखें।"
+      },
+      "gu": {
+        "title": "સ્ટ્રોબેરી - તંદુરસ્ત પાક",
+        "action": "પાક તંદુરસ્ત છે. ડ્રિપ પદ્ધતિથી નિયમિત પાણી આપો."
+      },
+      "mr": {
+        "title": "स्ट्रॉबेरी - निरोगी पीक",
+        "action": "पीक निरोगी आहे. गादीवाफ्यावर प्लास्टिक मल्चिंग ठेवा."
+      }
+    }
+  },
+  "Tomato___Septoria_leaf_spot": {
+    "display_name": "Tomato Septoria Leaf Spot",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Septoria lycopersici (Fungus)",
+    "symptoms": "Small, circular spots with dark brown margins and sunken grayish-white centers containing tiny black pycnidia specks.",
+    "precautions": [
+      "Prune infected bottom leaves touching the ground.",
+      "Eliminate solanaceous weeds (nightshade, horsenettle) around field borders.",
+      "Do not work in tomato patches while foliage is wet from dew or rain."
+    ],
+    "organic_treatment": "Apply Copper Octanoate or Bacillus amyloliquefaciens biopesticide.",
+    "chemical_treatment": "Apply Chlorothalonil 75% WP @ 2g/L or Mancozeb 75% WP @ 2.5g/L on a 7 to 10 day schedule.",
+    "prevention": "3-year crop rotation and staking vines with plastic mulching.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - सेप्टोरिया पत्ती धब्बा रोग",
+        "action": "गोल भूरे धब्बों के बीच में सफेद केंद्र दिखने पर क्लोरोथैलोनिल या मेंकोजेब का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - સેપ્ટોરિયા પાન ટપકા રોગ",
+        "action": "કાળા-ભૂરા ટપકાં માટે ક્લોરોથેલોનિલ અથવા મેન્કોઝેબનો છંટકાવ કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - सेप्टोरिया पानावरील ठिपके",
+        "action": "बारीक पांढऱ्या केंद्राच्या ठिपक्यांसाठी क्लोरोथॅलोनिल फवारा."
+      }
+    }
+  },
+  "Tomato___Spider_mites Two-spotted_spider_mite": {
+    "display_name": "Tomato Two-Spotted Spider Mite",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Tetranychus urticae (Arachnid Pest)",
+    "symptoms": "Fine yellow or white stippling speckles on upper leaf surface; fine silky webbing on leaf undersides; leaves bronze, dry out, and drop.",
+    "precautions": [
+      "Avoid excessive broad-spectrum synthetic pyrethroids that destroy natural predatory mites.",
+      "Knock off mite colonies with a high-pressure water spray during initial outbreaks.",
+      "Keep farm perimeter free of dusty weeds which harbor mite reservoirs."
+    ],
+    "organic_treatment": "Spray Neem oil (5ml/L) or release predatory phytoseiid mites (Phytoseiulus persimilis).",
+    "chemical_treatment": "Apply Abamectin 1.9% EC @ 0.5ml/L or Spiromesifen 22.9% SC (Oberon) @ 1ml/L or Propargite 57% EC @ 2ml/L.",
+    "prevention": "Ensure overhead dust suppression and scout regularly with a 10x hand lens.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - दो-धब्बेदार मकड़ी (रेड स्पाइडर माइट)",
+        "action": "पत्तियों के नीचे बारीक जाले और पीले धब्बे दिखने पर नीम तेल या एबामेक्टिन (Abamectin) का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - લાલ કથીરી (સ્પાઇડર માઇટ્સ)",
+        "action": "પાંદડા નીચે જાળી માટે લીમડાનું તેલ અથવા એબામિક્ટીન છાંટો."
+      },
+      "mr": {
+        "title": "टोमॅटो - लाल कोळी (स्पायडर माईट)",
+        "action": "बारीक जाळे आणि पिवळ्या ठिपक्यांसाठी अबामेक्टिन किंवा ओबेरॉनची फवारणी करा."
+      }
+    }
+  },
+  "Tomato___Target_Spot": {
+    "display_name": "Tomato Target Spot",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Corynespora cassiicola (Fungus)",
+    "symptoms": "Small brown pinpoint lesions expanding into large circular brown necrotic spots with subtle concentric rings and yellow halos.",
+    "precautions": [
+      "Maintain optimal row spacing to maximize canopy ventilation.",
+      "Avoid handling wet plants to minimize physical spore dissemination.",
+      "Immediately destroy cull piles and post-harvest residues."
+    ],
+    "organic_treatment": "Foliar spray with Copper Hydroxide or bio-fungicide Bacillus subtilis.",
+    "chemical_treatment": "Apply Azoxystrobin 23% SC @ 1ml/L or Famoxadone + Cymoxanil (Tanos) or Chlorothalonil 75% WP @ 2g/L.",
+    "prevention": "Use resistant hybrids, sanitize stakes, and rotate crops.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - टार्गेट स्पॉट (लक्ष्य धब्बा)",
+        "action": "गोल छल्लेदार भूरे धब्बों के लिए एजॉक्सीस्ट्रोबिन या क्लोरोथैलोनिल का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - ટાર્ગેટ સ્પોટ રોગ",
+        "action": "ગોળ ડાઘા માટે અઝોક્સીસ્ટ્રોબિન અથવા ક્લોરોથેલોનિલ છાંટો."
+      },
+      "mr": {
+        "title": "टोमॅटो - टार्गेट स्पॉट",
+        "action": "चकतीसारख्या गोल ठिपक्यांसाठी अझॉक्सीस्ट्रॉबिन फवारा."
+      }
+    }
+  },
+  "Tomato___Tomato_Yellow_Leaf_Curl_Virus": {
+    "display_name": "Tomato Yellow Leaf Curl Virus (TYLCV)",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Tomato yellow leaf curl virus (Begomovirus vectored by Whitefly Bemisia tabaci)",
+    "symptoms": "Severe upward leaf curling, cupping, yellowing of leaf margins (chlorosis), severe plant stunting, flower drop, and bushy appearance.",
+    "precautions": [
+      "Install yellow sticky traps (30-40 traps/hectare) to monitor and capture whitefly vectors.",
+      "Erect 50-mesh nylon insect-proof net in nursery seedbeds.",
+      "Rogue out and destroy infected viral symptomatic plants immediately."
+    ],
+    "organic_treatment": "Spray 2% Neem oil or 5% NSKE (Neem Seed Kernel Extract) with liquid soap to repel whiteflies.",
+    "chemical_treatment": "Control whitefly vector with Diafenthiuron 50% WP @ 1g/L or Dinotefuran 20% SG @ 0.5g/L or Acetamiprid 20% SP @ 0.3g/L.",
+    "prevention": "Sow TYLCV resistant hybrids (e.g. US-440, ToMV/TYLCV tolerant hybrids) and control weeds.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - पीला पत्ती मरोड़ विषाणु (TYLCV)",
+        "action": "यह सफेद मक्खी द्वारा फैलता है। पीले चिपचिपे कार्ड लगाएं और सफेद मक्खी नियंत्रण हेतु डायफेन्थियुरॉन या नीम तेल छिड़कें।"
+      },
+      "gu": {
+        "title": "ટામેટા - પાન વળવાનો વાયરસ (TYLCV)",
+        "action": "સફેદ માખી નિયંત્રણ માટે પીળા સ્ટીકી ટ્રેપ લગાવો અને ડાયાફેન્થિયુરોન છાંટો."
+      },
+      "mr": {
+        "title": "टोमॅटो - पर्णगुच्छ / पिवळा विषाणू (TYLCV)",
+        "action": "पांढऱ्या माशीचा प्रादुर्भाव रोखण्यासाठी पिवळे चिकट सापळे लावा आणि डायफेंथ्युरॉन फवारा."
+      }
+    }
+  },
+  "Tomato___Tomato_mosaic_virus": {
+    "display_name": "Tomato Mosaic Virus (ToMV)",
+    "crop": "Tomato",
+    "is_disease": true,
+    "pathogen": "Tomato mosaic virus (Tobamovirus mechanically transmitted)",
+    "symptoms": "Mottled light and dark green mosaic patterns on foliage, leaf distortion, 'shoestring' fern-like leaves, internal browning of fruit.",
+    "precautions": [
+      "Sterilize hands, pruners, and stakes in 20% non-fat dry milk solution or 10% trisodium phosphate (TSP).",
+      "Prohibit tobacco smoking/chewing anywhere near the farm (tobacco harbors the virus).",
+      "Carefully rogue out and bury/incinerate symptomatic plants immediately."
+    ],
+    "organic_treatment": "Dip seeds in 10% Trisodium Phosphate (TSP) solution for 30 minutes before planting.",
+    "chemical_treatment": "No direct antiviral curative chemical exists. Strictly manage mechanical transmission and sanitize tools with bleach.",
+    "prevention": "Grow ToMV-resistant cultivars and practice strict nursery sanitation.",
+    "translations": {
+      "hi": {
+        "title": "टमाटर - मोज़ेक विषाणु (ToMV)",
+        "action": "यह छूने और औजारों से फैलता है। धूम्रपान न करें, औजारों को डेटॉल या दूध के घोल से धोएं और रोगी पौधों को तुरंत नष्ट करें।"
+      },
+      "gu": {
+        "title": "ટામેટા - મોઝેક વાયરસ (ToMV)",
+        "action": "બીમાર છોડને તરત જ કાઢીને બાળી નાખો. સાધનોને બ્લીચથી જંતુમુક્ત કરો."
+      },
+      "mr": {
+        "title": "टोमॅटो - मोझॅक विषाणू (ToMV)",
+        "action": "बाधित झाडे मुळासकट उपटून नष्ट करा. औजारे निर्जंतुक करा."
+      }
+    }
+  },
+  "Soybean___Bacterial_blight": {
+    "display_name": "Soybean Bacterial Blight",
+    "crop": "Soybean",
+    "is_disease": true,
+    "pathogen": "Pseudomonas savastanoi pv. glycinea (Bacteria)",
+    "symptoms": "Small, angular, water-soaked translucent yellow-to-brown spots with prominent chlorotic halos on soybean leaflets. Lesions may coalesce to form large ragged dead patches.",
+    "precautions": [
+      "Do not cultivate, spray, or harvest when soybean foliage is wet with dew or rain to prevent bacterial spread.",
+      "Destroy or deep-plow infected soybean crop residue after harvest.",
+      "Rotate fields with non-host crops such as maize/corn or sorghum for at least one year."
+    ],
+    "organic_treatment": "Spray Copper hydroxide @ 2g/L or Pseudomonas fluorescens / Bacillus subtilis bio-agent formulation @ 5g/L.",
+    "chemical_treatment": "Spray Streptocycline @ 100 ppm (1g in 10L water) combined with Copper Oxychloride 50% WP @ 2.5g/L at first appearance of spots.",
+    "prevention": "Use certified disease-free soybean seed. Plant tolerant varieties (e.g., JS 335, JS 93-05, NRC 37).",
+    "translations": {
+      "hi": {
+        "title": "सोयाबीन - जीवाणु अंगमारी (बैक्टीरियल ब्लाइट)",
+        "action": "पत्तियों पर पीले घेरे वाले कोणीय भूरे धब्बे दिखाई देते हैं। गीली पत्तियों पर काम न करें। स्ट्रेप्टोसाइक्लिन (1 ग्राम/10 ली) + कॉपर ऑक्सीक्लोराइड (25 ग्राम/10 ली) का छिड़काव करें।"
+      },
+      "gu": {
+        "title": "સોયાબીન - બેક્ટેરિયલ બ્લાઈટ (જીવાણુ સુકારો)",
+        "action": "પાંદડા પર પીળી કિનારીવાળા ખૂણાકાર ડાઘ પડે છે. પાંદડા ભીના હોય ત્યારે ખેતરમાં પ્રવેશ ન કરવો. સ્ટ્રેપ્ટોસાયક્લિન અને કોપર ઓક્સિક્લોરાઈડનો છંટકાવ કરવો."
+      },
+      "mr": {
+        "title": "सोयाबीन - जिवाणू करपा (बॅक्टेरियल ब्लाइट)",
+        "action": "पानांवर पिवळसर कडा असलेले तपकिरी कोनीय ठिपके पडतात. स्ट्रेप्टोमायसीन १ ग्रॅम + कॉपर ऑक्सिक्लोराईड २५ ग्रॅम प्रति १० लिटर पाण्यात मिसळून फवारावे."
+      }
+    }
+  }
+}
