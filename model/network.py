@@ -15,7 +15,7 @@ class AgriSmartVisionModel(nn.Module):
     MobileNetV3-Small backbone with a custom multi-layer classification head,
     regularized with Dropout and Batch Normalization for domain robustness.
     """
-    def __init__(self, num_classes=18, pretrained=False):
+    def __init__(self, num_classes=39, pretrained=False):
         super(AgriSmartVisionModel, self).__init__()
         # Load backbone
         self.backbone = models.mobilenet_v3_small(weights=None)
