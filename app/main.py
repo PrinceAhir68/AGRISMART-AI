@@ -294,6 +294,15 @@ def serve_index():
     return {"message": "AgriSmart AI API is active. UI file loading."}
 
 
+@app.get("/favicon.ico")
+def serve_favicon():
+    favicon_file = os.path.join(STATIC_DIR, "images", "logo.png")
+    if os.path.exists(favicon_file):
+        return FileResponse(favicon_file, media_type="image/png")
+    return Response(status_code=204)
+
+
+
 @app.get("/health")
 @app.get("/api/health")
 def api_health():
