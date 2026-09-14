@@ -1,21 +1,46 @@
 :root {
-  --primary: #10b981;
-  --primary-dark: #047857;
+  /* Blueprint Modern Color Tokens (Page 10) */
+  --brand-forest: #166534;
+  --brand-emerald: #10b981;
+  --surface-canvas: #f7faf8;
+  --surface-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --border-soft: #d7e3da;
+  --caution-amber: #f59e0b;
+  --critical-crimson: #dc2626;
+  --info-blue: #2563eb;
+
+  /* Standard Application Semantic Aliases */
+  --primary: var(--brand-emerald);
+  --primary-dark: var(--brand-forest);
   --primary-deep: #064e3b;
   --primary-light: #ecfdf5;
   --primary-mint: #a7f3d0;
-  --accent: #f59e0b;
+  --accent: var(--caution-amber);
   --accent-gold: #d97706;
-  --danger: #ef4444;
-  --info: #3b82f6;
-  --bg: #f8fafc;
-  --surface: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --border: #e2e8f0;
-  --radius: 14px;
-  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-  --shadow-lg: 0 20px 25px -5px rgba(6, 78, 59, 0.1), 0 10px 10px -5px rgba(6, 78, 59, 0.04);
+  --danger: var(--critical-crimson);
+  --info: var(--info-blue);
+  --bg: var(--surface-canvas);
+  --surface: var(--surface-card);
+  --text-main: var(--text-primary);
+  --text-muted: var(--text-secondary);
+  --border: var(--border-soft);
+
+  /* Spacing Scale (4-pt base) & Radii */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --radius-sm: 12px;
+  --radius: 16px;
+  --radius-hero: 20px;
+  --shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 16px 32px -4px rgba(22, 101, 52, 0.12), 0 6px 12px -2px rgba(22, 101, 52, 0.06);
 }
 
 * {
@@ -2947,6 +2972,478 @@ body.harvest-mode .chat-consensus-bar span, [data-theme="harvest"] .chat-consens
   color: #991b1b;
   border: 1px solid #fca5a5;
 }
+
+/* ============================================================
+   ROLE-BASED PROGRESSIVE DISCLOSURE & VIEW SWITCHER (Step 17)
+   ============================================================ */
+.role-switcher-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  gap: 12px;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+}
+
+.role-switcher-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.role-switcher-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.role-pill {
+  border: 1px solid var(--border);
+  background: var(--surface-card, #ffffff);
+  color: var(--text-muted);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  min-height: 38px;
+}
+
+.role-pill:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #f0fdf4;
+}
+
+.role-pill.active {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25);
+}
+
+/* Visibility Rules based on data-role */
+body[data-role="farmer"] .role-expert-only,
+body[data-role="farmer"] .role-engineer-only,
+body[data-role="farmer"] .role-research-only {
+  display: none !important;
+}
+
+body[data-role="expert"] .role-farmer-only,
+body[data-role="expert"] .role-engineer-only {
+  display: none !important;
+}
+
+body[data-role="engineer"] .role-farmer-only,
+body[data-role="engineer"] .role-expert-only {
+  display: none !important;
+}
+
+body[data-role="research"] .role-farmer-only {
+  display: none !important;
+}
+
+/* 5-Step Progressive Scan Tracker */
+.scan-step-tracker {
+  margin-top: 16px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+
+.scan-step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scan-step-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid transparent;
+  transition: all 0.25s ease;
+}
+
+.scan-step-item.pending {
+  opacity: 0.55;
+}
+
+.scan-step-item.active {
+  opacity: 1;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.15);
+}
+
+.scan-step-item.completed {
+  opacity: 0.95;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.scan-step-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: #e2e8f0;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.scan-step-item.active .scan-step-dot {
+  background: var(--primary);
+  color: #ffffff;
+  animation: pulseDot 1s infinite alternate;
+}
+
+.scan-step-item.completed .scan-step-dot {
+  background: #10b981;
+  color: #ffffff;
+}
+
+.scan-step-info {
+  flex: 1;
+}
+
+.scan-step-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.scan-step-sub {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+.scan-step-status {
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@keyframes pulseDot {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1.1); opacity: 1; }
+}
+
+/* 7-Level AI Doctor Results Components */
+.confidence-band-wrap {
+  margin-top: 10px;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.confidence-band-bar {
+  height: 10px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 6px;
+}
+
+.confidence-band-fill {
+  height: 100%;
+  transition: width 0.6s ease;
+  border-radius: 999px;
+}
+
+/* 3 Immediate Actions Grid */
+.action-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.action-step-card {
+  background: #ffffff;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-step-card.priority-1 {
+  border-top: 4px solid #ef4444;
+}
+
+.action-step-card.priority-2 {
+  border-top: 4px solid #3b82f6;
+}
+
+.action-step-card.priority-3 {
+  border-top: 4px solid #10b981;
+}
+
+.action-step-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.action-step-title {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0;
+}
+
+.action-step-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Collapsible Why Panel (Progressive Disclosure) */
+.why-diagnosis-panel {
+  margin-top: 14px;
+  background: #f8fafc;
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.why-diagnosis-panel summary {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+}
+
+.why-diagnosis-content {
+  margin-top: 10px;
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  border-top: 1px dashed var(--border);
+  padding-top: 10px;
+}
+
+/* Prominent Irrigation Decision Banners (Step 17 Blueprint) */
+.irrigation-decision-banner {
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border: 2px solid transparent;
+  box-shadow: var(--shadow-sm);
+}
+
+.irrigation-decision-banner.state-irrigate {
+  background: #ecfdf5;
+  border-color: #10b981;
+  color: #064e3b;
+}
+
+.irrigation-decision-banner.state-wait {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  color: #0c4a6e;
+}
+
+.irrigation-decision-banner.state-check-sensor {
+  background: #fffbeb;
+  border-color: #f59e0b;
+  color: #78350f;
+}
+
+.irrigation-decision-banner.state-weather-hold {
+  background: #f5f3ff;
+  border-color: #8b5cf6;
+  color: #4c1d95;
+}
+
+.irrig-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.irrig-banner-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+}
+
+.irrig-banner-title {
+  font-size: 1.18rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+.irrig-banner-desc {
+  font-size: 0.85rem;
+  margin: 4px 0 0 0;
+  opacity: 0.9;
+}
+
+.irrig-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Farm Health 7/30 Comparison Toggle */
+.comparison-toggle-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f1f5f9;
+  border-radius: 999px;
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+
+.comparison-toggle-btn {
+  border: none;
+  background: transparent;
+  padding: 5px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.comparison-toggle-btn.active {
+  background: #ffffff;
+  color: var(--text-main);
+  font-weight: 700;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Kisan Mitra Quick Action Intent Chips */
+.intent-chips-wrap {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 8px 0;
+  scrollbar-width: thin;
+}
+
+.intent-chip {
+  white-space: nowrap;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.intent-chip:hover {
+  background: #dcfce7;
+  border-color: #86efac;
+  transform: translateY(-1px);
+}
+
+/* IoT Farmer Calm Mode vs Engineer View */
+.iot-farmer-calm-card {
+  background: #f0fdf4;
+  border: 1.5px solid #bbf7d0;
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.iot-calm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.iot-calm-item {
+  background: #ffffff;
+  border: 1px solid #dcfce7;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.iot-calm-icon {
+  font-size: 1.8rem;
+}
+
+.iot-calm-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.iot-calm-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #166534;
+}
+
+/* prefers-reduced-motion accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .laser-scanner, .pulse-globe, .btn-pulse, .conn-pulse-dot, .scan-step-item.active .scan-step-dot {
+    animation: none !important;
+  }
+}
+
 
 
 

@@ -122,6 +122,25 @@
 
   <!-- Main Container -->
   <div class="container">
+    <!-- Role Switcher (Step 17 Blueprint) -->
+    <div class="role-switcher-container">
+      <span class="role-switcher-label">👁️ View Mode:</span>
+      <div class="role-switcher-pills" role="radiogroup" aria-label="Application Role Switcher">
+        <button type="button" class="role-pill active" id="role-btn-farmer" onclick="setAppRole('farmer')" aria-checked="true">
+          👨‍🌾 <span>Farmer View</span>
+        </button>
+        <button type="button" class="role-pill" id="role-btn-expert" onclick="setAppRole('expert')" aria-checked="false">
+          🔬 <span>Expert / KVK</span>
+        </button>
+        <button type="button" class="role-pill" id="role-btn-engineer" onclick="setAppRole('engineer')" aria-checked="false">
+          📡 <span>IoT Engineer</span>
+        </button>
+        <button type="button" class="role-pill" id="role-btn-research" onclick="setAppRole('research')" aria-checked="false">
+          📊 <span>Research / Admin</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Module Tabs (Farmer-First Roadmap Navigation) -->
     <nav class="tabs-nav">
       <button class="tab-btn active" onclick="switchTab('tab-dashboard')" data-i18n="tab_dashboard">🏠 Dashboard</button>
@@ -342,6 +361,56 @@
             <button class="btn btn-primary btn-pulse" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">
               🔍 <span data-i18n="btn_run_diag">Run AI Disease Diagnosis</span>
             </button>
+
+            <!-- 5-Step Progressive Scan Tracker (Step 17 Blueprint) -->
+            <div id="scan-step-tracker" class="scan-step-tracker" style="display:none;">
+              <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                <span>⚡ Multi-Stage Phytosanitary Diagnostic Scan</span>
+                <span id="scan-progress-timer" style="font-size:0.75rem; color:var(--primary); font-weight:700;">In Progress...</span>
+              </div>
+              <div class="scan-step-list">
+                <div class="scan-step-item pending" id="scan-step-1">
+                  <div class="scan-step-dot">1</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">1. Image Quality & Focus Validation</div>
+                    <div class="scan-step-sub">Checking exposure, blur score & chromatic sharpness...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-1">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-2">
+                  <div class="scan-step-dot">2</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">2. Foliage & Leaf Mask Segmentation</div>
+                    <div class="scan-step-sub">Segmenting healthy & infected plant tissue from background...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-2">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-3">
+                  <div class="scan-step-dot">3</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">3. Botanical Crop Identification</div>
+                    <div class="scan-step-sub">Matching taxonomic family and morphology...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-3">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-4">
+                  <div class="scan-step-dot">4</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">4. MobileNetV3 Neural Inference</div>
+                    <div class="scan-step-sub">Evaluating 39-class pathology convolutional ensemble...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-4">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-5">
+                  <div class="scan-step-dot">5</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">5. ICAR Phytosanitary Protocol Matching</div>
+                    <div class="scan-step-sub">Correlating verified organic & chemical remedies...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-5">⏳</span>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Non-Plant Botanical Validation Alert -->
@@ -413,6 +482,36 @@
               </div>
             </div>
 
+            <!-- Level 2: Trust Band (Confidence Tier & Visual Bar) -->
+            <div class="confidence-band-wrap" id="confidence-band-wrap">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.83rem;">
+                <span style="font-weight:700; color:var(--text-main);">🛡️ Model Diagnostic Confidence:</span>
+                <span id="confidence-trust-text" style="font-weight:700; color:#10b981;">High Confidence (Verified)</span>
+              </div>
+              <div class="confidence-band-bar">
+                <div class="confidence-band-fill" id="confidence-band-fill" style="width:94%; background:#10b981;"></div>
+              </div>
+            </div>
+
+            <!-- Level 4: 3 Immediate Action Steps Grid (Step 17 Blueprint) -->
+            <div class="action-steps-grid" id="res-action-steps">
+              <div class="action-step-card priority-1">
+                <div class="action-step-badge"><span>✂️</span> <span>Step 1: Immediate Field Sanitation</span></div>
+                <h5 class="action-step-title" id="action-step-1-title">Isolate & Prune Foliage</h5>
+                <p class="action-step-desc" id="action-step-1-desc">Immediately cut off lower chlorotic or spotted leaves using sanitized shears. Burn or bury infected residue away from field.</p>
+              </div>
+              <div class="action-step-card priority-2">
+                <div class="action-step-badge"><span>🧪</span> <span>Step 2: Target Treatment Dosage</span></div>
+                <h5 class="action-step-title" id="action-step-2-title">Targeted Remediation</h5>
+                <p class="action-step-desc" id="action-step-2-desc">Apply recommended bio-agent or targeted ICAR chemical spray at specified concentration per liter of water.</p>
+              </div>
+              <div class="action-step-card priority-3">
+                <div class="action-step-badge"><span>💧</span> <span>Step 3: Moisture & Ventilation</span></div>
+                <h5 class="action-step-title" id="action-step-3-title">Prevent Moisture Stagnation</h5>
+                <p class="action-step-desc" id="action-step-3-desc">Suspend overhead sprinkler irrigation to avoid leaf wetness. Increase spacing to ensure aerodynamic canopy ventilation.</p>
+              </div>
+            </div>
+
             <div class="advisory-box">
               <h4 data-i18n="precautions_title">🚨 Immediate Precautions</h4>
               <ul id="res-precautions" class="precautions-list"></ul>
@@ -429,15 +528,30 @@
               </div>
             </div>
 
-            <!-- Why this Diagnosis Decision Factors Card (Section 4 & 6) -->
-            <div class="decision-factors-card" id="decision-factors-card" style="margin-top:16px; background:#f8fafc; border:1.5px solid var(--border); border-radius:12px; padding:14px 18px;">
-              <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
-                <span style="font-size:1.2rem;">🧠</span>
-                <h4 style="margin:0; font-size:0.92rem; color:var(--text-main);" data-i18n="why_diag_title">Why This Diagnosis? (Foliar Reasoning & Indicators)</h4>
+            <!-- Level 5: Collapsible Why This Diagnosis (Progressive Disclosure) -->
+            <details class="why-diagnosis-panel" id="why-diagnosis-panel">
+              <summary>
+                <span>🧠</span>
+                <span data-i18n="why_diag_title">Why This Diagnosis? (Foliar Reasoning & Indicators)</span>
+              </summary>
+              <div class="why-diagnosis-content">
+                <p id="decision-factors-text" style="margin:0; line-height:1.5;">
+                  Concentric necrotic rings and chlorotic halos detected on foliar tissue matching pathogen visual morphology, correlated with ambient temperature and humidity.
+                </p>
+                <div style="margin-top:8px; font-size:0.75rem; color:#64748b;">
+                  <em>Reference: ICAR National Research Centre for Integrated Pest Management (NCIPM) & FAO Crop Protection Compendium.</em>
+                </div>
               </div>
-              <p id="decision-factors-text" style="font-size:0.83rem; color:var(--text-muted); margin:0; line-height:1.45;">
-                Concentric necrotic rings and chlorotic halos detected on foliar tissue matching pathogen visual morphology, correlated with ambient temperature and humidity.
-              </p>
+            </details>
+
+            <!-- Level 7: Official Phytosanitary Advisory Record / Certificate Export -->
+            <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-cert" onclick="exportPhytosanitaryRecord()">
+                📄 <span>Export Certified Phytosanitary Record</span>
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="switchTab('tab-assistant')">
+                💬 <span>Discuss with Kisan Mitra</span>
+              </button>
             </div>
 
             <!-- Live Internet Cross-Verification & Comparison Card -->
@@ -682,6 +796,21 @@
         </button>
         <span class="tab-crumb">AgriSmart AI • Precision Irrigation & Weather</span>
       </div>
+
+      <!-- Prominent Decision Banner (Step 17 Blueprint: IRRIGATE / WAIT / CHECK SENSOR / WEATHER HOLD) -->
+      <div id="irrigation-decision-banner" class="irrigation-decision-banner state-wait">
+        <div class="irrig-banner-left">
+          <div class="irrig-banner-icon" id="irrig-banner-icon">⏳</div>
+          <div>
+            <h3 class="irrig-banner-title" id="irrig-banner-title">ACTION: WAIT — Soil Moisture Adequate</h3>
+            <p class="irrig-banner-desc" id="irrig-banner-desc">Current root zone moisture is above critical FAO-56 depletion threshold. No irrigation needed today.</p>
+          </div>
+        </div>
+        <div class="irrig-banner-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="calculateIrrigation()">🔄 Compute Now</button>
+        </div>
+      </div>
+
       <div class="grid-2">
         <div class="card">
           <div class="card-header">
@@ -863,14 +992,20 @@
             Synthesizes foliar visual pathology, soil nutrients (NPK & pH), atmospheric moisture, evapotranspiration demand, and field history into a single agronomic action plan.
           </p>
         </div>
-        <div class="health-gauge-wrap">
-          <div class="health-gauge-circle" id="farm-health-score-dial">
-            <span id="farm-health-score-val">88</span>
-            <small>Score</small>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+          <div class="comparison-toggle-bar" role="group" aria-label="Health Timeframe">
+            <button type="button" class="comparison-toggle-btn active" id="btn-farm-time-7" onclick="setFarmHealthTimeframe('7d')">7 Days</button>
+            <button type="button" class="comparison-toggle-btn" id="btn-farm-time-30" onclick="setFarmHealthTimeframe('30d')">30 Days</button>
           </div>
-          <div>
-            <strong style="font-size:1.05rem; display:block;" id="farm-health-rating-text">Optimal Health</strong>
-            <span style="font-size:0.8rem; opacity:0.9;">Low Fungal / Water Stress</span>
+          <div class="health-gauge-wrap">
+            <div class="health-gauge-circle" id="farm-health-score-dial">
+              <span id="farm-health-score-val">88</span>
+              <small>Score</small>
+            </div>
+            <div>
+              <strong style="font-size:1.05rem; display:block;" id="farm-health-rating-text">Optimal Health</strong>
+              <span style="font-size:0.8rem; opacity:0.9;" id="farm-health-sub-rating">Low Fungal / Water Stress</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1006,12 +1141,14 @@
         <p class="card-desc" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
 
         <div class="quick-questions">
-          <span data-i18n="quick_prompts_title">Quick Prompts:</span>
-          <button class="chip" onclick="askQuick('How do I treat Early Blight on tomatoes?')">Tomato Early Blight</button>
-          <button class="chip" onclick="askQuick('When should I delay irrigation?')">Irrigation Timing</button>
-          <button class="chip" onclick="askQuick('What is the organic treatment for rust?')">Corn Rust</button>
-          <button class="chip" onclick="askQuick('How can I reduce chemical fertilizer usage?')">Fertilizer Dosing</button>
-          <button class="chip" onclick="askQuick('Help: What can you do?')">💡 Help & Guide</button>
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text-main);" data-i18n="quick_prompts_title">Recommended Farmer Actions & Intents:</span>
+          <div class="intent-chips-wrap">
+            <button type="button" class="intent-chip" onclick="askQuick('How do I identify and treat leaf diseases on my crop?')">🌿 Leaf Disease Help</button>
+            <button type="button" class="intent-chip" onclick="askQuick('What is the recommended fertilizer schedule and NPK dosage for my crop?')">🧪 Fertilizer Dosage</button>
+            <button type="button" class="intent-chip" onclick="askQuick('When should I irrigate my field and how much water is needed?')">💧 Irrigation Schedule</button>
+            <button type="button" class="intent-chip" onclick="askQuick('What is the best sowing time and seed rate for optimal yield?')">🌾 Sowing Time</button>
+            <button type="button" class="intent-chip" onclick="askQuick('How do I control common pests and stem borers organically?')">🐛 Pest Management</button>
+          </div>
         </div>
 
         <div class="chat-window" id="chat-window">
@@ -1038,7 +1175,57 @@
         </button>
         <span class="tab-crumb">AgriSmart AI • Edge IoT & Autonomous Actuation</span>
       </div>
-      <div class="grid-2">
+
+      <!-- Farmer Mode Calm Status Card (Step 17 Blueprint) -->
+      <div class="iot-farmer-calm-card" id="iot-farmer-calm-view">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <span class="hero-badge" style="background:#dcfce7; color:#166534; border:1px solid #86efac;">👨‍🌾 Farmer View • Field Microclimate Summary</span>
+            <h3 style="margin:6px 0 2px 0; color:#14532d; font-size:1.25rem;">Live Field & Root Zone Status</h3>
+            <p style="margin:0; font-size:0.83rem; color:#166534;">Real-time automated telemetry synthesis for non-technical field management.</p>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="toggleEngineerConsole()" id="btn-toggle-engineer">
+            ⚙️ <span>Switch to Engineer Console</span>
+          </button>
+        </div>
+
+        <div class="iot-calm-grid">
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">💧</div>
+            <div>
+              <div class="iot-calm-label">Soil Moisture State</div>
+              <div class="iot-calm-val" id="calm-moist-text">Optimal (No Stress)</div>
+              <small style="font-size:0.75rem; color:#64748b;">Threshold: >20%</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">⚡</div>
+            <div>
+              <div class="iot-calm-label">Irrigation Valve / Pump</div>
+              <div class="iot-calm-val" id="calm-pump-text">Standby (Off)</div>
+              <small style="font-size:0.75rem; color:#64748b;">Safety Interlock: Active</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">🌤️</div>
+            <div>
+              <div class="iot-calm-label">Field Atmosphere</div>
+              <div class="iot-calm-val" id="calm-env-text">Calm & Favorable</div>
+              <small style="font-size:0.75rem; color:#64748b;">Spore risk: Minimal</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">📋</div>
+            <div>
+              <div class="iot-calm-label">Agronomic Advice</div>
+              <div class="iot-calm-val" id="calm-action-text">No Action Needed</div>
+              <small style="font-size:0.75rem; color:#64748b;">Next evaluation in 4 hrs</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" id="iot-engineer-view">
         <!-- IoT Gauges -->
         <div class="card">
           <div class="card-header">
