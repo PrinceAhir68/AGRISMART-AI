@@ -1308,12 +1308,27 @@ const DISTRICT_DATA = {
 // 3. INITIALIZATION & SPLASH SCREEN DISMISSAL
 // =================================================================
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Splash screen dismissal after smooth 2.2s animation
+  // 1. Prompt Farmer Login automatically on every startup & dismiss splash
   const splash = document.getElementById('splash-screen');
+  let authPrompted = false;
+  const promptFarmerLogin = () => {
+    if (authPrompted) return;
+    authPrompted = true;
+    openAuthModal();
+  };
+
   if (splash) {
     setTimeout(() => {
       splash.classList.add('splash-hidden');
-    }, 2200);
+      promptFarmerLogin();
+    }, 1900);
+
+    splash.addEventListener('click', () => {
+      splash.classList.add('splash-hidden');
+      promptFarmerLogin();
+    });
+  } else {
+    setTimeout(promptFarmerLogin, 300);
   }
 
   // 2. Set initial language in selector and translate entire page
@@ -2646,12 +2661,30 @@ function updateAuthUI() {
 }
 
 function openAuthModal() {
-  document.getElementById('auth-modal').classList.add('active');
+  const modal = document.getElementById('auth-modal');
+  if (modal) modal.classList.add('active');
   setAuthMode('login');
   const themeSelect = document.getElementById('auth-theme-select');
   if (themeSelect) {
     themeSelect.value = currentPreferences.theme || 'standard';
   }
+  // If farmer previously registered or logged in, pre-fill their phone/email
+  if (currentUser && currentUser.email_or_phone && !currentUser.is_guest) {
+    const input = document.getElementById('auth-email-phone');
+    if (input && !input.value) {
+      input.value = currentUser.email_or_phone;
+    }
+  }
+  // Focus the input field so farmer can type credentials right away
+  setTimeout(() => {
+    const emailInput = document.getElementById('auth-email-phone');
+    const pwdInput = document.getElementById('auth-password');
+    if (emailInput && emailInput.value) {
+      if (pwdInput) pwdInput.focus();
+    } else if (emailInput) {
+      emailInput.focus();
+    }
+  }, 100);
 }
 
 function closeAuthModal() {
