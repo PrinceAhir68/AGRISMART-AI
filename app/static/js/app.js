@@ -4452,3 +4452,48 @@ window.addEventListener('error', function (event) {
   console.error('[AgriSmart Client Monitor] Uncaught Window Error:', event.error || event.message);
 });
 
+// ========================================================
+// 19. AGRI-DASHBOARD VIEWPORT OBSERVER & QUICK PROMPT API
+// ========================================================
+(function initAgriDashboardObserver() {
+  function activateDashboard() {
+    document.querySelectorAll(".agri-dashboard").forEach((el) => {
+      el.classList.add("is-visible");
+    });
+  }
+
+  if (typeof IntersectionObserver !== 'undefined') {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.05 }
+    );
+    document.querySelectorAll(".agri-dashboard").forEach((el) => observer.observe(el));
+  }
+  
+  // Guarantee visibility even if observer triggers after initial paint
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(activateDashboard, 60));
+  } else {
+    setTimeout(activateDashboard, 60);
+  }
+})();
+
+function sendQuickPrompt(promptText) {
+  if (typeof askQuick === 'function') {
+    askQuick(promptText);
+  } else {
+    const input = document.getElementById('chat-input');
+    if (input) {
+      input.value = promptText;
+      if (typeof sendChatMessage === 'function') sendChatMessage();
+    }
+  }
+}
+
+
