@@ -2301,6 +2301,22 @@ body.high-contrast .btn-settings-header.active, [data-theme="high-contrast"] .bt
   border: 2px solid #000000;
 }
 
+body.high-contrast .weather-pill, [data-theme="high-contrast"] .weather-pill {
+  background: #ffffff;
+  border: 2px solid #000000;
+  color: #000000;
+  font-weight: 700;
+}
+
+body.high-contrast .quick-control-card, [data-theme="high-contrast"] .quick-control-card {
+  border: 2px solid #000000;
+  background: #ffffff;
+}
+
+body.high-contrast .site-footer, [data-theme="high-contrast"] .site-footer {
+  border-top: 2px solid #000000;
+}
+
 /* --- 3. GOLDEN HARVEST MODE (Amber / Earth) --- */
 body.harvest-mode, [data-theme="harvest"] {
   --bg: #fcf9f2;

@@ -2666,7 +2666,7 @@ function openAuthModal() {
   setAuthMode('login');
   const themeSelect = document.getElementById('auth-theme-select');
   if (themeSelect) {
-    themeSelect.value = currentPreferences.theme || 'standard';
+    themeSelect.value = currentPreferences.theme || 'high-contrast';
   }
   // If farmer previously registered or logged in, pre-fill their phone/email
   if (currentUser && currentUser.email_or_phone && !currentUser.is_guest) {
@@ -2727,7 +2727,7 @@ async function handleAuthSubmit() {
   }
 
   // Read preferred theme chosen by user in the auth modal
-  const chosenTheme = document.getElementById('auth-theme-select')?.value || 'standard';
+  const chosenTheme = document.getElementById('auth-theme-select')?.value || 'high-contrast';
 
   if (authMode === 'register') {
     const name = document.getElementById('auth-name').value.trim();
@@ -3976,7 +3976,7 @@ async function triggerAgentCycle() {
 
 let activeFarmerCrops = ['Tomato'];
 let currentPreferences = {
-  theme: 'standard',
+  theme: 'high-contrast',
   font_scale: 'normal',
   voice_rate: 1.0,
   auto_voice: false,
@@ -3995,17 +3995,18 @@ function initSettingsTab() {
     console.error('Error loading preferences:', e);
   }
 
-  // Auto-detect system preference if user hasn't chosen one
-  if (!currentPreferences.theme) {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      currentPreferences.theme = 'dark';
-    } else {
-      currentPreferences.theme = 'standard';
-    }
+  // Ensure default is Sunlight Mode (high-contrast)
+  const sunlightInitialized = localStorage.getItem('agrismart_sunlight_default_v2');
+  if (!sunlightInitialized) {
+    currentPreferences.theme = 'high-contrast';
+    localStorage.setItem('agrismart_theme', 'high-contrast');
+    localStorage.setItem('agrismart_sunlight_default_v2', 'true');
+  } else if (!currentPreferences.theme) {
+    currentPreferences.theme = 'high-contrast';
   }
 
   // Apply saved theme and font scale immediately
-  applyTheme(currentPreferences.theme || 'standard', false);
+  applyTheme(currentPreferences.theme || 'high-contrast', false);
   applyFontScale(currentPreferences.font_scale || 'normal', false);
 
   // Populate form fields
@@ -4240,7 +4241,7 @@ async function saveProfileSettings() {
 }
 
 function saveWebsitePreferences() {
-  const theme = document.querySelector('input[name="display-theme"]:checked')?.value || 'standard';
+  const theme = document.querySelector('input[name="display-theme"]:checked')?.value || 'high-contrast';
   const fontScale = document.querySelector('input[name="font-scale"]:checked')?.value || 'normal';
   const voiceRate = parseFloat(document.getElementById('set-pref-voice-rate')?.value || '1.0');
   const autoVoice = document.getElementById('set-pref-auto-voice')?.checked || false;
@@ -4265,7 +4266,7 @@ function saveWebsitePreferences() {
 
 function applyTheme(theme, showFeedback = false) {
   if (!['standard', 'dark', 'high-contrast', 'harvest'].includes(theme)) {
-    theme = 'standard';
+    theme = 'high-contrast';
   }
   currentPreferences.theme = theme;
   document.body.classList.remove('dark-mode', 'high-contrast', 'harvest-mode');
@@ -4316,8 +4317,8 @@ function applyTheme(theme, showFeedback = false) {
 }
 
 function cycleAppTheme() {
-  const themes = ['standard', 'dark', 'high-contrast', 'harvest'];
-  const curIdx = themes.indexOf(currentPreferences.theme || 'standard');
+  const themes = ['high-contrast', 'standard', 'dark', 'harvest'];
+  const curIdx = themes.indexOf(currentPreferences.theme || 'high-contrast');
   const nextTheme = themes[(curIdx + 1) % themes.length];
   applyTheme(nextTheme, true);
 }

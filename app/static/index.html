@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="high-contrast">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,7 +73,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="high-contrast" data-theme="high-contrast">
   <!-- ======================================================== -->
   <!-- ANIMATED SPLASH SCREEN                                   -->
   <!-- ======================================================== -->
@@ -1228,7 +1228,7 @@
               <label style="font-weight:700; margin-bottom:8px; display:block;" data-i18n="set_label_theme">Visual Display Mode</label>
               <div class="theme-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
                 <label class="theme-option-card" id="card-theme-standard" style="border:2px solid #059669; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#f0fdf4;">
-                  <input type="radio" name="display-theme" value="standard" checked onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <input type="radio" name="display-theme" value="standard" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
                   <span style="font-size:1.4rem;">🌿</span>
                   <strong style="font-size:0.85rem; color:#065f46;" data-i18n="theme_standard">Farm Green</strong>
                   <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_standard_sub">Standard Balanced</span>
@@ -1242,7 +1242,7 @@
                 </label>
 
                 <label class="theme-option-card" id="card-theme-high-contrast" style="border:2px solid #000000; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#ffffff;">
-                  <input type="radio" name="display-theme" value="high-contrast" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <input type="radio" name="display-theme" value="high-contrast" checked onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
                   <span style="font-size:1.4rem;">☀️</span>
                   <strong style="font-size:0.85rem; color:#0f172a;" data-i18n="theme_sunlight">Sunlight Mode</strong>
                   <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_sunlight_sub">High Contrast Field</span>
@@ -1539,9 +1539,9 @@
         <div class="form-group" id="group-theme-pref">
           <label data-i18n="auth_theme_label">🎨 Theme & Display Mode:</label>
           <select id="auth-theme-select" class="form-control" onchange="applyTheme(this.value, false)">
-            <option value="standard" selected data-i18n="theme_opt_standard">🌿 Farm Green (Standard)</option>
+            <option value="high-contrast" selected data-i18n="theme_opt_contrast">☀️ High Sunlight Contrast</option>
+            <option value="standard" data-i18n="theme_opt_standard">🌿 Farm Green (Standard)</option>
             <option value="dark" data-i18n="theme_opt_dark">🌙 Night Mode (Dark)</option>
-            <option value="high-contrast" data-i18n="theme_opt_contrast">☀️ High Sunlight Contrast</option>
             <option value="harvest" data-i18n="theme_opt_harvest">🌾 Golden Harvest (Amber)</option>
           </select>
         </div>
