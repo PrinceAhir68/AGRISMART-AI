@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgriSmart AI - Intelligent Agriculture for a Sustainable Future</title>
-  <link rel="icon" type="image/png" href="/static/images/logo.png">
-  <link rel="apple-touch-icon" href="/static/images/logo.png">
   <link rel="stylesheet" href="/static/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +15,25 @@
   <!-- ======================================================== -->
   <div id="splash-screen">
     <div class="splash-content">
-      <div class="splash-logo-wrap" style="width:84px; height:84px; margin:0 auto 16px auto; display:flex; align-items:center; justify-content:center;">
-        <img src="/static/images/logo.png" alt="AgriSmart AI Logo" style="width:84px; height:84px; object-fit:cover; border-radius:50%; box-shadow:0 6px 20px rgba(8,166,108,0.3); border:2px solid #a7f3d0;">
+      <div class="splash-logo-wrap">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M32 6C18 6 8 20 8 36C8 48 18 58 32 58C46 58 56 48 56 36C56 20 46 6 32 6Z" fill="#10B981" fill-opacity="0.25"/>
+          <path d="M32 10C22 14 16 26 16 38C16 46 22 52 32 54C42 52 48 46 48 38C48 26 42 14 32 10Z" fill="#047857"/>
+          <path d="M32 12V52" stroke="#6EE7B7" stroke-width="3" stroke-linecap="round"/>
+          <path d="M32 24L42 18" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 32L44 26" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 40L42 36" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 20L22 16" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 28L20 24" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M32 36L22 34" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="32" cy="12" r="3" fill="#FCD34D"/>
+          <circle cx="42" cy="18" r="2.5" fill="#FCD34D"/>
+          <circle cx="44" cy="26" r="2.5" fill="#FCD34D"/>
+          <circle cx="42" cy="36" r="2.5" fill="#FCD34D"/>
+          <circle cx="22" cy="16" r="2.5" fill="#6EE7B7"/>
+          <circle cx="20" cy="24" r="2.5" fill="#6EE7B7"/>
+          <circle cx="22" cy="34" r="2.5" fill="#6EE7B7"/>
+        </svg>
       </div>
       <h1 class="splash-title">AgriSmart AI</h1>
       <p class="splash-subtitle" data-i18n="app_subtitle_clean">Intelligent Agricultural Decision & Pathology Platform</p>
@@ -28,50 +43,96 @@
     </div>
   </div>
 
-  <!-- ======================================================== -->
-  <!-- MAIN AGRI-DASHBOARD (SEO & RESPONSIVE ARCHITECTURE)      -->
-  <!-- ======================================================== -->
-  <section class="agri-dashboard">
-    <!-- Top Navigation Header -->
-    <header class="navbar dashboard-header">
-      <!-- Left: Brand + Official Animated Logo Emblem -->
-      <div class="brand" onclick="switchTab('tab-core')" style="cursor:pointer;" title="AgriSmart AI Home">
-        <div class="brand-icon" title="AgriSmart AI Emblem">
-          <img src="/static/images/logo.png" alt="AgriSmart AI Logo" class="brand-logo-img">
+  <!-- Top Navigation Header -->
+  <header class="navbar">
+    <!-- Left Group: Brand, Live Temperature Badge, Location Switcher -->
+    <div class="nav-left">
+      <div class="nav-brand" onclick="switchTab('tab-core')" style="cursor:pointer;" title="AgriSmart AI Home">
+        <div class="logo-icon" style="background:#ecfdf5; border:1.5px solid #a7f3d0; border-radius:12px; width:48px; height:48px; display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 64 64" fill="none" style="width:34px; height:34px;" xmlns="http://www.w3.org/2000/svg">
+            <path d="M32 10C22 14 16 26 16 38C16 46 22 52 32 54C42 52 48 46 48 38C48 26 42 14 32 10Z" fill="#047857"/>
+            <path d="M32 12V52" stroke="#6EE7B7" stroke-width="3" stroke-linecap="round"/>
+            <path d="M32 24L42 18" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M32 32L44 26" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M32 20L22 16" stroke="#A7F3D0" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="42" cy="18" r="2.5" fill="#FCD34D"/>
+            <circle cx="44" cy="26" r="2.5" fill="#FCD34D"/>
+            <circle cx="22" cy="16" r="2.5" fill="#6EE7B7"/>
+          </svg>
         </div>
         <div>
-          <h1 data-i18n="app_title" style="font-size:1.35rem; font-weight:800; color:var(--text); margin:0;">AgriSmart AI</h1>
-          <p class="subtext" data-i18n="app_subtitle" style="margin:0; font-size:0.8rem; color:var(--text-muted); line-height:1.2;">Autonomous Agricultural Intelligence & Pathology System</p>
+          <h1 data-i18n="app_title">AgriSmart AI</h1>
+          <span class="subtext" data-i18n="app_subtitle">Autonomous Agricultural Intelligence & Pathology System</span>
         </div>
       </div>
 
-      <!-- Center: Real-time Weather & Location Badge -->
-      <div class="status-badges header-center">
-        <span class="status-badge weather" id="live-weather-badge">☁ Weather Sync</span>
-      </div>
+      <!-- Temperature & Live Weather Badge (Left Side) -->
+      <span class="badge badge-success" id="live-weather-badge">☁ Weather Sync</span>
 
-      <!-- Right: Single Dedicated Settings & Profile Button -->
-      <div class="header-right">
-        <button class="btn btn-settings-header" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Farm Settings, Identity, GPS & Regional Controls">
-          <span>⚙️</span> <span data-i18n="nav_settings">Settings & Profile</span>
+      <!-- Location Control Bar (Left Side: GPS vs Manual State/District) -->
+      <div class="location-control-bar">
+        <button class="loc-mode-btn active" id="btn-loc-gps" onclick="setLocMode('gps')">
+          <span>📍</span> <span data-i18n="loc_gps_mode">GPS Auto</span>
         </button>
+        <button class="loc-mode-btn" id="btn-loc-manual" onclick="setLocMode('manual')">
+          <span>🗺️</span> <span data-i18n="loc_manual_mode">State & District</span>
+        </button>
+        <div class="manual-loc-wrap" id="manual-loc-inputs" style="display:none;">
+          <select id="sel-state" class="manual-loc-select" onchange="onStateChanged(this.value)">
+            <option value="Gujarat">Gujarat (ગુજરાત)</option>
+            <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+            <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
+            <option value="Haryana">Haryana (हरियाणा)</option>
+            <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+            <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+            <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+            <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
+          </select>
+          <select id="sel-district" class="manual-loc-select" onchange="onDistrictChanged(this.value)">
+            <!-- Populated dynamically via JS -->
+          </select>
+        </div>
       </div>
-    </header>
+    </div>
 
-    <!-- Main Container -->
-    <div class="container">
-      <!-- Module Tabs / Agri Nav -->
-      <nav class="agri-nav tabs-nav">
-        <button class="tab-btn active" onclick="switchTab('tab-core')" data-i18n="tab_disease">🌱 Plant Pathology Lab</button>
-        <button class="tab-btn" onclick="switchTab('tab-crop')" data-i18n="tab_crop">🌾 Smart Crop Planner</button>
-        <button class="tab-btn" onclick="switchTab('tab-irrigation')" data-i18n="tab_irrigation">💧 Precision Irrigation & Weather</button>
-        <button class="tab-btn" onclick="switchTab('tab-sustainability')" data-i18n="tab_sustainability">🌍 Farm Sustainability & Carbon</button>
-        <button class="tab-btn" onclick="switchTab('tab-assistant')" data-i18n="tab_assistant">💬 Agronomy AI Advisor</button>
-        <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 Edge IoT & Smart Actuation</button>
-        <button class="tab-btn" onclick="switchTab('tab-settings')" data-i18n="nav_settings">⚙️ Settings & Farm Profile</button>
-        <!-- Benchmark & Field Validation hidden from farmer UI per user request -->
-        <button class="tab-btn" onclick="switchTab('tab-report')" data-i18n="tab_report" style="display:none !important;" aria-hidden="true">📊 Benchmark & Field Validation</button>
-      </nav>
+    <!-- Right Group: Global Language, Farmer Account, and Single Settings & Profile Button -->
+    <div class="nav-right">
+      <!-- Global Language Switcher -->
+      <div class="lang-bar">
+        <span class="lang-label" data-i18n="language_label">🌐 भाषा (Language):</span>
+        <select id="global-lang-select" class="lang-select" onchange="changeGlobalLanguage(this.value)">
+          <option value="hi" selected>हिन्दी (Hindi)</option>
+          <option value="gu">ગુજરાતી (Gujarati)</option>
+          <option value="mr">मराठी (Marathi)</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <!-- User Account Action Button (Auto-Remembered / No Mandatory Login) -->
+      <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()">
+        <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
+      </button>
+
+      <!-- Single Dedicated Settings & Profile Button on the Far Right Side -->
+      <button class="btn btn-settings-header" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings">
+        <span>⚙️</span> <span data-i18n="nav_settings">Settings & Profile</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Module Tabs -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-core')" data-i18n="tab_disease">🌿 Plant Pathology Lab</button>
+      <button class="tab-btn" onclick="switchTab('tab-crop')" data-i18n="tab_crop">🌾 Smart Crop Planner</button>
+      <button class="tab-btn" onclick="switchTab('tab-irrigation')" data-i18n="tab_irrigation">💧 Precision Irrigation & Weather</button>
+      <button class="tab-btn" onclick="switchTab('tab-sustainability')" data-i18n="tab_sustainability">🌍 Farm Sustainability & Carbon</button>
+      <button class="tab-btn" onclick="switchTab('tab-assistant')" data-i18n="tab_assistant">💬 Agronomy AI Advisor</button>
+      <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 Edge IoT & Smart Actuation</button>
+      <!-- Benchmark & Field Validation hidden from farmer UI per user request -->
+      <button class="tab-btn" onclick="switchTab('tab-report')" data-i18n="tab_report" style="display:none !important;" aria-hidden="true">📊 Benchmark & Field Validation</button>
+    </nav>
 
     <!-- ======================================================== -->
     <!-- TAB 1: Plant Pathology Lab (Vision Disease Diagnosis)   -->
@@ -627,26 +688,25 @@
         </button>
         <span class="tab-crumb">AgriSmart AI • Agronomy AI Advisor</span>
       </div>
-      <div class="advisor-card" style="max-width:900px; margin:0 auto;">
-        <div class="advisor-heading">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <span>🌿</span> <span data-i18n="assistant_title">Grounded Agronomy AI Advisor</span>
-          </div>
+      <div class="card" style="max-width:900px; margin:0 auto;">
+        <div class="card-header">
+          <h3 data-i18n="assistant_title">💬 Grounded Agronomy AI Advisor</h3>
           <div style="display:flex; align-items:center; gap:8px;">
             <button type="button" class="btn btn-secondary btn-sm" onclick="clearChatMessages()" style="padding:4px 10px; font-size:0.78rem;" title="Reset chat history">
               🧹 <span data-i18n="btn_clear_chat">Clear Chat</span>
             </button>
-            <span class="icar-badge" data-i18n="tag_bonus_e">ICAR Grounded Advisory</span>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_e">ICAR Grounded Advisory</span>
           </div>
         </div>
-        <p class="card-desc" style="margin-top:8px; color:var(--text-muted); font-size:0.9rem;" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
+        <p class="card-desc" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
 
-        <div class="quick-prompts">
-          <button type="button" onclick="askQuick('How do I treat Early Blight on tomatoes?')">Tomato Early Blight</button>
-          <button type="button" onclick="askQuick('When should I delay irrigation?')">Irrigation Timing</button>
-          <button type="button" onclick="askQuick('What is the organic treatment for rust?')">Corn Rust</button>
-          <button type="button" onclick="askQuick('How can I reduce chemical fertilizer usage?')">Fertilizer Dosing</button>
-          <button type="button" onclick="askQuick('Help: What can you do?')">💡 Help & Guide</button>
+        <div class="quick-questions">
+          <span data-i18n="quick_prompts_title">Quick Prompts:</span>
+          <button class="chip" onclick="askQuick('How do I treat Early Blight on tomatoes?')">Tomato Early Blight</button>
+          <button class="chip" onclick="askQuick('When should I delay irrigation?')">Irrigation Timing</button>
+          <button class="chip" onclick="askQuick('What is the organic treatment for rust?')">Corn Rust</button>
+          <button class="chip" onclick="askQuick('How can I reduce chemical fertilizer usage?')">Fertilizer Dosing</button>
+          <button class="chip" onclick="askQuick('Help: What can you do?')">💡 Help & Guide</button>
         </div>
 
         <div class="chat-window" id="chat-window">
@@ -935,87 +995,6 @@
           </div>
           <div id="settings-user-badge-pill" style="background:rgba(255,255,255,0.2); padding:8px 16px; border-radius:20px; font-size:0.9rem; font-weight:600; backdrop-filter:blur(4px);">
             👤 <span id="settings-pill-name">Guest Farmer</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- FARMER QUICK ACCESS HUB: PROFILE, LANGUAGE, GPS & REGION -->
-      <div class="card settings-quick-hub" style="margin-bottom: 24px; border: 1.5px solid #a7f3d0; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 18px rgba(6, 78, 59, 0.06); padding: 22px;">
-        <div class="card-header" style="border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 18px;">
-          <h3 style="display:flex; align-items:center; gap:8px; margin:0; color:#065f46;">
-            <span>⚡</span> <span data-i18n="set_quick_hub_title">Quick Access: Identity, Regional Language & Location Sync</span>
-          </h3>
-          <span class="tag tag-core" data-i18n="tag_core">Instant Controls</span>
-        </div>
-        
-        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
-          <!-- 1. Farmer Account & Profile -->
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                <h4 style="margin:0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
-                  <span>👤</span> <span data-i18n="nav_account">Farmer Profile & Account</span>
-                </h4>
-                <span id="auth-status-indicator" style="font-size:0.75rem; background:#ecfdf5; color:#059669; padding:2px 8px; border-radius:12px; font-weight:600;">Active</span>
-              </div>
-              <p style="font-size:0.83rem; color:#64748b; margin:0 0 14px 0;" data-i18n="set_hub_profile_desc">Access farmer login, switch credentials, or verify your saved land and crop data.</p>
-            </div>
-            <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()" style="width:100%; justify-content:center; padding:10px 16px; font-weight:600;">
-              <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
-            </button>
-          </div>
-
-          <!-- 2. Platform Language Switcher -->
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <h4 style="margin:0 0 8px 0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
-                <span>🌐</span> <span data-i18n="language_label">भाषा (Platform Language)</span>
-              </h4>
-              <p style="font-size:0.83rem; color:#64748b; margin:0 0 14px 0;" data-i18n="set_hub_lang_desc">Real-time vernacular translation across all modules, alerts, and speech synthesis.</p>
-            </div>
-            <div class="lang-bar" style="margin:0; width:100%;">
-              <select id="global-lang-select" class="lang-select form-control" style="width:100%; font-weight:600; font-size:0.92rem; border:1.5px solid #08a66c; border-radius:8px; padding:8px 12px; background:#f0fdf4; color:#064e3b;" onchange="changeGlobalLanguage(this.value)">
-                <option value="hi" selected>हिन्दी (Hindi)</option>
-                <option value="gu">ગુજરાતી (Gujarati)</option>
-                <option value="mr">मराठी (Marathi)</option>
-                <option value="en">English</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- 3. GPS & State/District Location Controls -->
-          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
-            <div>
-              <h4 style="margin:0 0 8px 0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
-                <span>📍</span> <span data-i18n="loc_control_title">Field Location & Weather Sync</span>
-              </h4>
-              <p style="font-size:0.83rem; color:#64748b; margin:0 0 12px 0;" data-i18n="loc_control_desc">Auto GPS detection or manual State & District selection.</p>
-            </div>
-            <div>
-              <div class="location-control-bar" style="display:flex; gap:8px; margin-bottom:8px;">
-                <button class="loc-mode-btn active" id="btn-loc-gps" onclick="setLocMode('gps')" style="flex:1; justify-content:center;">
-                  <span>📍</span> <span data-i18n="loc_gps_mode">GPS Auto</span>
-                </button>
-                <button class="loc-mode-btn" id="btn-loc-manual" onclick="setLocMode('manual')" style="flex:1; justify-content:center;">
-                  <span>🗺️</span> <span data-i18n="loc_manual_mode">State & District</span>
-                </button>
-              </div>
-              <div class="manual-loc-wrap" id="manual-loc-inputs" style="display:none; flex-direction:column; gap:8px; margin-top:8px;">
-                <select id="sel-state" class="manual-loc-select form-control" onchange="onStateChanged(this.value)" style="font-size:0.88rem; padding:6px 10px;">
-                  <option value="Gujarat">Gujarat (ગુજરાત)</option>
-                  <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
-                  <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
-                  <option value="Haryana">Haryana (हरियाणा)</option>
-                  <option value="Rajasthan">Rajasthan (राजस्थान)</option>
-                  <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
-                  <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
-                  <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
-                </select>
-                <select id="sel-district" class="manual-loc-select form-control" onchange="onDistrictChanged(this.value)" style="font-size:0.88rem; padding:6px 10px;">
-                  <!-- Populated dynamically via JS -->
-                </select>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -1380,7 +1359,6 @@
       </div>
     </section>
   </div>
-  </section> <!-- agri-dashboard -->
 
   <!-- ======================================================== -->
   <!-- MODAL 0: LIVE FIELD CAMERA VIEWFINDER (Mobile / Webcam)   -->
