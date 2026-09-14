@@ -109,11 +109,40 @@ class TestApiEndpoints(unittest.TestCase):
             self.assertEqual(data["database"], "ok")
             self.assertEqual(data["classes_count"], 39)
             self.assertEqual(data["model_status"], "ready")
+            self.assertTrue(data["model_loaded"])
+            self.assertIn("dependencies", data)
+            self.assertEqual(data["dependencies"]["vision_model"], "ready")
             self.assertTrue(data["storage_isolated"])
             # Security headers
             self.assertEqual(resp.headers.get("x-content-type-options"), "nosniff")
             self.assertEqual(resp.headers.get("x-frame-options"), "SAMEORIGIN")
             self.assertEqual(resp.headers.get("referrer-policy"), "strict-origin-when-cross-origin")
+
+    def test_blueprint_api_aliases_and_research(self):
+        # 1. Test /api/diagnosis
+        with open(self.sample_img_path, "rb") as f:
+            resp = self.client.post("/api/diagnosis", files={"file": ("leaf.jpg", f, "image/jpeg")})
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn("class_label", resp.json())
+        self.assertIn("confidence", resp.json())
+
+        # 2. Test /api/diagnosis/feedback
+        fb_resp = self.client.post("/api/diagnosis/feedback", json={"item_type": "diagnosis", "item_id": "1", "helpful": True})
+        self.assertEqual(fb_resp.status_code, 200)
+        self.assertEqual(fb_resp.json()["status"], "success")
+
+        # 3. Test /api/irrigation
+        irrig_resp = self.client.post("/api/irrigation", json={"current_soil_moisture": 18.0, "crop_type": "Tomato"})
+        self.assertEqual(irrig_resp.status_code, 200)
+        self.assertIn("decision", irrig_resp.json())
+
+        # 4. Test /api/research/metrics
+        res_resp = self.client.get("/api/research/metrics")
+        self.assertEqual(res_resp.status_code, 200)
+        m_data = res_resp.json()
+        self.assertEqual(m_data["model_version"], "MobileNetV3-Small-v2")
+        self.assertEqual(m_data["held_out_test_metrics"]["top1_accuracy_pct"], 95.05)
+        self.assertEqual(m_data["held_out_test_metrics"]["top3_accuracy_pct"], 99.38)
 
 
 if __name__ == "__main__":
