@@ -1,0 +1,306 @@
+{
+  "benchmark_b_curated_samples": {
+    "total": 42,
+    "correct": 38,
+    "accuracy_pct": 90.48,
+    "high_confidence_count": 36,
+    "details": [
+      {
+        "file": "apple_apple_scab.jpg",
+        "predicted": "Apple___Apple_scab",
+        "confidence": 0.5997,
+        "is_correct": true
+      },
+      {
+        "file": "apple_black_rot.jpg",
+        "predicted": "Apple___Black_rot",
+        "confidence": 0.9503,
+        "is_correct": true
+      },
+      {
+        "file": "apple_cedar_apple_rust.jpg",
+        "predicted": "Apple___Cedar_apple_rust",
+        "confidence": 0.9784,
+        "is_correct": true
+      },
+      {
+        "file": "apple_healthy.jpg",
+        "predicted": "Apple___healthy",
+        "confidence": 0.9928,
+        "is_correct": true
+      },
+      {
+        "file": "apple_scab.jpg",
+        "predicted": "Tomato___Late_blight",
+        "confidence": 0.348,
+        "is_correct": false
+      },
+      {
+        "file": "background_without_leaves.jpg",
+        "predicted": "Background_without_leaves",
+        "confidence": 0.9884,
+        "is_correct": true
+      },
+      {
+        "file": "bell_pepper_bacterial_spot.jpg",
+        "predicted": "Background_without_leaves",
+        "confidence": 0.4678,
+        "is_correct": false
+      },
+      {
+        "file": "bell_pepper_healthy.jpg",
+        "predicted": "Orange___Haunglongbing_(Citrus_greening)",
+        "confidence": 0.3372,
+        "is_correct": false
+      },
+      {
+        "file": "blueberry_healthy.jpg",
+        "predicted": "Blueberry___healthy",
+        "confidence": 0.7445,
+        "is_correct": true
+      },
+      {
+        "file": "cherry_healthy.jpg",
+        "predicted": "Cherry___healthy",
+        "confidence": 0.9882,
+        "is_correct": true
+      },
+      {
+        "file": "cherry_powdery_mildew.jpg",
+        "predicted": "Cherry___Powdery_mildew",
+        "confidence": 0.7686,
+        "is_correct": true
+      },
+      {
+        "file": "corn_cercospora_leaf_spot_gray_leaf_spot.jpg",
+        "predicted": "Corn___Cercospora_leaf_spot Gray_leaf_spot",
+        "confidence": 0.935,
+        "is_correct": true
+      },
+      {
+        "file": "corn_common_rust.jpg",
+        "predicted": "Corn___Common_rust",
+        "confidence": 0.9417,
+        "is_correct": true
+      },
+      {
+        "file": "corn_healthy.jpg",
+        "predicted": "Corn___healthy",
+        "confidence": 0.9876,
+        "is_correct": true
+      },
+      {
+        "file": "corn_northern_leaf_blight.jpg",
+        "predicted": "Corn___Northern_Leaf_Blight",
+        "confidence": 0.8715,
+        "is_correct": true
+      },
+      {
+        "file": "grape_black_rot.jpg",
+        "predicted": "Grape___Black_rot",
+        "confidence": 0.8248,
+        "is_correct": true
+      },
+      {
+        "file": "grape_esca_black_measles.jpg",
+        "predicted": "Grape___Esca_(Black_Measles)",
+        "confidence": 0.8657,
+        "is_correct": true
+      },
+      {
+        "file": "grape_healthy.jpg",
+        "predicted": "Grape___healthy",
+        "confidence": 0.9916,
+        "is_correct": true
+      },
+      {
+        "file": "grape_leaf_blight_isariopsis_leaf_spot.jpg",
+        "predicted": "Grape___Leaf_blight_(Isariopsis_Leaf_Spot)",
+        "confidence": 0.7812,
+        "is_correct": true
+      },
+      {
+        "file": "orange_haunglongbing_citrus_greening.jpg",
+        "predicted": "Orange___Haunglongbing_(Citrus_greening)",
+        "confidence": 0.7293,
+        "is_correct": true
+      },
+      {
+        "file": "peach_bacterial_spot.jpg",
+        "predicted": "Peach___Bacterial_spot",
+        "confidence": 0.992,
+        "is_correct": true
+      },
+      {
+        "file": "peach_healthy.jpg",
+        "predicted": "Peach___healthy",
+        "confidence": 0.9315,
+        "is_correct": true
+      },
+      {
+        "file": "pepper_bell_bacterial_spot.jpg",
+        "predicted": "Pepper,_bell___Bacterial_spot",
+        "confidence": 0.9918,
+        "is_correct": true
+      },
+      {
+        "file": "pepper_bell_healthy.jpg",
+        "predicted": "Pepper,_bell___healthy",
+        "confidence": 0.8602,
+        "is_correct": true
+      },
+      {
+        "file": "potato_early_blight.jpg",
+        "predicted": "Potato___Early_blight",
+        "confidence": 0.7502,
+        "is_correct": true
+      },
+      {
+        "file": "potato_healthy.jpg",
+        "predicted": "Potato___healthy",
+        "confidence": 0.985,
+        "is_correct": true
+      },
+      {
+        "file": "potato_late_blight.jpg",
+        "predicted": "Potato___Late_blight",
+        "confidence": 0.5622,
+        "is_correct": true
+      },
+      {
+        "file": "raspberry_healthy.jpg",
+        "predicted": "Raspberry___healthy",
+        "confidence": 0.9155,
+        "is_correct": true
+      },
+      {
+        "file": "soybean_healthy.jpg",
+        "predicted": "Soybean___healthy",
+        "confidence": 0.4595,
+        "is_correct": true
+      },
+      {
+        "file": "squash_powdery_mildew.jpg",
+        "predicted": "Squash___Powdery_mildew",
+        "confidence": 0.9982,
+        "is_correct": true
+      },
+      {
+        "file": "strawberry_healthy.jpg",
+        "predicted": "Strawberry___healthy",
+        "confidence": 0.8963,
+        "is_correct": true
+      },
+      {
+        "file": "strawberry_leaf_scorch.jpg",
+        "predicted": "Strawberry___Leaf_scorch",
+        "confidence": 0.8957,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_bacterial_spot.jpg",
+        "predicted": "Tomato___Bacterial_spot",
+        "confidence": 0.7285,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_early_blight.jpg",
+        "predicted": "Tomato___Spider_mites Two-spotted_spider_mite",
+        "confidence": 0.3987,
+        "is_correct": false
+      },
+      {
+        "file": "tomato_healthy.jpg",
+        "predicted": "Tomato___healthy",
+        "confidence": 0.9579,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_late_blight.jpg",
+        "predicted": "Tomato___Late_blight",
+        "confidence": 0.2743,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_leaf_mold.jpg",
+        "predicted": "Tomato___Leaf_Mold",
+        "confidence": 0.5565,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_septoria_leaf_spot.jpg",
+        "predicted": "Tomato___Septoria_leaf_spot",
+        "confidence": 0.728,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_spider_mites_two-spotted_spider_mite.jpg",
+        "predicted": "Tomato___Spider_mites Two-spotted_spider_mite",
+        "confidence": 0.8567,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_target_spot.jpg",
+        "predicted": "Tomato___Target_Spot",
+        "confidence": 0.7225,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_tomato_mosaic_virus.jpg",
+        "predicted": "Tomato___Tomato_mosaic_virus",
+        "confidence": 0.9964,
+        "is_correct": true
+      },
+      {
+        "file": "tomato_tomato_yellow_leaf_curl_virus.jpg",
+        "predicted": "Tomato___Tomato_Yellow_Leaf_Curl_Virus",
+        "confidence": 0.9727,
+        "is_correct": true
+      }
+    ]
+  },
+  "benchmark_c_outdoor_indian_leaves": {
+    "total_tested": 220,
+    "botanical_valid_rate_pct": 79.55,
+    "mean_confidence_pct": 35.21
+  },
+  "benchmark_d_ood_rejection": {
+    "total_ood": 4,
+    "successfully_rejected": 3,
+    "rejection_rate_pct": 75.0,
+    "details": [
+      {
+        "test_type": "pure_blue_sky",
+        "botanical_rejected": true,
+        "rejection_reason": "Image appears to be non-agricultural (high blue/sky/metallic spectrum detected).",
+        "model_pred": "Corn___healthy",
+        "model_conf": 0.3058,
+        "successfully_caught": true
+      },
+      {
+        "test_type": "monochrome_document",
+        "botanical_rejected": true,
+        "rejection_reason": "Image appears to be a grayscale object, document, or non-plant item.",
+        "model_pred": "Corn___healthy",
+        "model_conf": 0.4639,
+        "successfully_caught": true
+      },
+      {
+        "test_type": "metallic_gray",
+        "botanical_rejected": true,
+        "rejection_reason": "Image appears to be a grayscale object, document, or non-plant item.",
+        "model_pred": "Corn___healthy",
+        "model_conf": 0.4736,
+        "successfully_caught": true
+      },
+      {
+        "test_type": "dark_soil",
+        "botanical_rejected": false,
+        "rejection_reason": "Valid agricultural botanical image.",
+        "model_pred": "Corn___healthy",
+        "model_conf": 0.4909,
+        "successfully_caught": false
+      }
+    ]
+  }
+}

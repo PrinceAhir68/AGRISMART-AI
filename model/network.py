@@ -18,7 +18,10 @@ class AgriSmartVisionModel(nn.Module):
     def __init__(self, num_classes=39, pretrained=False):
         super(AgriSmartVisionModel, self).__init__()
         # Load backbone
-        self.backbone = models.mobilenet_v3_small(weights=None)
+        if pretrained:
+            self.backbone = models.mobilenet_v3_small(weights=models.MobileNet_V3_Small_Weights.DEFAULT)
+        else:
+            self.backbone = models.mobilenet_v3_small(weights=None)
         
         # Replace classifier
         in_features = self.backbone.classifier[0].in_features

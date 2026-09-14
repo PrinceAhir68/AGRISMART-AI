@@ -2238,7 +2238,25 @@ function renderDiagnosis(data) {
 
   document.getElementById('res-disease-name').innerText = data.display_name;
   document.getElementById('res-crop-name').innerText = data.crop;
-  document.getElementById('res-confidence').innerText = `${Math.round(data.confidence * 100)}%`;
+  const confPct = Math.round(data.confidence * 100);
+  document.getElementById('res-confidence').innerText = `${confPct}%`;
+
+  // Low Confidence / Uncertainty Handling (Section 13)
+  const warnBanner = document.getElementById('low-confidence-banner');
+  const confBadge = document.getElementById('conf-badge');
+  if (warnBanner) {
+    if (data.is_uncertain || data.confidence < 0.50) {
+      warnBanner.style.display = 'block';
+      const warnText = document.getElementById('low-confidence-text');
+      if (warnText) {
+        warnText.innerText = data.uncertainty_warning || `Low Confidence (${confPct}%): The AI model is uncertain. Please upload a clearer close-up image of the affected leaf.`;
+      }
+      if (confBadge) confBadge.style.borderColor = '#eab308';
+    } else {
+      warnBanner.style.display = 'none';
+      if (confBadge) confBadge.style.borderColor = '#10b981';
+    }
+  }
 
   const badge = document.getElementById('diag-badge');
   if (data.is_disease) {

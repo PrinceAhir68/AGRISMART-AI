@@ -109,12 +109,12 @@ def predict_with_neural_net(image: Image.Image, target_crop: str = None) -> tupl
                 conf = float(probs[best_i])
                 sub_sum = float(sum(probs[i] for i in crop_indices))
                 if sub_sum > 0:
-                    conf = min(0.99, max(0.85, float(conf / sub_sum)))
+                    conf = float(conf / sub_sum)
                 return CLASSES[best_i], round(conf, 4)
 
         best_i = int(np.argmax(probs))
         conf = float(probs[best_i])
-        return CLASSES[best_i], round(min(0.99, max(0.85, conf)), 4)
+        return CLASSES[best_i], round(conf, 4)
     except Exception:
         return None, 0.0
 
@@ -555,30 +555,34 @@ def predict(
             f"Not a crop or plant image: {validation_reason}. Please upload a clear photo of an agricultural crop leaf, tree, plant, fruit, or vegetable."
         )
 
-    eval_filename = client_filename or os.path.basename(image_path)
+    # 1. Primary Neural Network Inference (39-class MobileNetV3-Small)
+    CONFIDENCE_THRESHOLD = 0.45
 
-    # 1. Dynamic Feature Extraction & Benchmark Matcher
-    features = _extract_leaf_pathology(image)
-    dynamic_class, dynamic_conf = _match_class_dynamically(
-        features,
-        filename=eval_filename,
-        target_crop=target_crop
-    )
-
-    # 2. Check if benchmark test sample pattern matches, otherwise run MobileNetV3
-    if dynamic_conf >= 0.93:
-        predicted_class, confidence = dynamic_class, dynamic_conf
+    nn_class, nn_conf = predict_with_neural_net(image, target_crop=target_crop)
+    if nn_class is not None:
+        predicted_class, confidence = nn_class, nn_conf
     else:
-        nn_class, nn_conf = predict_with_neural_net(image, target_crop=target_crop)
-        if nn_class is not None and nn_conf >= 0.85:
-            predicted_class, confidence = nn_class, nn_conf
-        else:
-            predicted_class, confidence = dynamic_class, dynamic_conf
+        # Fallback to feature extractor only if neural network is unavailable
+        features = _extract_leaf_pathology(image)
+        predicted_class, confidence = _match_class_dynamically(
+            features,
+            filename="",
+            target_crop=target_crop
+        )
 
-    # 3. Reject Background / Non-Leaf Photos
+    # 2. Reject Background / Non-Leaf Photos
     if predicted_class == "Background_without_leaves":
         raise InvalidPlantImageError(
             "No crop leaf detected in image: System identified background or non-agricultural elements. Please upload a clear photo of an agricultural crop leaf."
+        )
+
+    # 3. Confidence Threshold Check (Section 13)
+    is_uncertain = bool(confidence < CONFIDENCE_THRESHOLD)
+    uncertainty_warning = ""
+    if is_uncertain:
+        uncertainty_warning = (
+            f"Low Confidence ({round(confidence * 100, 1)}%): The model is uncertain about this leaf condition. "
+            "Please upload a clearer close-up image of the affected leaf in good natural lighting."
         )
 
     # Retrieve agronomic advisory from ICAR knowledge base
@@ -617,6 +621,10 @@ def predict(
         "class_label": predicted_class,
         "display_name": info.get("display_name", predicted_class),
         "confidence": confidence,
+        "is_uncertain": is_uncertain,
+        "uncertainty_warning": uncertainty_warning,
+        "confidence_threshold": CONFIDENCE_THRESHOLD,
+        "model_version": "v2_mobilenetv3_transfer_learned",
         "crop": info.get("crop", "Unknown"),
         "is_disease": info.get("is_disease", True),
         "symptoms": info.get("symptoms", ""),

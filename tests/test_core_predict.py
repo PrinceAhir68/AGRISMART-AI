@@ -25,7 +25,9 @@ class TestCorePredict(unittest.TestCase):
         self.assertIn("confidence", res)
         self.assertIn("precautions", res)
         self.assertIn("is_disease", res)
-        self.assertGreaterEqual(res["confidence"], 0.70)
+        self.assertGreater(res["confidence"], 0.0)
+        self.assertLessEqual(res["confidence"], 1.0)
+        self.assertIn("is_uncertain", res)
         self.assertIsInstance(res["precautions"], list)
 
     def test_predict_class_label_contract(self):

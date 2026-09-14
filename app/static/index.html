@@ -251,6 +251,19 @@
               <span class="badge badge-success" style="font-size:0.75rem;">✓ AI Verified</span>
             </div>
 
+            <!-- Low-Confidence Uncertainty Banner (Section 13 & 22) -->
+            <div id="low-confidence-banner" class="alert-box alert-warning" style="display:none; margin-bottom:14px; background:#fefce8; border:1.5px solid #fde047; padding:10px 14px; border-radius:8px; color:#854d0e;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.3rem;">⚠️</span>
+                <div>
+                  <strong style="font-size:0.9rem;" data-i18n="low_confidence_title">Low Confidence Prediction</strong>
+                  <p id="low-confidence-text" style="margin:2px 0 0 0; font-size:0.83rem; color:#713f12;" data-i18n="low_confidence_desc">
+                    The model is uncertain about this leaf condition. Please upload a clearer close-up image of the affected leaf in good lighting.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <div class="result-header">
               <div>
                 <h2 id="res-disease-name">Tomato Early Blight</h2>
@@ -352,6 +365,10 @@
                 🖨 <span data-i18n="btn_print_pdf">Print Official Certificate</span>
               </button>
             </div>
+            <!-- Scientific Disclaimer & Consultation Note (Section 22 & 24) -->
+            <p class="expert-disclaimer-note" style="font-size:0.80rem; color:var(--text-muted); margin-top:14px; border-top:1px dashed var(--border); padding-top:8px;">
+              <strong>📌 Note:</strong> AI predictions are probabilistic based on visual foliage characteristics. For low-confidence or severe cases, consult an agricultural expert or ICAR extension specialist before major chemical intervention.
+            </p>
           </div>
         </div>
       </div>
