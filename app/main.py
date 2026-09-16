@@ -280,6 +280,12 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 os.makedirs(STATIC_DIR, exist_ok=True)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+# Direct asset mounts for cross-platform and static hosting compatibility
+for subdir in ["css", "js", "images", "samples"]:
+    sub_path = os.path.join(STATIC_DIR, subdir)
+    if os.path.isdir(sub_path):
+        app.mount(f"/{subdir}", StaticFiles(directory=sub_path), name=subdir)
+
 # Verify uploaded files are isolated outside the web root
 assert verify_storage_is_isolated(STATIC_DIR), "Upload storage directory must not reside inside web root!"
 
