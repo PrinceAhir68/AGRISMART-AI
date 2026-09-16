@@ -1,0 +1,2359 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="high-contrast">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSmart AI — Autonomous Agricultural Intelligence & Pathology System | Syntax squad</title>
+  
+  <!-- Primary SEO Meta Tags -->
+  <meta name="title" content="AgriSmart AI — Autonomous Agricultural Intelligence & Pathology System | Syntax squad">
+  <meta name="description" content="AgriSmart AI is an autonomous agricultural intelligence platform developed by Syntax squad. Real-time vision-based crop disease diagnosis across 39 foliage classes, precision evapotranspiration irrigation, smart crop planning, and ICAR-grounded agronomic decision support.">
+  <meta name="keywords" content="AgriSmart AI, Syntax squad, Prince Ahir, agriculture AI, plant disease diagnosis, leaf pathology detector, crop recommendation, precision irrigation, smart farming, ICAR agronomy, sustainable agriculture">
+  <meta name="author" content="Syntax squad">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="http://github.com/PrinceAhir68/AGRISMART-AI">
+  
+  <!-- Favicon & Touch Icons -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="apple-touch-icon" href="images/logo.png">
+
+  <!-- Open Graph / Social Media Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="http://github.com/PrinceAhir68/AGRISMART-AI">
+  <meta property="og:title" content="AgriSmart AI — Autonomous Agricultural Intelligence & Pathology System">
+  <meta property="og:description" content="Empowering farmers with AI plant pathology detection, precision weather & irrigation scheduling, and verified ICAR-backed agronomic guidance. Built by Syntax squad.">
+  <meta property="og:image" content="images/logo.png">
+
+  <!-- Twitter Card Tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AgriSmart AI — Autonomous Agricultural Intelligence & Pathology System">
+  <meta name="twitter:description" content="Autonomous crop disease detection, precision weather & irrigation, and smart farming tools by Syntax squad.">
+  <meta name="twitter:image" content="images/logo.png">
+
+  <!-- Schema.org JSON-LD Structured Data for SEO -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "AgriSmart AI",
+    "url": "http://github.com/PrinceAhir68/AGRISMART-AI",
+    "applicationCategory": "AgricultureApplication, BusinessApplication",
+    "operatingSystem": "All modern browsers, Android, iOS, Windows",
+    "description": "Autonomous agricultural intelligence and pathology system providing real-time crop disease diagnosis, precision irrigation, and ICAR-grounded agronomic decision support.",
+    "author": {
+      "@type": "Organization",
+      "name": "Syntax squad",
+      "email": "princeahir688@gmail.com",
+      "url": "http://github.com/PrinceAhir68/AGRISMART-AI"
+    },
+    "creator": {
+      "@type": "Person",
+      "name": "Prince Ahir",
+      "email": "princeahir688@gmail.com",
+      "url": "http://github.com/PrinceAhir68"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "INR"
+    },
+    "featureList": [
+      "AI Vision Leaf Disease Diagnosis (39 Foliage Classes)",
+      "Smart Crop Recommendation Engine (NPK, Soil, Weather)",
+      "Precision Irrigation & Weather Advisory",
+      "Farm Carbon & Sustainability Calculator",
+      "ICAR Grounded Agronomy AI Chat Advisor",
+      "Edge IoT Hardware Sensor Gateway"
+    ]
+  }
+  </script>
+
+  <link rel="stylesheet" href="css/style.css" id="primary-stylesheet" onerror="this.onerror=null;this.href='/static/css/style.css';">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="high-contrast" data-theme="high-contrast">
+  <!-- ======================================================== -->
+  <!-- ANIMATED SPLASH SCREEN                                   -->
+  <!-- ======================================================== -->
+  <div id="splash-screen">
+    <div class="splash-content">
+      <div class="splash-logo-wrap" style="width:84px; height:84px; margin:0 auto 16px auto; display:flex; align-items:center; justify-content:center;">
+        <img src="images/logo.png" alt="AgriSmart AI Logo" onerror="this.onerror=null;this.src='/static/images/logo.png';" style="width:84px; height:84px; object-fit:cover; border-radius:50%; box-shadow:0 6px 20px rgba(8,166,108,0.3); border:2px solid #a7f3d0;">
+      </div>
+      <h1 class="splash-title">AgriSmart AI</h1>
+      <p class="splash-subtitle" data-i18n="app_subtitle_clean">Intelligent Agricultural Decision & Pathology Platform</p>
+      <div class="splash-progress-bar">
+        <div class="splash-progress-fill"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- TOP NAVIGATION HEADER (SEO STRUCTURED: LOGO, WEATHER, SETTINGS) -->
+  <!-- ======================================================== -->
+  <header class="navbar site-header">
+    <!-- Left: Brand Logo & Title -->
+    <div class="nav-left">
+      <div class="nav-brand" onclick="switchTab('tab-core')" style="cursor:pointer;" title="AgriSmart AI Home">
+        <div class="brand-logo-wrap">
+          <img src="images/logo.png" alt="AgriSmart AI Logo" class="brand-logo-img" onerror="this.onerror=null;this.src='/static/images/logo.png';">
+        </div>
+        <div class="brand-text">
+          <h1 data-i18n="app_title">AgriSmart AI</h1>
+          <span class="subtext" data-i18n="app_subtitle">Autonomous Agricultural Intelligence & Pathology System</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center: Prominent Live Temperature & Location Badge -->
+    <div class="nav-center">
+      <span class="badge badge-success weather-pill" id="live-weather-badge">☁ Weather Sync</span>
+    </div>
+
+    <!-- Right: Single Settings & Profile Button (All other controls inside Settings) -->
+    <div class="nav-right">
+      <button class="btn btn-settings-header" id="btn-settings-header" onclick="switchTab('tab-settings')" title="Website & Farm Settings">
+        <span>⚙️</span> <span data-i18n="nav_settings">Settings & Profile</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Module Tabs (Farmer-First Roadmap Navigation) -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-dashboard')" data-i18n="tab_dashboard">🏠 Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('tab-core')" data-i18n="tab_disease">🔬 AI Doctor</button>
+      <button class="tab-btn" onclick="switchTab('tab-crop')" data-i18n="tab_crop">🌾 Crop Advisor</button>
+      <button class="tab-btn" onclick="switchTab('tab-irrigation')" data-i18n="tab_irrigation">💧 Irrigation</button>
+      <button class="tab-btn" onclick="switchTab('tab-farm-health')" data-i18n="tab_farm_health">🌱 Farm Health</button>
+      <button class="tab-btn" onclick="switchTab('tab-assistant')" data-i18n="tab_assistant">🤖 Kisan Mitra</button>
+      <button class="tab-btn" onclick="switchTab('tab-iot')" data-i18n="tab_iot">📡 IoT Center</button>
+      <button class="tab-btn" onclick="switchTab('tab-history')" data-i18n="tab_history">📋 History</button>
+    </nav>
+
+    <!-- ======================================================== -->
+    <!-- TAB 0: FARMER DASHBOARD (Hero Workflow & Today Overview) -->
+    <!-- ======================================================== -->
+    <section id="tab-dashboard" class="tab-content active">
+      <!-- Farm Context Greeting Bar -->
+      <div class="farm-context-bar" style="background:var(--surface); border:1.5px solid var(--border); border-radius:var(--radius); padding:16px 20px; margin-bottom:20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; box-shadow:var(--shadow);">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="width:48px; height:48px; border-radius:50%; background:var(--primary-light); display:flex; align-items:center; justify-content:center; font-size:1.5rem;">👨‍🌾</div>
+          <div>
+            <h3 style="margin:0; font-size:1.15rem; color:var(--text-main);" id="dash-greeting">Welcome back, Kisan Mitra!</h3>
+            <p style="margin:2px 0 0 0; font-size:0.83rem; color:var(--text-muted);" id="dash-context-subtitle">📍 Ahmedabad, Gujarat • Primary Crop: 🍅 Tomato</p>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; align-items:center;">
+          <span class="badge badge-success" id="dash-weather-pill" style="font-size:0.85rem; padding:6px 14px;">☁ 31.5°C • Good Field Conditions</span>
+          <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-settings')" title="Manage Farm Profile">⚙️ Profile</button>
+        </div>
+      </div>
+
+      <!-- Hero Action: Scan a Crop -->
+      <div class="dashboard-hero-cta">
+        <div class="hero-cta-content">
+          <span class="hero-badge">⚡ Autonomous AI Diagnostics</span>
+          <h2 data-i18n="hero_scan_title">Instant Foliar Disease Diagnosis</h2>
+          <p data-i18n="hero_scan_desc">Powered by MobileNetV3-Small (95.05% held-out test accuracy across 39 crop conditions). Capture or upload a leaf photo to diagnose pathogens and receive verified ICAR agronomic guidance.</p>
+          <div style="display:flex; gap:12px; flex-wrap:wrap;">
+            <button class="btn-hero-scan" onclick="switchTab('tab-core'); triggerPhotoUpload();">
+              📸 <span data-i18n="btn_hero_upload">Upload Leaf Photo</span>
+            </button>
+            <button class="btn-hero-scan" style="background:rgba(255,255,255,0.15); color:#ffffff; border:1px solid rgba(255,255,255,0.4);" onclick="switchTab('tab-core'); openCameraModal();">
+              📷 <span data-i18n="btn_hero_camera">Open Field Camera</span>
+            </button>
+          </div>
+        </div>
+        <div class="hero-cta-visual">
+          🍃
+        </div>
+      </div>
+
+      <!-- Today Cards: 3 Column Status Grid -->
+      <div class="today-cards-grid">
+        <!-- Card 1: Live Weather & Agro-Climate Risk -->
+        <div class="today-card">
+          <div>
+            <div class="today-card-header">
+              <span class="today-card-title"><span>🌤️</span> Weather & Disease Risk</span>
+              <span class="badge badge-success" id="dash-card-weather-status">Low Fungal Risk</span>
+            </div>
+            <div class="today-card-val" id="dash-card-temp">31.5°C</div>
+            <p class="today-card-desc" id="dash-card-weather-desc">Humidity 62% • Wind 11 km/h • High evaporation demand expected today.</p>
+          </div>
+          <div style="margin-top:14px; border-top:1px dashed var(--border); padding-top:10px;">
+            <a href="javascript:void(0)" onclick="switchTab('tab-irrigation')" style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); text-decoration:none;">View 7-Day Forecast & Evapotranspiration →</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Soil Moisture & Irrigation Urgency -->
+        <div class="today-card">
+          <div>
+            <div class="today-card-header">
+              <span class="today-card-title"><span>💧</span> Soil Moisture & Water Need</span>
+              <span class="badge badge-warning" id="dash-card-irrigation-status">Irrigation Due</span>
+            </div>
+            <div class="today-card-val" id="dash-card-moisture">18.4%</div>
+            <p class="today-card-desc" id="dash-card-moisture-desc">FAO-56 ETc Deficit: 4.2 L/m² • Recommended runtime: 25 minutes.</p>
+          </div>
+          <div style="margin-top:14px; border-top:1px dashed var(--border); padding-top:10px;">
+            <a href="javascript:void(0)" onclick="switchTab('tab-irrigation')" style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); text-decoration:none;">Open Precision Irrigation Calculator →</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Farm Health & Recent Foliar Activity -->
+        <div class="today-card">
+          <div>
+            <div class="today-card-header">
+              <span class="today-card-title"><span>🌿</span> Crop Foliar Health</span>
+              <span class="badge badge-success" id="dash-card-health-status">92% Healthy</span>
+            </div>
+            <div class="today-card-val" id="dash-card-scans">0 Outbreaks</div>
+            <p class="today-card-desc" id="dash-card-health-desc">All recent leaf scans verified healthy or treated. Solanaceae foliar alert active.</p>
+          </div>
+          <div style="margin-top:14px; border-top:1px dashed var(--border); padding-top:10px;">
+            <a href="javascript:void(0)" onclick="switchTab('tab-farm-health')" style="font-size:0.82rem; font-weight:700; color:var(--primary-dark); text-decoration:none;">Open Unified Farm Health Screen →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions Grid -->
+      <h3 style="font-size:1.15rem; margin-bottom:14px; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+        <span>⚡</span> Quick Farm Actions
+      </h3>
+      <div class="quick-actions-grid">
+        <div class="quick-action-card" onclick="switchTab('tab-core')">
+          <div class="quick-action-icon">🔬</div>
+          <div class="quick-action-text">
+            <h4>AI Doctor</h4>
+            <p>Scan crop leaf photos, classify foliar diseases, and view remedies.</p>
+          </div>
+        </div>
+        <div class="quick-action-card" onclick="switchTab('tab-crop')">
+          <div class="quick-action-icon">🌾</div>
+          <div class="quick-action-text">
+            <h4>Crop Advisor</h4>
+            <p>Recommend top 3 crops based on soil NPK, pH, and district climate.</p>
+          </div>
+        </div>
+        <div class="quick-action-card" onclick="switchTab('tab-irrigation')">
+          <div class="quick-action-icon">💧</div>
+          <div class="quick-action-text">
+            <h4>Precision Irrigation</h4>
+            <p>FAO-56 evapotranspiration calculator with pump runtime scheduling.</p>
+          </div>
+        </div>
+        <div class="quick-action-card" onclick="switchTab('tab-assistant')">
+          <div class="quick-action-icon">🤖</div>
+          <div class="quick-action-text">
+            <h4>Kisan Mitra</h4>
+            <p>Ask agronomic questions in Hindi, Gujarati, Marathi, or English.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Diagnosis Feed on Dashboard -->
+      <div class="card" style="margin-top:10px;">
+        <div class="card-header">
+          <h3>📋 Recent Farm Diagnoses & Actions</h3>
+          <button class="btn btn-secondary btn-sm" onclick="switchTab('tab-history')">View Full History →</button>
+        </div>
+        <div id="dash-recent-history-list">
+          <p style="color:var(--text-muted); font-size:0.88rem; padding:10px 0;">Loading recent diagnoses from SQLite...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 1: Plant Pathology Lab (Vision Disease Diagnosis)   -->
+    <!-- ======================================================== -->
+    <section id="tab-core" class="tab-content">
+      <div class="grid-2">
+        <!-- Input Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="card_upload_title">📷 Upload Leaf / Crop Photo</h3>
+            <span class="tag tag-core" data-i18n="tag_core">AI Vision Pathology Lab</span>
+          </div>
+          <p class="card-desc" data-i18n="card_upload_desc">AI Vision analyzes visual pathology across 18 shared classes (Tomato, Potato, Corn, Apple, Grape, Pepper).</p>
+
+          <!-- Compulsory Crop Selector to Constrain Diagnosis -->
+          <div class="form-group" style="margin-bottom:14px;">
+            <label for="target-crop-select" style="font-weight:700; font-size:0.90rem; color:#065f46; display:flex; align-items:center; gap:6px; margin-bottom:6px;">
+              <span>🎯</span> <span data-i18n="label_target_crop">Select Crop Under Inspection (Compulsory):</span> <span style="color:#ef4444; font-weight:800; font-size:1.1rem;">*</span>
+            </label>
+            <select id="target-crop-select" class="form-control" style="border:2px solid #059669; font-weight:700; background:#f0fdf4; padding:10px 14px; border-radius:10px;" required onchange="handleCropChange(this.value)">
+              <option value="" disabled selected data-i18n="crop_opt_placeholder">⚠️ Choose Crop First (Compulsory) ⚠️</option>
+              <option value="Tomato" data-i18n="crop_opt_tomato">🍅 Tomato (टमाटर / ટામેટાં / टोमॅटो)</option>
+              <option value="Potato" data-i18n="crop_opt_potato">🥔 Potato (आलू / બટાકા / बटाटा)</option>
+              <option value="Corn" data-i18n="crop_opt_corn">🌽 Corn / Maize (मक्का / મકાઈ / मका)</option>
+              <option value="Apple" data-i18n="crop_opt_apple">🍏 Apple (सेब / સફરજન / सफरचंद)</option>
+              <option value="Grape" data-i18n="crop_opt_grape">🍇 Grape (अंगूर / દ્રાક્ષ / દ્રાક્ષ / द्राक्षे)</option>
+              <option value="Pepper__bell" data-i18n="crop_opt_pepper">🫑 Bell Pepper (शिमला मिर्च / કેપ્સિકમ / सिमला मिरची)</option>
+              <option value="Blueberry" data-i18n="crop_opt_blueberry">🫐 Blueberry (ब्लूबेरी / બ્લુબેरी / ब्लूबेरी)</option>
+              <option value="Cherry" data-i18n="crop_opt_cherry">🍒 Cherry (चेरी / ચેરી / चेरी)</option>
+              <option value="Orange" data-i18n="crop_opt_orange">🍊 Orange / Citrus (संतरा / નારંગી / संत्रा)</option>
+              <option value="Peach" data-i18n="crop_opt_peach">🍑 Peach (आड़ू / પીચ / પીચ)</option>
+              <option value="Raspberry" data-i18n="crop_opt_raspberry">🍇 Raspberry (रसभरी / રાસબરી / रासबेरी)</option>
+              <option value="Soybean" data-i18n="crop_opt_soybean">🌱 Soybean (सोयाबीन / સોયાબીન / सोयाबीन)</option>
+              <option value="Squash" data-i18n="crop_opt_squash">🎃 Squash / Pumpkin (कद्दू / કોળું / भोपळा)</option>
+              <option value="Strawberry" data-i18n="crop_opt_strawberry">🍓 Strawberry (स्ट्रॉबेरी / સ્ટ્રોબેરી / स्ट्रॉबेरी)</option>
+            </select>
+            <div id="crop-select-hint" style="display:none; color:#dc2626; font-size:0.80rem; font-weight:700; margin-top:5px; background:#fef2f2; border:1px solid #fca5a5; padding:6px 10px; border-radius:6px;">
+              ⚠️ Please select a crop from the dropdown above before uploading or taking a leaf photo.
+            </div>
+          </div>
+
+          <!-- Hidden accessible file input outside drop-zone to eliminate bubbling loops -->
+          <input type="file" id="file-input" accept="image/*" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; opacity:0; pointer-events:none;" onchange="handleFileUpload(event)" onclick="event.stopPropagation(); this.value = null;">
+
+          <div class="upload-zone" id="drop-zone" onclick="triggerPhotoUpload(event)">
+            <div class="upload-icon">📸</div>
+            <p><strong data-i18n="upload_prompt">Click to browse</strong> <span data-i18n="upload_drag">or drag & drop leaf photo</span></p>
+            <span class="file-hint" data-i18n="upload_hint">Supports real camera photos or field leaf images (JPG, PNG, WEBP)</span>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;" onclick="event.stopPropagation();">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-browse-photos" onclick="event.stopPropagation(); triggerPhotoUpload(event);">
+                📁 <span data-i18n="btn_browse_photos">Browse Photos</span>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm" id="btn-camera-capture" onclick="event.stopPropagation(); openCameraModal(event);">
+                📷 <span data-i18n="btn_take_photo">Open Camera</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="sample-section">
+            <label><strong data-i18n="sample_prompt">Or test instant sample images:</strong></label>
+            <div class="sample-buttons" id="sample-buttons">
+              <button class="btn-sample" onclick="loadSample('tomato_early_blight.jpg')">🍅 Tomato Early Blight</button>
+              <button class="btn-sample" onclick="loadSample('corn_common_rust.jpg')">🌽 Corn Common Rust</button>
+              <button class="btn-sample" onclick="loadSample('potato_late_blight.jpg')">🥔 Potato Late Blight</button>
+              <button class="btn-sample" onclick="loadSample('bell_pepper_bacterial_spot.jpg')">🫑 Bell Pepper Spot</button>
+              <button class="btn-sample" onclick="loadSample('apple_scab.jpg')">🍏 Apple Scab</button>
+              <button class="btn-sample" onclick="loadSample('grape_black_rot.jpg')">🍇 Grape Black Rot</button>
+              <button class="btn-sample" onclick="loadSample('tomato_healthy.jpg')">✨ Tomato Healthy</button>
+            </div>
+          </div>
+
+          <div id="image-preview-container" style="display:none; margin-top:15px; text-align:center;" class="preview-wrapper">
+            <div class="preview-scanner-frame">
+              <img id="image-preview" src="" alt="Leaf preview" class="preview-thumb">
+              <div id="laser-scan-line" class="laser-scanner" style="display:none;"></div>
+            </div>
+            <button class="btn btn-primary btn-pulse" id="btn-analyze" onclick="runAnalysis()" style="width:100%; margin-top:10px;">
+              🔍 <span data-i18n="btn_run_diag">Run AI Disease Diagnosis</span>
+            </button>
+
+            <!-- 5-Step Progressive Scan Tracker (Step 17 Blueprint) -->
+            <div id="scan-step-tracker" class="scan-step-tracker" style="display:none;">
+              <div style="font-size:0.85rem; font-weight:700; color:var(--text-main); margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                <span>⚡ Multi-Stage Phytosanitary Diagnostic Scan</span>
+                <span id="scan-progress-timer" style="font-size:0.75rem; color:var(--primary); font-weight:700;">In Progress...</span>
+              </div>
+              <div class="scan-step-list">
+                <div class="scan-step-item pending" id="scan-step-1">
+                  <div class="scan-step-dot">1</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">1. Image Quality & Focus Validation</div>
+                    <div class="scan-step-sub">Checking exposure, blur score & chromatic sharpness...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-1">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-2">
+                  <div class="scan-step-dot">2</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">2. Foliage & Leaf Mask Segmentation</div>
+                    <div class="scan-step-sub">Segmenting healthy & infected plant tissue from background...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-2">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-3">
+                  <div class="scan-step-dot">3</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">3. Botanical Crop Identification</div>
+                    <div class="scan-step-sub">Matching taxonomic family and morphology...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-3">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-4">
+                  <div class="scan-step-dot">4</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">4. MobileNetV3 Neural Inference</div>
+                    <div class="scan-step-sub">Evaluating 39-class pathology convolutional ensemble...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-4">⏳</span>
+                </div>
+                <div class="scan-step-item pending" id="scan-step-5">
+                  <div class="scan-step-dot">5</div>
+                  <div class="scan-step-info">
+                    <div class="scan-step-title">5. ICAR Phytosanitary Protocol Matching</div>
+                    <div class="scan-step-sub">Correlating verified organic & chemical remedies...</div>
+                  </div>
+                  <span class="scan-step-status" id="scan-step-status-5">⏳</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Non-Plant Botanical Validation Alert -->
+          <div id="image-validation-alert" class="alert-box alert-danger" style="display:none; margin-top:15px;">
+            <div style="display:flex; align-items:flex-start; gap:10px;">
+              <span style="font-size:1.6rem; line-height:1;">⚠️</span>
+              <div>
+                <strong id="val-alert-title" data-i18n="invalid_plant_title">Not a Plant or Crop Photo</strong>
+                <p id="val-alert-desc" data-i18n="invalid_plant_desc" style="font-size:0.85rem; margin-top:4px; margin-bottom:8px;">
+                  The uploaded photo does not contain an agricultural crop, leaf, fruit, or vegetable.
+                </p>
+                <button class="btn btn-secondary btn-sm" onclick="triggerPhotoUpload()">
+                  📸 <span data-i18n="upload_prompt">Choose Plant Leaf Photo</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diagnostic Output Card -->
+        <div class="card" id="diagnosis-card">
+          <div class="card-header">
+            <h3 data-i18n="diag_card_title">🔬 Diagnostic Advisory Output</h3>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <span id="diag-badge" class="badge" data-i18n="badge_awaiting">Awaiting Leaf</span>
+              <button class="btn-speaker" id="btn-speaker-diag" onclick="speakDiagnosis()" title="Read Aloud in Selected Language">
+                🔊 <span data-i18n="btn_speaker">Listen</span>
+              </button>
+            </div>
+          </div>
+          <div id="diag-empty" class="empty-state">
+            <div style="font-size:3rem; animation: floatLeaf 3s ease-in-out infinite;">🍃</div>
+            <p data-i18n="diag_empty_msg">Upload a plant photo or click a sample to see AI disease classification, confidence, and ICAR precautionary guidance.</p>
+          </div>
+
+          <div id="diag-results" style="display:none;">
+            <!-- Back button to reset scanner -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <button class="btn btn-secondary btn-sm" onclick="resetDiagnosisScanner()">
+                ⬅ <span data-i18n="btn_back_scanner">Scan Another Leaf</span>
+              </button>
+              <span class="badge badge-success" style="font-size:0.75rem;">✓ AI Verified</span>
+            </div>
+
+            <!-- Low-Confidence Uncertainty Banner (Section 13 & 22) -->
+            <div id="low-confidence-banner" class="alert-box alert-warning" style="display:none; margin-bottom:14px; background:#fefce8; border:1.5px solid #fde047; padding:10px 14px; border-radius:8px; color:#854d0e;">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span style="font-size:1.3rem;">⚠️</span>
+                <div>
+                  <strong style="font-size:0.9rem;" data-i18n="low_confidence_title">Low Confidence Prediction</strong>
+                  <p id="low-confidence-text" style="margin:2px 0 0 0; font-size:0.83rem; color:#713f12;" data-i18n="low_confidence_desc">
+                    The model is uncertain about this leaf condition. Please upload a clearer close-up image of the affected leaf in good lighting.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="result-header">
+              <div>
+                <h2 id="res-disease-name">Tomato Early Blight</h2>
+                <div class="res-sub"><span id="res-crop-name">Tomato</span> • <span id="res-status-text">Detected</span></div>
+                <div class="severity-pill-wrap" id="res-severity-wrap" style="margin-top:6px;">
+                  <span class="severity-pill severity-moderate" id="res-severity-pill">🟡 Moderate Severity (10-25% foliar coverage)</span>
+                </div>
+              </div>
+              <div class="confidence-circle" id="conf-badge">
+                <span id="res-confidence">94%</span>
+                <small data-i18n="confidence_label">Confidence</small>
+              </div>
+            </div>
+
+            <!-- Level 2: Trust Band (Confidence Tier & Visual Bar) -->
+            <div class="confidence-band-wrap" id="confidence-band-wrap">
+              <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.83rem;">
+                <span style="font-weight:700; color:var(--text-main);">🛡️ Model Diagnostic Confidence:</span>
+                <span id="confidence-trust-text" style="font-weight:700; color:#10b981;">High Confidence (Verified)</span>
+              </div>
+              <div class="confidence-band-bar">
+                <div class="confidence-band-fill" id="confidence-band-fill" style="width:94%; background:#10b981;"></div>
+              </div>
+            </div>
+
+            <!-- Level 4: 3 Immediate Action Steps Grid (Step 17 Blueprint) -->
+            <div class="action-steps-grid" id="res-action-steps">
+              <div class="action-step-card priority-1">
+                <div class="action-step-badge"><span>✂️</span> <span>Step 1: Immediate Field Sanitation</span></div>
+                <h5 class="action-step-title" id="action-step-1-title">Isolate & Prune Foliage</h5>
+                <p class="action-step-desc" id="action-step-1-desc">Immediately cut off lower chlorotic or spotted leaves using sanitized shears. Burn or bury infected residue away from field.</p>
+              </div>
+              <div class="action-step-card priority-2">
+                <div class="action-step-badge"><span>🧪</span> <span>Step 2: Target Treatment Dosage</span></div>
+                <h5 class="action-step-title" id="action-step-2-title">Targeted Remediation</h5>
+                <p class="action-step-desc" id="action-step-2-desc">Apply recommended bio-agent or targeted ICAR chemical spray at specified concentration per liter of water.</p>
+              </div>
+              <div class="action-step-card priority-3">
+                <div class="action-step-badge"><span>💧</span> <span>Step 3: Moisture & Ventilation</span></div>
+                <h5 class="action-step-title" id="action-step-3-title">Prevent Moisture Stagnation</h5>
+                <p class="action-step-desc" id="action-step-3-desc">Suspend overhead sprinkler irrigation to avoid leaf wetness. Increase spacing to ensure aerodynamic canopy ventilation.</p>
+              </div>
+            </div>
+
+            <div class="advisory-box">
+              <h4 data-i18n="precautions_title">🚨 Immediate Precautions</h4>
+              <ul id="res-precautions" class="precautions-list"></ul>
+            </div>
+
+            <div class="treatment-grid">
+              <div class="treatment-card organic">
+                <h5 data-i18n="organic_title">🌿 Organic / Bio-Control</h5>
+                <p id="res-organic"></p>
+              </div>
+              <div class="treatment-card chemical">
+                <h5 data-i18n="chemical_title">🧪 Chemical Remedy</h5>
+                <p id="res-chemical"></p>
+              </div>
+            </div>
+
+            <!-- Level 5: Collapsible Why This Diagnosis (Progressive Disclosure) -->
+            <details class="why-diagnosis-panel" id="why-diagnosis-panel">
+              <summary>
+                <span>🧠</span>
+                <span data-i18n="why_diag_title">Why This Diagnosis? (Foliar Reasoning & Indicators)</span>
+              </summary>
+              <div class="why-diagnosis-content">
+                <p id="decision-factors-text" style="margin:0; line-height:1.5;">
+                  Concentric necrotic rings and chlorotic halos detected on foliar tissue matching pathogen visual morphology, correlated with ambient temperature and humidity.
+                </p>
+                <div style="margin-top:8px; font-size:0.75rem; color:#64748b;">
+                  <em>Reference: ICAR National Research Centre for Integrated Pest Management (NCIPM) & FAO Crop Protection Compendium.</em>
+                </div>
+              </div>
+            </details>
+
+            <!-- Level 7: Official Phytosanitary Advisory Record / Certificate Export -->
+            <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-export-cert" onclick="exportPhytosanitaryRecord()">
+                📄 <span>Export Certified Phytosanitary Record</span>
+              </button>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="switchTab('tab-assistant')">
+                💬 <span>Discuss with Kisan Mitra</span>
+              </button>
+            </div>
+
+            <!-- Live Internet Cross-Verification & Comparison Card -->
+            <div class="web-consensus-card" id="web-consensus-card" style="display:none; margin-top:16px;">
+              <div class="consensus-header">
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span class="pulse-globe">🌐</span>
+                  <div>
+                    <h4 style="margin:0; font-size:0.95rem; color:#065f46;" data-i18n="web_consensus_title">Live Internet Cross-Verification & Comparison</h4>
+                    <span style="font-size:0.75rem; color:#047857;" data-i18n="web_consensus_subtitle">Real-time cross-checking against ICAR, FAO, and international phytosanitary databases</span>
+                  </div>
+                </div>
+                <span class="badge consensus-badge badge-success" id="consensus-badge-pill">96% Agreement</span>
+              </div>
+              
+              <div class="consensus-body">
+                <div class="consensus-summary-row">
+                  <span id="consensus-summary-text">Corroborated across online repositories.</span>
+                </div>
+                
+                <div class="consensus-meta-grid">
+                  <div class="meta-item">
+                    <strong data-i18n="label_pathogen_latin">Scientific Pathogen:</strong>
+                    <span id="consensus-taxa" style="font-style:italic; font-weight:600;">--</span>
+                  </div>
+                  <div class="meta-item">
+                    <strong data-i18n="label_weather_match">Agro-Climate Match:</strong>
+                    <span id="consensus-weather-match">--</span>
+                  </div>
+                </div>
+
+                <div class="consensus-indicators" id="consensus-indicators-wrap">
+                  <label><strong data-i18n="label_corroborated_symptoms">Corroborated Foliar Indicators:</strong></label>
+                  <ul id="consensus-indicators-list" class="symptom-tag-list"></ul>
+                </div>
+
+                <div class="consensus-citations">
+                  <label><strong data-i18n="label_live_citations">Live Internet Citations:</strong></label>
+                  <div id="consensus-citations-list" class="citation-pills"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="translation-box" id="res-translations">
+              <div class="trans-header">
+                <strong data-i18n="regional_title">🇮🇳 Regional Advisory:</strong>
+                <button class="btn-tts" onclick="speakText('res-regional-action')">🔊 <span data-i18n="btn_voice_read">Voice Readout</span></button>
+              </div>
+              <p id="res-regional-action" class="lang-text"></p>
+            </div>
+
+            <!-- Interactive Farmer Feedback Box -->
+            <div class="feedback-box" id="diag-feedback-box" style="display:none;">
+              <span class="feedback-question">
+                <span>💡</span> <span data-i18n="feedback_question">Was this disease diagnosis helpful & accurate?</span>
+              </span>
+              <div class="feedback-btn-group">
+                <button class="btn-feedback" onclick="submitFarmerFeedback('diagnosis', true)">
+                  👍 <span data-i18n="btn_yes">Yes</span>
+                </button>
+                <button class="btn-feedback btn-feedback-no" onclick="submitFarmerFeedback('diagnosis', false)">
+                  👎 <span data-i18n="btn_no">No</span>
+                </button>
+                <button class="btn-feedback-dismiss" onclick="dismissFeedback('diag-feedback-box')" title="Dismiss">✕</button>
+              </div>
+            </div>
+
+            <!-- Download and Print Report Buttons -->
+            <div class="result-action-bar" style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+              <button class="btn btn-primary" onclick="downloadDiagnosticReportFile()" style="flex:1; min-width:180px;">
+                📥 <span data-i18n="btn_download_pdf_file">Download Report (PDF/HTML)</span>
+              </button>
+              <button class="btn btn-secondary" onclick="openPrintReportModal()" style="flex:1; min-width:160px;">
+                🖨 <span data-i18n="btn_print_pdf">Print Official Certificate</span>
+              </button>
+            </div>
+            <!-- Scientific Disclaimer & Consultation Note (Section 22 & 24) -->
+            <p class="expert-disclaimer-note" style="font-size:0.80rem; color:var(--text-muted); margin-top:14px; border-top:1px dashed var(--border); padding-top:8px;">
+              <strong>📌 Note:</strong> AI predictions are probabilistic based on visual foliage characteristics. For low-confidence or severe cases, consult an agricultural expert or ICAR extension specialist before major chemical intervention.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: SMART CROP PLANNER & SOIL HEALTH                  -->
+    <!-- ======================================================== -->
+    <section id="tab-crop" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Pathology Lab</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Smart Crop Planner</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="crop_rec_title">🌱 Soil & Agro-Climatic Parameters</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_a">Agro-Ecological Decision Engine</span>
+          </div>
+          <form id="crop-rec-form" onsubmit="event.preventDefault(); submitCropRecommendation();">
+            <!-- State & District Field Selection -->
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_state">State / Region:</label>
+                <select id="crop-state-input" class="form-control" onchange="syncCropDistrictOptions(this.value)">
+                  <option value="Gujarat" selected>Gujarat</option>
+                  <option value="Maharashtra">Maharashtra</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Karnataka">Karnataka</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_district">District:</label>
+                <select id="crop-district-input" class="form-control" onchange="syncCropDistrictCoords()">
+                  <option value="Ahmedabad" selected>Ahmedabad</option>
+                  <option value="Rajkot">Rajkot</option>
+                  <option value="Surat">Surat</option>
+                  <option value="Vadodara">Vadodara</option>
+                  <option value="Mehsana">Mehsana</option>
+                  <option value="Banaskantha">Banaskantha</option>
+                  <option value="Junagadh">Junagadh</option>
+                  <option value="Kutch">Kutch</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_soil_type">Soil Type:</label>
+                <select id="crop-soil" class="form-control">
+                  <option value="Loamy" selected data-i18n="soil_loamy">Loamy (All-Round)</option>
+                  <option value="Clay" data-i18n="soil_clay">Clay (High Water Retention)</option>
+                  <option value="Sandy" data-i18n="soil_sandy">Sandy (Well Drained)</option>
+                  <option value="Black Cotton" data-i18n="soil_black">Black Cotton (Vertisol)</option>
+                  <option value="Alluvial" data-i18n="soil_alluvial">Alluvial (Riverine)</option>
+                  <option value="Red" data-i18n="soil_red">Red Soil</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label><span data-i18n="label_soil_ph">Soil pH:</span> <span id="ph-val" style="font-weight:700; color:#065f46;">6.5</span></label>
+                <input type="range" id="crop-ph" min="4.5" max="8.5" step="0.1" value="6.5" class="slider" oninput="document.getElementById('ph-val').innerText = this.value">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label><span data-i18n="label_nitrogen">Nitrogen</span> (N kg/ha):</label>
+                <input type="number" id="crop-n" value="90" class="form-control">
+              </div>
+              <div class="form-group">
+                <label><span data-i18n="label_phosphorus">Phosphorus</span> (P kg/ha):</label>
+                <input type="number" id="crop-p" value="50" class="form-control">
+              </div>
+              <div class="form-group">
+                <label><span data-i18n="label_potassium">Potassium</span> (K kg/ha):</label>
+                <input type="number" id="crop-k" value="45" class="form-control">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_season">Season:</label>
+                <select id="crop-season" class="form-control">
+                  <option value="Kharif" selected data-i18n="season_kharif">Kharif (Monsoon)</option>
+                  <option value="Rabi" data-i18n="season_rabi">Rabi (Winter)</option>
+                  <option value="Zaid" data-i18n="season_zaid">Zaid (Summer)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_prev_crop">Previous Crop Grown:</label>
+                <select id="crop-prev" class="form-control">
+                  <option value="Wheat" selected data-i18n="crop_wheat">Wheat</option>
+                  <option value="Rice (Paddy)" data-i18n="crop_rice">Rice (Paddy)</option>
+                  <option value="Maize" data-i18n="crop_maize">Maize (Corn)</option>
+                  <option value="Legumes" data-i18n="crop_legumes">Legumes / Pulses</option>
+                  <option value="Fallow" data-i18n="crop_fallow">Fallow Land</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_temp">Avg Temperature (°C):</label>
+                <input type="number" id="crop-temp" value="27" class="form-control">
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_rain">Expected Rainfall (mm):</label>
+                <input type="number" id="crop-rain" value="85" class="form-control">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+              🌾 <span data-i18n="btn_rec_crops">Recommend Optimal Crops</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="crop_results_title">🏆 Recommended Crops (Top 3)</h3>
+            <span class="badge badge-success">95.4% Accuracy</span>
+          </div>
+          <div id="crop-rec-results" class="empty-state">
+            <p data-i18n="crop_empty_msg">Enter parameters or click recommend to compute crop suitability rankings.</p>
+          </div>
+
+          <!-- Soil Health Diagnostics Box (pH, N, P, K alerts & remedies) -->
+          <div id="soil-health-alerts-box" style="margin-top:16px;"></div>
+
+          <!-- Interactive Crop Recommendation Feedback Box -->
+          <div class="feedback-box" id="crop-feedback-box" style="display:none;">
+            <span class="feedback-question">
+              <span>💡</span> <span data-i18n="crop_feedback_question">Were these crop recommendations useful?</span>
+            </span>
+            <div class="feedback-btn-group">
+              <button class="btn-feedback" onclick="submitFarmerFeedback('crop_recommendation', true)">
+                👍 <span data-i18n="btn_yes">Yes</span>
+              </button>
+              <button class="btn-feedback btn-feedback-no" onclick="submitFarmerFeedback('crop_recommendation', false)">
+                👎 <span data-i18n="btn_no">No</span>
+              </button>
+              <button class="btn-feedback-dismiss" onclick="dismissFeedback('crop-feedback-box')" title="Dismiss">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 3: Precision Irrigation & Live Weather               -->
+    <!-- ======================================================== -->
+    <section id="tab-irrigation" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Pathology Lab</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Precision Irrigation & Weather</span>
+      </div>
+
+      <!-- Prominent Decision Banner (Step 17 Blueprint: IRRIGATE / WAIT / CHECK SENSOR / WEATHER HOLD) -->
+      <div id="irrigation-decision-banner" class="irrigation-decision-banner state-wait">
+        <div class="irrig-banner-left">
+          <div class="irrig-banner-icon" id="irrig-banner-icon">⏳</div>
+          <div>
+            <h3 class="irrig-banner-title" id="irrig-banner-title">ACTION: WAIT — Soil Moisture Adequate</h3>
+            <p class="irrig-banner-desc" id="irrig-banner-desc">Current root zone moisture is above critical FAO-56 depletion threshold. No irrigation needed today.</p>
+          </div>
+        </div>
+        <div class="irrig-banner-actions">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="calculateIrrigation()">🔄 Compute Now</button>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="irrig_calc_title">💧 Smart Irrigation Calculator (FAO-56)</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_b">FAO-56 Water Intelligence</span>
+          </div>
+          <form id="irrigation-form" onsubmit="event.preventDefault(); calculateIrrigation();">
+            <div class="form-group">
+              <label><span data-i18n="label_current_moist">Current Soil Moisture:</span> <span id="moist-slider-val" style="font-weight:700; color:var(--primary);">20.0%</span></label>
+              <input type="range" id="irr-moisture" min="5" max="45" step="0.5" value="20" class="slider" oninput="document.getElementById('moist-slider-val').innerText = this.value + '%'">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_crop">Crop:</label>
+                <select id="irr-crop" class="form-control">
+                  <option value="Tomato" selected data-i18n="crop_opt_tomato">Tomato</option>
+                  <option value="Potato" data-i18n="crop_opt_potato">Potato</option>
+                  <option value="Corn (Maize)" data-i18n="crop_opt_corn">Corn (Maize)</option>
+                  <option value="Wheat" data-i18n="crop_wheat">Wheat</option>
+                  <option value="Cotton" data-i18n="crop_cotton">Cotton</option>
+                  <option value="Rice (Paddy)" data-i18n="crop_rice">Rice (Paddy)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_stage">Growth Stage:</label>
+                <select id="irr-stage" class="form-control">
+                  <option value="Initial" data-i18n="stage_initial">Initial (Seedling)</option>
+                  <option value="Vegetative" data-i18n="stage_vegetative">Vegetative</option>
+                  <option value="Mid-Season / Flowering" selected data-i18n="stage_flowering">Mid-Season / Flowering</option>
+                  <option value="Late / Maturation" data-i18n="stage_maturation">Late / Maturation</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label data-i18n="label_soil_type">Soil Type:</label>
+                <select id="irr-soil" class="form-control">
+                  <option value="Loamy" selected data-i18n="soil_loamy">Loamy</option>
+                  <option value="Clay" data-i18n="soil_clay">Clay</option>
+                  <option value="Sandy" data-i18n="soil_sandy">Sandy</option>
+                  <option value="Black Cotton" data-i18n="soil_black">Black Cotton</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label data-i18n="label_rain_sync">Sync with Live Forecast Rain?</label>
+                <select id="irr-rain-sync" class="form-control" onchange="toggleRainSync()">
+                  <option value="live" selected data-i18n="opt_live_weather">Sync Live Weather (GPS / Open-Meteo)</option>
+                  <option value="manual" data-i18n="opt_manual_rain">Manual Rain Input</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row" id="manual-rain-row" style="display:none;">
+              <div class="form-group">
+                <label><span data-i18n="label_rain_24h">Forecast Rain 24h</span> (mm):</label>
+                <input type="number" id="irr-rain-mm" value="0.0" step="0.5" class="form-control">
+              </div>
+              <div class="form-group">
+                <label><span data-i18n="label_rain_prob">Rain Probability</span> (%):</label>
+                <input type="number" id="irr-rain-prob" value="10" min="0" max="100" class="form-control">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:10px;">
+              💧 <span data-i18n="btn_compute_irrig">Compute Irrigation Necessity</span>
+            </button>
+          </form>
+
+          <div id="irrigation-decision-box" style="margin-top:20px; display:none;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="weather_card_title">☁ Live Weather Intelligence</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_c">Real-Time Agro-Meteorology</span>
+          </div>
+          <div class="weather-widget" id="weather-widget">
+            <div class="weather-main">
+              <div class="temp-big"><span id="w-temp">--</span>°C</div>
+              <div>
+                <div id="w-location" style="font-weight:700;">Loading live weather...</div>
+                <div id="w-source" style="font-size:0.8rem; color:#888;">Open-Meteo Agro-API</div>
+              </div>
+            </div>
+            <div class="weather-stats">
+              <div>💧 <span data-i18n="weather_hum">Humidity:</span> <strong id="w-humidity">--%</strong></div>
+              <div>💨 <span data-i18n="weather_wind">Wind:</span> <strong id="w-wind">-- km/h</strong></div>
+              <div>🌧 <span data-i18n="weather_rain_prob">24h Rain Prob:</span> <strong id="w-rain-prob">--%</strong></div>
+              <div>☔ <span data-i18n="weather_rain_sum">Rain Sum:</span> <strong id="w-rain-sum">-- mm</strong></div>
+            </div>
+          </div>
+
+          <div class="advisory-box" style="margin-top:15px;">
+            <h4 data-i18n="weather_risk_title">🦠 Agro-Meteorological Risk Alerts:</h4>
+            <div id="weather-alerts"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 4: Sustainability & Carbon Score                    -->
+    <!-- ======================================================== -->
+    <section id="tab-sustainability" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Pathology Lab</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Farm Sustainability & Carbon</span>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="sust_title">🌱 Farm Practices Assessment</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_d">Ecological Farm Scorecard</span>
+          </div>
+          <p class="card-desc" data-i18n="sust_desc">Evaluated by transparent mathematical formula published in Section 3.2.</p>
+
+          <form id="sust-form" onsubmit="event.preventDefault(); computeSustainability();">
+            <div class="form-group">
+              <label data-i18n="label_irrig_tech">Irrigation Technology:</label>
+              <select id="sust-method" class="form-control">
+                <option value="Drip Irrigation" selected data-i18n="tech_drip">Precision Drip Irrigation (Max Efficiency)</option>
+                <option value="Micro Sprinkler" data-i18n="tech_micro">Micro Sprinkler</option>
+                <option value="Overhead Sprinkler" data-i18n="tech_overhead">Overhead Sprinkler</option>
+                <option value="Flood / Furrow" data-i18n="tech_flood">Conventional Flood / Furrow</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label data-i18n="label_fert_strategy">Fertilization Strategy:</label>
+              <select id="sust-fert" class="form-control">
+                <option value="Integrated Organic + NPK" selected data-i18n="fert_integrated">Integrated (Bio-fertilizer + Targeted NPK)</option>
+                <option value="Pure Organic / Vermicompost" data-i18n="fert_organic">100% Organic & Farmyard Manure</option>
+                <option value="Heavy Synthetic Broadcast" data-i18n="fert_synthetic">Heavy Synthetic Broadcast</option>
+              </select>
+            </div>
+
+            <div class="checkbox-group">
+              <label><input type="checkbox" id="sust-solar" checked> <span data-i18n="check_solar">☀️ Solar-powered pump system (Zero diesel/grid emissions)</span></label>
+              <label><input type="checkbox" id="sust-mulch" checked> <span data-i18n="check_mulch">🍂 Organic crop residue / straw mulching</span></label>
+              <label><input type="checkbox" id="sust-legume" checked> <span data-i18n="check_legume">🌾 Regular legume / pulse crop rotation</span></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width:100%; margin-top:15px;">
+              🌍 <span data-i18n="btn_calc_sust">Calculate Sustainability & Carbon Score</span>
+            </button>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="sust_scorecard_title">📊 Ecological Scorecard</h3>
+            <span class="badge badge-success" id="sust-badge">Grade A+</span>
+          </div>
+          <div id="sust-score-box"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB: FARM HEALTH (Unified Agricultural Health Screen)    -->
+    <!-- ======================================================== -->
+    <section id="tab-farm-health" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-dashboard')">
+          ⬅ <span>Back to Dashboard</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Unified Farm Health</span>
+      </div>
+
+      <div class="farm-health-banner">
+        <div>
+          <span class="hero-badge">🌱 Holistic Farm Health Engine</span>
+          <h2 style="font-size:1.6rem; margin:6px 0 8px 0;">Unified Farm Condition & Risk Assessment</h2>
+          <p style="margin:0; opacity:0.92; font-size:0.9rem; max-width:650px;">
+            Synthesizes foliar visual pathology, soil nutrients (NPK & pH), atmospheric moisture, evapotranspiration demand, and field history into a single agronomic action plan.
+          </p>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+          <div class="comparison-toggle-bar" role="group" aria-label="Health Timeframe">
+            <button type="button" class="comparison-toggle-btn active" id="btn-farm-time-7" onclick="setFarmHealthTimeframe('7d')">7 Days</button>
+            <button type="button" class="comparison-toggle-btn" id="btn-farm-time-30" onclick="setFarmHealthTimeframe('30d')">30 Days</button>
+          </div>
+          <div class="health-gauge-wrap">
+            <div class="health-gauge-circle" id="farm-health-score-dial">
+              <span id="farm-health-score-val">88</span>
+              <small>Score</small>
+            </div>
+            <div>
+              <strong style="font-size:1.05rem; display:block;" id="farm-health-rating-text">Optimal Health</strong>
+              <span style="font-size:0.8rem; opacity:0.9;" id="farm-health-sub-rating">Low Fungal / Water Stress</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 Pillars Grid -->
+      <div class="health-pillars-grid">
+        <!-- Pillar 1: Foliar Pathology -->
+        <div class="health-pillar-card">
+          <div class="pillar-header">
+            <h4><span>🔬</span> Foliar Health</h4>
+            <span class="badge badge-success" id="pillar-foliar-badge">94% Healthy</span>
+          </div>
+          <p style="font-size:0.83rem; color:var(--text-muted); margin:0;" id="pillar-foliar-desc">
+            No active aggressive fungal outbreaks detected in primary crop canopy.
+          </p>
+          <div class="pillar-bar-wrap">
+            <div class="pillar-bar-track">
+              <div class="pillar-bar-fill" id="pillar-foliar-fill" style="width:94%; background:#10b981;"></div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width:100%; margin-top:8px;" onclick="switchTab('tab-core')">Scan Crop Foliage</button>
+        </div>
+
+        <!-- Pillar 2: Soil Fertility -->
+        <div class="health-pillar-card">
+          <div class="pillar-header">
+            <h4><span>🌱</span> Soil Fertility & pH</h4>
+            <span class="badge badge-success" id="pillar-soil-badge">Balanced</span>
+          </div>
+          <p style="font-size:0.83rem; color:var(--text-muted); margin:0;" id="pillar-soil-desc">
+            pH 6.5 (Optimal) • N: 90 mg/kg • P: 50 mg/kg • K: 40 mg/kg
+          </p>
+          <div class="pillar-bar-wrap">
+            <div class="pillar-bar-track">
+              <div class="pillar-bar-fill" id="pillar-soil-fill" style="width:85%; background:#3b82f6;"></div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width:100%; margin-top:8px;" onclick="switchTab('tab-crop')">Crop & Soil Advisor</button>
+        </div>
+
+        <!-- Pillar 3: Micro-Climate Risk -->
+        <div class="health-pillar-card">
+          <div class="pillar-header">
+            <h4><span>🌤️</span> Climate & Spore Risk</h4>
+            <span class="badge badge-success" id="pillar-climate-badge">Low Risk</span>
+          </div>
+          <p style="font-size:0.83rem; color:var(--text-muted); margin:0;" id="pillar-climate-desc">
+            Humidity 62% • Temp 31.5°C • Fungal sporulation probability is low today.
+          </p>
+          <div class="pillar-bar-wrap">
+            <div class="pillar-bar-track">
+              <div class="pillar-bar-fill" id="pillar-climate-fill" style="width:80%; background:#10b981;"></div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width:100%; margin-top:8px;" onclick="switchTab('tab-irrigation')">Weather Intelligence</button>
+        </div>
+
+        <!-- Pillar 4: Irrigation & Water Deficit -->
+        <div class="health-pillar-card">
+          <div class="pillar-header">
+            <h4><span>💧</span> Root Zone Moisture</h4>
+            <span class="badge badge-warning" id="pillar-water-badge">Irrigate Soon</span>
+          </div>
+          <p style="font-size:0.83rem; color:var(--text-muted); margin:0;" id="pillar-water-desc">
+            Soil moisture: 18.4% (Threshold: 20%) • FAO-56 runtime: 25 mins.
+          </p>
+          <div class="pillar-bar-wrap">
+            <div class="pillar-bar-track">
+              <div class="pillar-bar-fill" id="pillar-water-fill" style="width:68%; background:#f59e0b;"></div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" style="width:100%; margin-top:8px;" onclick="switchTab('tab-irrigation')">Irrigation Schedule</button>
+        </div>
+      </div>
+
+      <!-- Action Checklist for Farmer Today -->
+      <div class="action-checklist-card">
+        <div class="card-header" style="margin-bottom:12px;">
+          <h3>📋 Today's Agronomic Action Checklist</h3>
+          <span class="badge badge-success">4 Tasks Active</span>
+        </div>
+        <div class="checklist-item">
+          <span class="checklist-check" onclick="this.textContent = this.textContent === '✅' ? '⬜' : '✅'">⬜</span>
+          <div class="checklist-text">
+            <strong>Inspect Solanaceae Lower Foliage</strong>
+            <span>Check bottom 2-3 leaf nodes for early concentric blight spots or mite stippling in morning hours.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="checklist-check" onclick="this.textContent = this.textContent === '✅' ? '⬜' : '✅'">⬜</span>
+          <div class="checklist-text">
+            <strong>Schedule Evening Drip Irrigation (25 Minutes)</strong>
+            <span>Run drip pump after 17:30 to reduce daytime evaporative losses and replenish root zone.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="checklist-check" onclick="this.textContent = this.textContent === '✅' ? '⬜' : '✅'">⬜</span>
+          <div class="checklist-text">
+            <strong>Apply Organic Mulching around Root Beds</strong>
+            <span>Spread straw or dry leaf mulch to preserve soil moisture and prevent fungal spore splashback during watering.</span>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <span class="checklist-check" onclick="this.textContent = this.textContent === '✅' ? '⬜' : '✅'">⬜</span>
+          <div class="checklist-text">
+            <strong>Verify Edge IoT Hardware Link</strong>
+            <span>Check USB/Wi-Fi connection on field sensor node to ensure real telemetry streaming.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 5: Agronomy AI Advisor (Grounded Farmer Assistant)   -->
+    <!-- ======================================================== -->
+    <section id="tab-assistant" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Pathology Lab</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Agronomy AI Advisor</span>
+      </div>
+      <div class="card" style="max-width:900px; margin:0 auto;">
+        <div class="card-header">
+          <h3 data-i18n="assistant_title">💬 Grounded Agronomy AI Advisor</h3>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="clearChatMessages()" style="padding:4px 10px; font-size:0.78rem;" title="Reset chat history">
+              🧹 <span data-i18n="btn_clear_chat">Clear Chat</span>
+            </button>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_e">ICAR Grounded Advisory</span>
+          </div>
+        </div>
+        <p class="card-desc" data-i18n="assistant_desc">Answers are strictly grounded in verified ICAR & FAO agronomic publications (zero hallucination).</p>
+
+        <div class="quick-questions">
+          <span style="font-size:0.82rem; font-weight:700; color:var(--text-main);" data-i18n="quick_prompts_title">Recommended Farmer Actions & Intents:</span>
+          <div class="intent-chips-wrap">
+            <button type="button" class="intent-chip" onclick="askQuick('How do I identify and treat leaf diseases on my crop?')">🌿 Leaf Disease Help</button>
+            <button type="button" class="intent-chip" onclick="askQuick('What is the recommended fertilizer schedule and NPK dosage for my crop?')">🧪 Fertilizer Dosage</button>
+            <button type="button" class="intent-chip" onclick="askQuick('When should I irrigate my field and how much water is needed?')">💧 Irrigation Schedule</button>
+            <button type="button" class="intent-chip" onclick="askQuick('What is the best sowing time and seed rate for optimal yield?')">🌾 Sowing Time</button>
+            <button type="button" class="intent-chip" onclick="askQuick('How do I control common pests and stem borers organically?')">🐛 Pest Management</button>
+          </div>
+        </div>
+
+        <div class="chat-window" id="chat-window">
+          <div class="chat-msg bot">
+            <strong>🌱 AgriSmart Assistant:</strong>
+            <p data-i18n="chat_welcome">Namaste! I am your AI Agronomy Advisor. Ask me anything about crop diseases, pest remedies, irrigation timing, or fertilizer schedules. I provide verified ICAR-backed recommendations with voice support.</p>
+          </div>
+        </div>
+
+        <div class="chat-input-bar">
+          <input type="text" id="chat-input" placeholder="Type your farming question (in English, Hindi, or Gujarati)..." onkeydown="if(event.key==='Enter' && !event.shiftKey){ event.preventDefault(); sendChatMessage(); }">
+          <button class="btn btn-primary" id="btn-chat-send" onclick="sendChatMessage()" data-i18n="btn_send">Send</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 6: Edge IoT Gateway & Autonomous Agentic Advisor     -->
+    <!-- ======================================================== -->
+    <section id="tab-iot" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-core')">
+          ⬅ <span data-i18n="btn_back_home">Back to Pathology Lab</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Edge IoT & Autonomous Actuation</span>
+      </div>
+
+      <!-- Field Microclimate & IoT Hardware Gateway -->
+      <div class="iot-farmer-calm-card" id="iot-farmer-calm-view">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <span class="hero-badge" style="background:#dcfce7; color:#166534; border:1px solid #86efac;">👨‍🌾 Real Agricultural IoT Hardware Gateway</span>
+            <h3 style="margin:6px 0 2px 0; color:#14532d; font-size:1.25rem;">Live Field & Root Zone Status</h3>
+            <p style="margin:0; font-size:0.83rem; color:#166534;">Real-time automated telemetry synthesis for field management.</p>
+          </div>
+        </div>
+
+        <div class="iot-calm-grid">
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">💧</div>
+            <div>
+              <div class="iot-calm-label">Soil Moisture State</div>
+              <div class="iot-calm-val" id="calm-moist-text">Optimal (No Stress)</div>
+              <small style="font-size:0.75rem; color:#64748b;">Threshold: >20%</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">⚡</div>
+            <div>
+              <div class="iot-calm-label">Irrigation Valve / Pump</div>
+              <div class="iot-calm-val" id="calm-pump-text">Standby (Off)</div>
+              <small style="font-size:0.75rem; color:#64748b;">Safety Interlock: Active</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">🌤️</div>
+            <div>
+              <div class="iot-calm-label">Field Atmosphere</div>
+              <div class="iot-calm-val" id="calm-env-text">Calm & Favorable</div>
+              <small style="font-size:0.75rem; color:#64748b;">Spore risk: Minimal</small>
+            </div>
+          </div>
+          <div class="iot-calm-item">
+            <div class="iot-calm-icon">📋</div>
+            <div>
+              <div class="iot-calm-label">Agronomic Advice</div>
+              <div class="iot-calm-val" id="calm-action-text">No Action Needed</div>
+              <small style="font-size:0.75rem; color:#64748b;">Next evaluation in 4 hrs</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2" id="iot-hardware-hub">
+        <!-- IoT Gauges -->
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="iot_title">📡 Real Agricultural IoT Hardware Gateway</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_f">Physical Sensor Hub</span>
+          </div>
+          <p class="card-desc" data-i18n="iot_architecture_desc">Direct hardware link: Arduino / ESP32 / BLE Sensor ➔ USB/Wi-Fi/Bluetooth ➔ AgriSmart AI Core ➔ Farmer Action.</p>
+
+          <!-- Live Connection Status Banner -->
+          <div class="iot-status-banner">
+            <div>
+              <span style="font-size:0.8rem; color:#64748b; font-weight:600;" data-i18n="iot_status_label">HARDWARE STATUS:</span>
+              <div id="iot-conn-badge" class="conn-pill disconnected" style="margin-top:2px;">
+                <span class="conn-pulse-dot"></span>
+                <span id="iot-conn-text" data-i18n="iot_no_device">No IoT Device Connected</span>
+              </div>
+            </div>
+            <div id="iot-active-device-info" style="font-size:0.82rem; color:#475569; text-align:right;">
+              <span id="iot-device-name">--</span>
+            </div>
+          </div>
+
+          <!-- Strict Real-Only Notice -->
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:8px 12px; margin-bottom:14px; font-size:0.8rem; color:#166534; display:flex; align-items:center; gap:8px;">
+            <span>🔒</span>
+            <span data-i18n="iot_real_only_notice">Strict Real-Data Mode: Displaying physical sensor readings only. Disconnected sensors remain strictly blank (--).</span>
+          </div>
+
+          <!-- Gauges Grid (Initialized to blank) -->
+          <div class="iot-gauges-grid">
+            <div class="gauge-card">
+              <span class="gauge-title" data-i18n="gauge_moist">Soil Moisture (Volumetric)</span>
+              <div class="gauge-val" id="iot-moist">--%</div>
+              <small id="iot-moist-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
+            </div>
+            <div class="gauge-card">
+              <span class="gauge-title" data-i18n="gauge_temp">Ambient Field Temp</span>
+              <div class="gauge-val" id="iot-temp">--°C</div>
+              <small id="iot-temp-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
+            </div>
+            <div class="gauge-card">
+              <span class="gauge-title" data-i18n="gauge_hum">Air Humidity</span>
+              <div class="gauge-val" id="iot-hum">--%</div>
+              <small id="iot-hum-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
+            </div>
+            <div class="gauge-card">
+              <span class="gauge-title" data-i18n="gauge_ph">Soil Acidity (pH)</span>
+              <div class="gauge-val" id="iot-ph">--</div>
+              <small id="iot-ph-status" style="color:#94a3b8;" data-i18n="iot_not_connected_sub">(No Sensor Connected)</small>
+            </div>
+          </div>
+
+          <!-- Multi-Channel IoT Hardware Connection Hub -->
+          <div class="iot-conn-hub">
+            <h4 style="margin:0 0 10px 0; color:#065f46; display:flex; align-items:center; gap:8px;" data-i18n="iot_hub_title">
+              <span>🔌</span> <span>Connect Physical IoT Sensors (USB / Wi-Fi / Bluetooth)</span>
+            </h4>
+
+            <div class="iot-tabs-nav">
+              <button class="iot-tab-btn active" onclick="switchIoTSubTab('iot-panel-usb')" data-i18n="iot_tab_usb">🔌 USB / Serial Cable</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-wifi')" data-i18n="iot_tab_wifi">📶 Wi-Fi / Network</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-bt')" data-i18n="iot_tab_bt">📡 Bluetooth (BLE)</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-code')" data-i18n="iot_tab_code">📜 Arduino / ESP32 Code</button>
+              <button class="iot-tab-btn" onclick="switchIoTSubTab('iot-panel-sim')" data-i18n="iot_tab_sim">🧪 Lab Simulator (Optional)</button>
+            </div>
+
+            <!-- Panel 1: USB / Serial -->
+            <div id="iot-panel-usb" class="iot-panel active">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:12px;" data-i18n="usb_desc">
+                Connect Arduino, ESP32, STM32, or Raspberry Pi Pico directly via USB cable:
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:10px;">
+                <button class="btn btn-primary btn-sm" onclick="connectWebSerial()" id="btn-web-serial">
+                  ⚡ <span data-i18n="btn_web_serial">Connect USB via Browser (Web Serial)</span>
+                </button>
+                <span style="font-size:0.8rem; color:#94a3b8;">OR</span>
+                <select id="iot-com-ports" class="form-control" style="width:auto; min-width:140px; padding:5px 10px; font-size:0.85rem;">
+                  <option value="">Scanning COM ports...</option>
+                </select>
+                <select id="iot-baudrate" class="form-control" style="width:auto; padding:5px 10px; font-size:0.85rem;">
+                  <option value="115200" selected>115200 Baud</option>
+                  <option value="9600">9600 Baud</option>
+                  <option value="57600">57600 Baud</option>
+                </select>
+                <button class="btn btn-secondary btn-sm" onclick="refreshComPorts()" title="Scan for newly plugged USB devices">🔄</button>
+                <button class="btn btn-secondary btn-sm" onclick="connectBackendSerial()" id="btn-connect-com" data-i18n="btn_connect_port">Connect Port</button>
+                <button class="btn btn-danger btn-sm" onclick="disconnectIoTHardware()" id="btn-disconnect-iot" style="display:none;" data-i18n="btn_disconnect_iot">Disconnect</button>
+              </div>
+            </div>
+
+            <!-- Panel 2: Wi-Fi -->
+            <div id="iot-panel-wifi" class="iot-panel">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:10px;">
+                <strong data-i18n="wifi_push_title">Option 1 (Push Mode - Recommended):</strong> <span data-i18n="wifi_push_desc">Flash your ESP32 to POST JSON sensor data over local Wi-Fi:</span>
+              </div>
+              <div style="background:#f1f5f9; padding:8px 12px; border-radius:6px; font-family:monospace; font-size:0.82rem; margin-bottom:10px;">
+                POST http://<span id="wifi-local-ip">127.0.0.1</span>:8000/api/iot/ingest
+              </div>
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:8px;">
+                <strong data-i18n="wifi_pull_title">Option 2 (Pull Mode):</strong> <span data-i18n="wifi_pull_desc">Enter your ESP32 local web server URL to poll:</span>
+              </div>
+              <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                <input type="text" id="wifi-sensor-url" class="form-control" placeholder="http://192.168.1.50/data" style="flex:1; min-width:200px; font-size:0.85rem;">
+                <button class="btn btn-primary btn-sm" onclick="connectWifiSensor()" data-i18n="btn_connect_wifi">Connect Wi-Fi Sensor</button>
+              </div>
+            </div>
+
+            <!-- Panel 3: Bluetooth -->
+            <div id="iot-panel-bt" class="iot-panel">
+              <div style="font-size:0.85rem; color:#475569; margin-bottom:12px;" data-i18n="bt_desc">
+                Pair with wireless agricultural BLE soil moisture or microclimate probes via Web Bluetooth:
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="connectWebBluetooth()" id="btn-web-bluetooth">
+                📡 <span data-i18n="btn_scan_ble">Scan & Connect Bluetooth Sensor</span>
+              </button>
+            </div>
+
+            <!-- Panel 4: Arduino / ESP32 Code -->
+            <div id="iot-panel-code" class="iot-panel">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.82rem; color:#475569; font-weight:600;" data-i18n="code_title">Arduino IDE / PlatformIO Ready Sketch:</span>
+                <button class="btn btn-secondary btn-sm" onclick="copyArduinoCode()" data-i18n="btn_copy_code">📋 Copy Code</button>
+              </div>
+              <pre class="iot-code-snippet" id="arduino-code-display">/* Loading Arduino sketch... */</pre>
+            </div>
+
+            <!-- Panel 5: Lab Simulator (Optional for Testing) -->
+            <div id="iot-panel-sim" class="iot-panel">
+              <p style="font-size:0.82rem; color:#64748b; margin:0 0 8px 0;" data-i18n="sim_notice">
+                Optional virtual simulator for hackathon judge presentations when physical sensors are not available:
+              </p>
+              <div class="scenario-buttons">
+                <button class="btn btn-secondary btn-sm" onclick="triggerScenario('normal')" data-i18n="btn_scen_normal">🌤 Normal Conditions</button>
+                <button class="btn btn-danger btn-sm" onclick="triggerScenario('drought')" data-i18n="btn_scen_drought">🔥 Sudden Drought Spike</button>
+                <button class="btn btn-info btn-sm" onclick="triggerScenario('rain')" data-i18n="btn_scen_rain">🌧 Heavy Rain Inflow</button>
+              </div>
+            </div>
+
+            <!-- Live Serial Activity Terminal -->
+            <div style="margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.75rem; font-weight:700; color:#64748b; text-transform:uppercase;" data-i18n="iot_terminal_title">LIVE HARDWARE SERIAL MONITOR</span>
+                <button class="btn btn-secondary btn-sm" style="padding:2px 8px; font-size:0.72rem;" onclick="clearIoTTerminal()">Clear</button>
+              </div>
+              <div class="iot-terminal" id="iot-terminal-window">
+                <div>[SYSTEM] Ready for hardware connection. Plug USB cable or send Wi-Fi telemetry.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Agentic Advisor Loop -->
+        <div class="card">
+          <div class="card-header">
+            <h3 data-i18n="agent_title">🤖 Autonomous Agentic Decision Loop</h3>
+            <span class="tag tag-bonus" data-i18n="tag_bonus_g">Autonomous Closed-Loop Control</span>
+          </div>
+          <p class="card-desc" data-i18n="agent_desc">Autonomous closed loop: Perceive -> Multi-Modal Reason -> Decide -> Actuate</p>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div><span data-i18n="valve_label">Smart Valve Status:</span> <strong id="valve-status" class="badge badge-info">CLOSED</strong></div>
+            <button class="btn btn-primary" onclick="triggerAgentCycle()">
+              ⚡ <span data-i18n="btn_run_agent">Run Agent Cycle</span>
+            </button>
+          </div>
+
+          <div class="agent-timeline" id="agent-timeline">
+            <div class="agent-step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <strong>Perception:</strong> Ingesting continuous IoT sensor feed + Open-Meteo precipitation stream + latest leaf diagnostic.
+              </div>
+            </div>
+            <div class="agent-step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <strong>Reasoning:</strong> Evaluating transpirational deficit against impending 24h precipitation and fungal spore germination indices.
+              </div>
+            </div>
+            <div class="agent-step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <strong>Decision Engine:</strong> Determining whether to open smart irrigation valve or delay to conserve power/water.
+              </div>
+            </div>
+            <div class="agent-step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <strong>Actuation & Alert:</strong> Dispatching hardware command to solenoid relay and transmitting SMS warning to farmer.
+              </div>
+            </div>
+          </div>
+
+          <div id="agent-alert-box" style="margin-top:15px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB: HISTORY (Farm Records & Diagnoses Archive)          -->
+    <!-- ======================================================== -->
+    <section id="tab-history" class="tab-content">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-dashboard')">
+          ⬅ <span>Back to Dashboard</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Farm Records & History</span>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>📋 Complete Farm Diagnostic History</h3>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <input type="text" id="history-search-input" class="form-control" placeholder="Search by crop or disease..." style="max-width:240px; padding:6px 12px; font-size:0.85rem;" oninput="filterHistoryDisplay(this.value)">
+            <button class="btn btn-secondary btn-sm" onclick="downloadUserData()">📥 Export CSV</button>
+          </div>
+        </div>
+        <div id="full-history-container" style="margin-top:14px;">
+          <p style="color:var(--text-muted); font-size:0.88rem; padding:12px 0;">Loading past diagnosis history from SQLite database...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB: RESEARCH & AI METRICS (Removed from main navigation)-->
+    <!-- ======================================================== -->
+    <section id="tab-report" class="tab-content" style="display:none !important;">
+      <div class="tab-nav-bar">
+        <button class="btn btn-secondary btn-sm btn-back-home" onclick="switchTab('tab-dashboard')">
+          ⬅ <span>Back to Dashboard</span>
+        </button>
+        <span class="tab-crumb">AgriSmart AI • Research & Model Verification</span>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 style="margin:0;">📊 Research & AI Model Performance</h3>
+            <p style="margin:4px 0 0 0; font-size:0.83rem; color:var(--text-muted);">Empirical held-out test evaluation, real-world benchmarks, and zero-fabrication metrics.</p>
+          </div>
+          <span class="badge badge-success" style="font-size:0.85rem;">✓ Verified Model Checkpoint</span>
+        </div>
+
+        <!-- Architecture Specs Grid -->
+        <div class="research-spec-grid" style="margin-top:18px;">
+          <div class="research-spec-box">
+            <span>Model Architecture</span>
+            <strong style="font-size:1.15rem;">MobileNetV3-Small</strong>
+            <small>Transfer learned from ImageNet</small>
+          </div>
+          <div class="research-spec-box">
+            <span>Parameters</span>
+            <strong>1.34M</strong>
+            <small>Edge-optimized backbone + head</small>
+          </div>
+          <div class="research-spec-box">
+            <span>Model File Size</span>
+            <strong>5.32 MB</strong>
+            <small>INT8 deployable on budget phones</small>
+          </div>
+          <div class="research-spec-box">
+            <span>CPU Latency</span>
+            <strong>~12 ms</strong>
+            <small>Real-time field inference</small>
+          </div>
+        </div>
+
+        <!-- Empirical Held-Out Test Set (969 Unseen Samples) -->
+        <div style="background:var(--primary-light); border:1.5px solid var(--primary-mint); border-radius:12px; padding:18px 22px; margin-bottom:24px;">
+          <h4 style="margin:0 0 10px 0; color:var(--primary-deep); display:flex; align-items:center; gap:8px;">
+            <span>🎯</span> Held-Out Test Set Performance (969 Unseen Verification Images)
+          </h4>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; text-align:center;">
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--primary-dark); font-weight:700;">Top-1 Accuracy</span>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--primary-deep);" id="rep-top1-acc">95.05%</div>
+            </div>
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--primary-dark); font-weight:700;">Top-3 Accuracy</span>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--primary-deep);" id="rep-top3-acc">99.38%</div>
+            </div>
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--primary-dark); font-weight:700;">Macro-Precision</span>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--primary-deep);" id="rep-macro-prec">95.42%</div>
+            </div>
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--primary-dark); font-weight:700;">Macro-Recall</span>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--primary-deep);" id="rep-macro-rec">95.08%</div>
+            </div>
+            <div>
+              <span style="font-size:0.75rem; text-transform:uppercase; color:var(--primary-dark); font-weight:700;">Macro-F1 Score</span>
+              <div style="font-size:1.8rem; font-weight:800; color:var(--primary-deep);" id="rep-macro-f1-val">95.07%</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Real-World Benchmarks Showcase -->
+        <h4 style="margin:0 0 12px 0; color:var(--text-main);">🌍 Real-World Generalization & Robustness Benchmarks</h4>
+        <div class="today-cards-grid" style="margin-bottom:24px;">
+          <div class="today-card">
+            <div class="today-card-header">
+              <span class="today-card-title">Benchmark B (Curated Leaves)</span>
+              <span class="badge badge-success">90.5% Accuracy</span>
+            </div>
+            <div class="today-card-val">38 / 42 Correct</div>
+            <p class="today-card-desc">Evaluated on 42 representative leaves across 14 crops. All 4 misclassifications produced low confidence (&lt; 45%), triggering the uncertainty alert.</p>
+          </div>
+          <div class="today-card">
+            <div class="today-card-header">
+              <span class="today-card-title">Benchmark C (Indian Outdoor Leaves)</span>
+              <span class="badge badge-success">79.5% Foliage Pass</span>
+            </div>
+            <div class="today-card-val">220 Outdoor Photos</div>
+            <p class="today-card-desc">Photos under direct sun and shadows from Indian fields. Mean confidence on non-catalog wild species drops safely to 35.2% (healthy epistemic modesty).</p>
+          </div>
+          <div class="today-card">
+            <div class="today-card-header">
+              <span class="today-card-title">Benchmark D (OOD Rejection)</span>
+              <span class="badge badge-success">75.0% Rejected</span>
+            </div>
+            <div class="today-card-val">Guardrail Active</div>
+            <p class="today-card-desc">Non-crop inputs (sky, monochrome documents, gray metal) are safely rejected before classification with clear agricultural guidance.</p>
+          </div>
+        </div>
+
+        <!-- Dataset Integrity & Leakage Controls -->
+        <div style="background:var(--surface); border:1.5px solid var(--border); border-radius:12px; padding:18px; margin-bottom:24px;">
+          <h4 style="margin:0 0 10px 0; color:var(--text-main);">📁 Dataset Audit & Leakage Controls</h4>
+          <ul style="margin-left:20px; font-size:0.88rem; color:var(--text-main); line-height:1.7;">
+            <li><strong>Master Archive</strong>: 55,448 images across 39 classes (38 foliar conditions + 1 background class).</li>
+            <li><strong>Class Imbalance Ratio</strong>: <strong>36.23 : 1</strong> (Orange Citrus Greening: 5,507 vs Potato Healthy: 152). Managed via inverse-frequency class weighting and label smoothing (0.08).</li>
+            <li><strong>Duplicate Elimination</strong>: 23 byte-identical CRC duplicates purged prior to splitting.</li>
+            <li><strong>Stratified Split</strong>: 5,814 train, 969 validation, 969 held-out test (<a href="/model/dataset_split.json" target="_blank">model/dataset_split.json</a>). Zero cross-split leakage.</li>
+          </ul>
+        </div>
+
+        <!-- Confusion Matrix Visualizer -->
+        <div style="text-align:center; padding:15px; background:#f8fafc; border:1px solid var(--border); border-radius:12px;">
+          <h4 style="margin-bottom:8px; color:var(--text-main);">Held-Out Test Set Confusion Matrix (39 Classes)</h4>
+          <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:14px;">Evaluated on 969 held-out test images with MobileNetV3-Small.</p>
+          <img src="/report-assets/confusion_matrix.png" alt="AgriSmart AI Confusion Matrix" style="max-width:100%; border-radius:8px; box-shadow:0 4px 15px rgba(0,0,0,0.1);">
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 8: Settings & Farm Profile Management                -->
+    <!-- ======================================================== -->
+    <section id="tab-settings" class="tab-content">
+      <div class="settings-header-banner" style="background: linear-gradient(135deg, #064e3b 0%, #047857 100%); color: white; padding: 22px 26px; border-radius: 14px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(6, 78, 59, 0.2);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div>
+            <h2 style="margin:0 0 6px 0; font-size:1.6rem; display:flex; align-items:center; gap:10px;">
+              <span>⚙️</span> <span data-i18n="settings_title">Settings & Farm Profile</span>
+            </h2>
+            <p style="margin:0; opacity:0.9; font-size:0.95rem;" data-i18n="settings_subtitle">
+              Manage your personal farmer identity, land records, regional preferences, visual display mode, and IoT edge hardware settings.
+            </p>
+          </div>
+          <div id="settings-user-badge-pill" style="background:rgba(255,255,255,0.2); padding:8px 16px; border-radius:20px; font-size:0.9rem; font-weight:600; backdrop-filter:blur(4px);">
+            👤 <span id="settings-pill-name">Guest Farmer</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK SETTINGS HUB: IDENTITY, REGIONAL LANGUAGE, AND GPS/LOCATION -->
+      <div class="card settings-quick-hub" style="margin-bottom: 24px; border: 1.5px solid #a7f3d0; background: var(--surface); border-radius: 16px; box-shadow: 0 4px 18px rgba(6, 78, 59, 0.06); padding: 22px;">
+        <div class="card-header" style="border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 18px;">
+          <h3 style="display:flex; align-items:center; gap:8px; margin:0; color:#065f46;">
+            <span>⚡</span> <span data-i18n="set_quick_hub_title">Quick Controls: Identity, Language & Field Location Sync</span>
+          </h3>
+          <span class="tag tag-core">Primary Controls</span>
+        </div>
+        
+        <div class="settings-hub-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;">
+          <!-- 1. Farmer Account & Profile -->
+          <div class="hub-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                <h4 style="margin:0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+                  <span>👤</span> <span data-i18n="nav_account">Farmer Account & Profile</span>
+                </h4>
+                <span id="auth-status-indicator" style="font-size:0.75rem; background:#ecfdf5; color:#059669; padding:2px 8px; border-radius:12px; font-weight:600;">Active</span>
+              </div>
+              <p style="font-size:0.83rem; color:#64748b; margin:0 0 14px 0;" data-i18n="set_hub_profile_desc">Sign in or register an account to sync field diagnostics across devices.</p>
+            </div>
+            <button class="btn btn-auth" id="btn-auth-action" onclick="openAuthModal()" style="width:100%; justify-content:center; padding:10px 16px; font-weight:600;">
+              <span id="auth-btn-icon">👤</span> <span id="auth-btn-text" data-i18n="nav_account">किसान मित्र</span>
+            </button>
+          </div>
+
+          <!-- 2. Platform Language Switcher -->
+          <div class="hub-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h4 style="margin:0 0 8px 0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+                <span>🌐</span> <span data-i18n="language_label">भाषा (Platform Language)</span>
+              </h4>
+              <p style="font-size:0.83rem; color:#64748b; margin:0 0 14px 0;" data-i18n="set_hub_lang_desc">Real-time vernacular translation across all modules, alerts, and speech readouts.</p>
+            </div>
+            <div class="lang-bar" style="margin:0; width:100%;">
+              <select id="global-lang-select" class="lang-select form-control" style="width:100%; font-weight:600; font-size:0.92rem; border:1.5px solid #08a66c; border-radius:8px; padding:8px 12px; background:#f0fdf4; color:#064e3b;" onchange="changeGlobalLanguage(this.value)">
+                <option value="hi" selected>हिन्दी (Hindi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+                <option value="mr">मराठी (Marathi)</option>
+                <option value="en">English</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 3. GPS & State/District Location Controls -->
+          <div class="hub-card" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+            <div>
+              <h4 style="margin:0 0 8px 0; font-size:0.98rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+                <span>📍</span> <span data-i18n="loc_control_title">Field Location & Weather Sync</span>
+              </h4>
+              <p style="font-size:0.83rem; color:#64748b; margin:0 0 12px 0;" data-i18n="loc_control_desc">Auto GPS detection or manual State & District selection.</p>
+            </div>
+            <div>
+              <div class="location-control-bar" style="display:flex; gap:8px; margin-bottom:8px;">
+                <button class="loc-mode-btn active" id="btn-loc-gps" onclick="setLocMode('gps')" style="flex:1; justify-content:center;">
+                  <span>📍</span> <span data-i18n="loc_gps_mode">GPS Auto</span>
+                </button>
+                <button class="loc-mode-btn" id="btn-loc-manual" onclick="setLocMode('manual')" style="flex:1; justify-content:center;">
+                  <span>🗺️</span> <span data-i18n="loc_manual_mode">State & District</span>
+                </button>
+              </div>
+              <div class="manual-loc-wrap" id="manual-loc-inputs" style="display:none; flex-direction:column; gap:8px; margin-top:8px;">
+                <select id="sel-state" class="manual-loc-select form-control" onchange="onStateChanged(this.value)" style="font-size:0.88rem; padding:6px 10px;">
+                  <option value="Gujarat">Gujarat (ગુજરાત)</option>
+                  <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+                  <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
+                  <option value="Haryana">Haryana (हरियाणा)</option>
+                  <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+                  <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
+                </select>
+                <select id="sel-district" class="manual-loc-select form-control" onchange="onDistrictChanged(this.value)" style="font-size:0.88rem; padding:6px 10px;">
+                  <!-- Populated dynamically via JS -->
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- CARD 1: Personal Details & Farm Profile -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>👤</span> <span data-i18n="set_card1_title">Personal Details & Farm Profile</span>
+            </h3>
+            <span class="tag tag-core" data-i18n="tag_farmer_identity">Farmer Identity</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card1_desc">
+            Personal and agronomic details help AgriSmart AI personalize disease remedies, irrigation advice, and crop recommendations for your specific field.
+          </p>
+
+          <form id="form-profile-settings" onsubmit="event.preventDefault(); saveProfileSettings();">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-name" data-i18n="set_label_name">Farmer Name</label>
+                <input type="text" id="set-farmer-name" class="form-control" placeholder="e.g. Ramesh Patel" required>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-contact" data-i18n="set_label_contact">Phone Number or Email</label>
+                <input type="text" id="set-farmer-contact" class="form-control" placeholder="10-digit mobile or email" readonly style="background:#f1f5f9; cursor:not-allowed;" title="Contact ID is linked to your login identity">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-state" data-i18n="set_label_state">State / Region</label>
+                <select id="set-farmer-state" class="form-control" onchange="onSettingsStateChanged(this.value)">
+                  <option value="Gujarat">Gujarat (ગુજરાત)</option>
+                  <option value="Maharashtra">Maharashtra (महाराष्ट्र)</option>
+                  <option value="Punjab">Punjab (ਪੰਜਾਬ)</option>
+                  <option value="Haryana">Haryana (हरियाणा)</option>
+                  <option value="Rajasthan">Rajasthan (राजस्थान)</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh (उत्तर प्रदेश)</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh (मध्य प्रदेश)</option>
+                  <option value="Karnataka">Karnataka (ಕರ್ನಾಟಕ)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-district" data-i18n="set_label_district">District</label>
+                <select id="set-farmer-district" class="form-control">
+                  <!-- Dynamically populated -->
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-village" data-i18n="set_label_village">Village / Taluka / Landmark</label>
+                <input type="text" id="set-farmer-village" class="form-control" placeholder="e.g. Anand, Borsad, Sanand">
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-farm-size" data-i18n="set_label_farm_size">Land Area & Unit</label>
+                <div style="display:flex; gap:8px;">
+                  <input type="number" id="set-farmer-farm-size" class="form-control" placeholder="5" step="0.1" min="0" style="flex:1;">
+                  <select id="set-farmer-farm-unit" class="form-control" style="width:110px;">
+                    <option value="Acres">Acres</option>
+                    <option value="Bigha">Bigha</option>
+                    <option value="Hectares">Hectares</option>
+                    <option value="Guntha">Guntha</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:14px;">
+              <label style="font-weight:700; margin-bottom:6px; display:block;" data-i18n="set_label_crops">Primary Cultivated Crops (Click to select)</label>
+              <div id="crop-chips-container" class="crop-chips-container">
+                <!-- Selectable crop tags -->
+                <button type="button" class="crop-chip" data-crop="Tomato" onclick="toggleCropChip(this)">🍅 Tomato</button>
+                <button type="button" class="crop-chip" data-crop="Potato" onclick="toggleCropChip(this)">🥔 Potato</button>
+                <button type="button" class="crop-chip" data-crop="Corn" onclick="toggleCropChip(this)">🌽 Corn (Maize)</button>
+                <button type="button" class="crop-chip" data-crop="Wheat" onclick="toggleCropChip(this)">🌾 Wheat</button>
+                <button type="button" class="crop-chip" data-crop="Rice" onclick="toggleCropChip(this)">🍚 Rice (Paddy)</button>
+                <button type="button" class="crop-chip" data-crop="Cotton" onclick="toggleCropChip(this)">🪴 Cotton</button>
+                <button type="button" class="crop-chip" data-crop="Soybean" onclick="toggleCropChip(this)">🌱 Soybean</button>
+                <button type="button" class="crop-chip" data-crop="Mustard" onclick="toggleCropChip(this)">🌼 Mustard</button>
+                <button type="button" class="crop-chip" data-crop="Chickpea" onclick="toggleCropChip(this)">🧆 Chickpea (Gram)</button>
+                <button type="button" class="crop-chip" data-crop="Onion" onclick="toggleCropChip(this)">🧅 Onion</button>
+                <button type="button" class="crop-chip" data-crop="Garlic" onclick="toggleCropChip(this)">🧄 Garlic</button>
+                <button type="button" class="crop-chip" data-crop="Chilli" onclick="toggleCropChip(this)">🌶️ Chilli</button>
+                <button type="button" class="crop-chip" data-crop="Bell Pepper" onclick="toggleCropChip(this)">🫑 Bell Pepper</button>
+                <button type="button" class="crop-chip" data-crop="Sugarcane" onclick="toggleCropChip(this)">🎋 Sugarcane</button>
+                <button type="button" class="crop-chip" data-crop="Apple" onclick="toggleCropChip(this)">🍎 Apple</button>
+                <button type="button" class="crop-chip" data-crop="Grape" onclick="toggleCropChip(this)">🍇 Grape</button>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="set-farmer-soil-type" data-i18n="set_label_soil">Dominant Soil Type</label>
+                <select id="set-farmer-soil-type" class="form-control">
+                  <option value="Loamy">Loamy Soil (দোআঁশ / દોમટ)</option>
+                  <option value="Clay">Clay Soil (चिकनी मिट्टी)</option>
+                  <option value="Sandy">Sandy Soil (रेतीली मिट्टी)</option>
+                  <option value="Black Cotton">Black Cotton Soil (काली मिट्टी)</option>
+                  <option value="Red Soil">Red Soil (लाल मिट्टी)</option>
+                  <option value="Alluvial">Alluvial Soil (जलोढ़ मिट्टी)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="set-farmer-water-source" data-i18n="set_label_water">Primary Water Source</label>
+                <select id="set-farmer-water-source" class="form-control">
+                  <option value="Borewell">Borewell / Tube well</option>
+                  <option value="Canal">Canal Irrigation (नहर)</option>
+                  <option value="Drip/Sprinkler">Drip / Micro-Sprinkler</option>
+                  <option value="Rainfed">Rainfed (Monsoon Dependent)</option>
+                  <option value="River/Pond">River / Farm Pond</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary" id="btn-save-profile" style="padding:10px 22px;">
+                <span data-i18n="btn_save_profile">💾 Save Farm Profile</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- CARD 2: Website Display & Voice Preferences -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>🎨</span> <span data-i18n="set_card2_title">Display, Language & Voice Settings</span>
+            </h3>
+            <span class="tag tag-bonus" data-i18n="tag_accessibility">Accessibility & Display</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card2_desc">
+            Customize platform visual appearance, contrast for daylight field inspection, speech narration speed, and audio alerts.
+          </p>
+
+          <form id="form-pref-settings" onsubmit="event.preventDefault(); saveWebsitePreferences();">
+            <div class="form-group">
+              <label for="set-pref-language" data-i18n="set_label_platform_lang">Platform Language (Default)</label>
+              <select id="set-pref-language" class="form-control" onchange="changeGlobalLanguage(this.value)">
+                <option value="en">English</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="gu">ગુજરાતી (Gujarati)</option>
+                <option value="mr">मराठी (Marathi)</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label style="font-weight:700; margin-bottom:8px; display:block;" data-i18n="set_label_theme">Visual Display Mode</label>
+              <div class="theme-options-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap:10px;">
+                <label class="theme-option-card" id="card-theme-standard" style="border:2px solid #059669; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#f0fdf4;">
+                  <input type="radio" name="display-theme" value="standard" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌿</span>
+                  <strong style="font-size:0.85rem; color:#065f46;" data-i18n="theme_standard">Farm Green</strong>
+                  <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_standard_sub">Standard Balanced</span>
+                </label>
+
+                <label class="theme-option-card" id="card-theme-dark" style="border:2px solid #374151; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#1e293b; color:white;">
+                  <input type="radio" name="display-theme" value="dark" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌙</span>
+                  <strong style="font-size:0.85rem; color:#f8fafc;" data-i18n="theme_night">Night Mode</strong>
+                  <span style="font-size:0.75rem; color:#94a3b8;" data-i18n="theme_night_sub">Dark Low-Glare</span>
+                </label>
+
+                <label class="theme-option-card" id="card-theme-high-contrast" style="border:2px solid #000000; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#ffffff;">
+                  <input type="radio" name="display-theme" value="high-contrast" checked onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">☀️</span>
+                  <strong style="font-size:0.85rem; color:#0f172a;" data-i18n="theme_sunlight">Sunlight Mode</strong>
+                  <span style="font-size:0.75rem; color:#64748b;" data-i18n="theme_sunlight_sub">High Contrast Field</span>
+                </label>
+
+                <label class="theme-option-card" id="card-theme-harvest" style="border:2px solid #fed7aa; border-radius:10px; padding:12px; cursor:pointer; display:flex; flex-direction:column; align-items:center; text-align:center; background:#fffbeb;">
+                  <input type="radio" name="display-theme" value="harvest" onchange="applyTheme(this.value, true)" style="margin-bottom:6px;">
+                  <span style="font-size:1.4rem;">🌾</span>
+                  <strong style="font-size:0.85rem; color:#92400e;" data-i18n="theme_harvest">Golden Harvest</strong>
+                  <span style="font-size:0.75rem; color:#b45309;" data-i18n="theme_harvest_sub">Warm Amber Earth</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <label style="font-weight:700; margin-bottom:6px; display:block;" data-i18n="set_label_fontsize">Font Readability Size</label>
+              <div style="display:flex; gap:12px;">
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.9rem; cursor:pointer;">
+                  <input type="radio" name="font-scale" value="normal" checked onchange="applyFontScale(this.value)">
+                  <span data-i18n="font_normal">Standard (100%)</span>
+                </label>
+                <label style="display:flex; align-items:center; gap:6px; font-size:0.9rem; cursor:pointer;">
+                  <input type="radio" name="font-scale" value="large" onchange="applyFontScale(this.value)">
+                  <span data-i18n="font_large">Senior / Large (115%)</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group" style="margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <label for="set-pref-voice-rate" style="margin:0; font-weight:700;" data-i18n="set_label_voice_rate">Voice Narration Speed</label>
+                <span id="voice-rate-display" style="font-weight:700; color:#047857;">1.0x</span>
+              </div>
+              <input type="range" id="set-pref-voice-rate" min="0.75" max="1.3" step="0.05" value="1.0" class="form-control" style="padding:0; accent-color:#047857;" oninput="document.getElementById('voice-rate-display').textContent = this.value + 'x'">
+            </div>
+
+            <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px; margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div>
+                  <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_auto_voice">Auto-Voice Readout</strong>
+                  <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_auto_voice">Speaks disease diagnosis out loud immediately upon image scan</span>
+                </div>
+                <input type="checkbox" id="set-pref-auto-voice" style="width:20px; height:20px; accent-color:#047857;">
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_chime">Disease Alert Audio Chime</strong>
+                  <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_chime">Plays sound chime when high-risk crop pathology is discovered</span>
+                </div>
+                <input type="checkbox" id="set-pref-audio-chime" checked style="width:20px; height:20px; accent-color:#047857;">
+              </div>
+            </div>
+
+            <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+              <button type="submit" class="btn btn-primary" id="btn-save-pref" style="padding:10px 22px;">
+                <span data-i18n="btn_save_pref">💾 Save Display Preferences</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- CARD 3: IoT Edge & Telemetry Configuration -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>📡</span> <span data-i18n="set_card3_title">IoT Hardware & Sensor Settings</span>
+            </h3>
+            <span class="tag tag-iot" data-i18n="tag_sensors">Sensors & Gateways</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card3_desc">
+            Configure field microcontrollers, data ingestion polling frequency, and verify non-IoT Bluetooth device rejection.
+          </p>
+
+          <div class="form-group">
+            <label for="set-iot-interval" data-i18n="set_label_iot_interval">Telemetry Monitor Polling Frequency</label>
+            <select id="set-iot-interval" class="form-control" onchange="updateIotPollingInterval(this.value)">
+              <option value="2000">2 Seconds (High-Responsiveness Field Mode)</option>
+              <option value="3000" selected>3 Seconds (Recommended Standard)</option>
+              <option value="5000">5 Seconds (Low-Bandwidth Rural 2G/3G)</option>
+              <option value="10000">10 Seconds (Eco / Solar Power Conserve)</option>
+            </select>
+          </div>
+
+          <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; padding:14px; margin-top:14px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-size:1.5rem;">🛡️</span>
+              <div>
+                <strong style="color:#065f46; font-size:0.9rem;" data-i18n="set_ble_filter_title">Intelligent BLE Non-IoT Filter: ACTIVE</strong>
+                <p style="margin:2px 0 0 0; font-size:0.8rem; color:#047857;" data-i18n="set_ble_filter_desc">
+                  Strictly rejects smart watches, audio speakers, headphones, and non-agricultural gadgets during Web Bluetooth pairing.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top:14px;">
+            <label data-i18n="set_label_local_ip">AgriSmart AI Gateway Local IP (For ESP32 / Arduino HTTP Push)</label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="set-iot-lan-ip" class="form-control" readonly value="Loading local IP..." style="background:#f8fafc; font-family:monospace; font-size:0.9rem;">
+              <button type="button" class="btn btn-secondary" onclick="copyIotGatewayUrl()" style="white-space:nowrap;">
+                📋 <span data-i18n="btn_copy_url">Copy URL</span>
+              </button>
+            </div>
+            <small style="color:#64748b; margin-top:4px; display:block;" data-i18n="set_sub_local_ip">Flash this URL into your ESP32 or Wi-Fi Arduino firmware to stream live soil data.</small>
+          </div>
+
+          <div style="margin-top:14px; padding:12px; background:#f8fafc; border-radius:8px; border:1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <span style="font-size:0.85rem; font-weight:600; color:#334155;" data-i18n="set_status_label">Hardware Gateway Status:</span>
+              <span id="set-iot-status-badge" class="badge badge-success" style="margin-left:6px;">Ready to Connect</span>
+            </div>
+            <button type="button" class="btn btn-secondary" onclick="switchTab('tab-iot')" style="padding:4px 12px; font-size:0.85rem;">
+              <span data-i18n="btn_open_iot_tab">Open IoT Panel</span> ➔
+            </button>
+          </div>
+        </div>
+
+        <!-- CARD 4: Security, Privacy & Data Management -->
+        <div class="card">
+          <div class="card-header">
+            <h3 style="display:flex; align-items:center; gap:8px;">
+              <span>🛡️</span> <span data-i18n="set_card4_title">Account Security & Data Management</span>
+            </h3>
+            <span class="tag tag-bonus" data-i18n="tag_privacy">Privacy & Backup</span>
+          </div>
+          <p class="card-desc" data-i18n="set_card4_desc">
+            Manage your password, export diagnostic logs and recommendations, and clear offline browser caches.
+          </p>
+
+          <!-- Change Password Section -->
+          <div id="settings-password-box" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:14px;">
+            <h4 style="margin:0 0 10px 0; font-size:0.95rem; color:#1e293b; display:flex; align-items:center; gap:6px;">
+              <span>🔒</span> <span data-i18n="set_header_pwd">Change Account Password</span>
+            </h4>
+            <div id="pwd-change-guest-alert" style="display:none; color:#b45309; font-size:0.85rem; margin-bottom:8px;">
+              ℹ️ <span data-i18n="set_guest_pwd_notice">You are using a Guest Session. Create or sign into an account to set a password.</span>
+            </div>
+            <form id="form-change-password" onsubmit="event.preventDefault(); handleChangePassword();">
+              <div class="form-group" style="margin-bottom:10px;">
+                <label for="set-old-password" style="font-size:0.85rem;" data-i18n="set_label_old_pwd">Current Password</label>
+                <input type="password" id="set-old-password" class="form-control" placeholder="Enter current password" required>
+              </div>
+              <div class="form-row" style="margin-bottom:10px;">
+                <div class="form-group">
+                  <label for="set-new-password" style="font-size:0.85rem;" data-i18n="set_label_new_pwd">New Password</label>
+                  <input type="password" id="set-new-password" class="form-control" placeholder="Min 6 characters" required>
+                </div>
+                <div class="form-group">
+                  <label for="set-confirm-password" style="font-size:0.85rem;" data-i18n="set_label_confirm_pwd">Confirm New Password</label>
+                  <input type="password" id="set-confirm-password" class="form-control" placeholder="Repeat new password" required>
+                </div>
+              </div>
+              <div style="display:flex; justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary" id="btn-submit-change-pwd" style="padding:6px 16px; font-size:0.85rem;">
+                  <span data-i18n="btn_change_pwd">Update Password</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Data Backup & Reset Actions -->
+          <div style="margin-top:16px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #e2e8f0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_export">Export Farm Diagnostic Data</strong>
+                <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_export">Download complete JSON archive of all leaf scans, remedies, and recommendations</span>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="exportFarmDataBackup()" style="white-space:nowrap; padding:8px 14px;">
+                📥 <span data-i18n="btn_export_data">Export JSON</span>
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #e2e8f0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#1e293b;" data-i18n="set_label_cache">Clear Scanner Media Cache</strong>
+                <span style="font-size:0.8rem; color:#64748b;" data-i18n="set_sub_cache">Frees device memory by removing cached test leaf samples and temporary canvases</span>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="resetScannerCache()" style="white-space:nowrap; padding:8px 14px; color:#b91c1c; border-color:#fecaca;">
+                🧹 <span data-i18n="btn_clear_cache">Clear Cache</span>
+              </button>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:12px; border:1px solid #fed7aa; background:#fffaf0; border-radius:8px;">
+              <div>
+                <strong style="display:block; font-size:0.9rem; color:#9a3412;" data-i18n="set_label_logout">Farmer Account Session</strong>
+                <span id="settings-session-desc" style="font-size:0.8rem; color:#b45309;" data-i18n="set_sub_logout">Currently running as Guest Session</span>
+              </div>
+              <button type="button" class="btn btn-secondary" id="btn-settings-auth-switch" onclick="handleSettingsAuthSwitch()" style="white-space:nowrap; padding:8px 14px;">
+                <span id="btn-settings-auth-switch-text" data-i18n="btn_login_or_register">Log In / Register</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 0: LIVE FIELD CAMERA VIEWFINDER (Mobile / Webcam)   -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="camera-modal">
+    <div class="modal-card" style="max-width: 540px; text-align: center;">
+      <div class="modal-header">
+        <h3 style="display:flex; align-items:center; gap:8px; margin:0;" data-i18n="camera_modal_title">
+          <span>📷</span> <span>Live Camera Leaf Scanner</span>
+        </h3>
+        <button class="modal-close" onclick="closeCameraModal()" title="Close Camera">✕</button>
+      </div>
+      <div style="position:relative; background:#0f172a; border-radius:10px; overflow:hidden; margin:14px 0; min-height:280px; display:flex; align-items:center; justify-content:center;">
+        <video id="camera-video-feed" autoplay playsinline muted style="width:100%; max-height:360px; object-fit:cover; border-radius:8px;"></video>
+        <div id="camera-reticle" style="position:absolute; inset:20px; border:2px dashed rgba(255,255,255,0.7); border-radius:8px; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; padding-bottom:8px;">
+          <span style="background:rgba(0,0,0,0.65); color:#a7f3d0; font-size:0.75rem; padding:3px 10px; border-radius:4px;" data-i18n="camera_frame_guide">Center the leaf inside the frame</span>
+        </div>
+        <canvas id="camera-capture-canvas" style="display:none;"></canvas>
+      </div>
+      <div class="modal-actions" style="display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;">
+        <button type="button" class="btn btn-secondary" onclick="switchCameraFacingMode()" id="btn-flip-camera" title="Switch camera">
+          🔄 <span data-i18n="btn_flip_camera">Flip Camera</span>
+        </button>
+        <div style="display:flex; gap:8px;">
+          <button type="button" class="btn btn-secondary" onclick="closeCameraModal()">
+            <span data-i18n="btn_cancel">Cancel</span>
+          </button>
+          <button type="button" class="btn btn-primary" onclick="captureCameraPhoto()" id="btn-snap-photo">
+            📸 <span data-i18n="btn_snap_photo">Snap & Diagnose</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 1: AUTHENTICATION (Login / Registration) -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="auth-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="auth-modal-title" data-i18n="auth_modal_title">Farmer Login</h3>
+        <button class="modal-close" onclick="closeAuthModal()" title="Back to Website">✕</button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="auth-tab-login" onclick="setAuthMode('login')" data-i18n="auth_signin_tab">Sign In</button>
+        <button class="auth-tab-btn" id="auth-tab-register" onclick="setAuthMode('register')" data-i18n="auth_register_tab">Create Account</button>
+      </div>
+
+      <form id="auth-form" onsubmit="event.preventDefault(); handleAuthSubmit();">
+        <div class="form-group" id="group-name" style="display:none;">
+          <label data-i18n="auth_name_label">Full Name:</label>
+          <input type="text" id="auth-name" class="form-control" placeholder="e.g. Ramesh Patel" oninput="validateAuthInputs()">
+          <div id="auth-name-hint" class="input-hint"></div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_email_phone_label">Email or Phone Number:</label>
+          <input type="text" id="auth-email-phone" class="form-control" required placeholder="10-digit Phone (9876543210) or Email" oninput="validateAuthInputs()">
+          <div id="auth-contact-hint" class="input-hint"></div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_pwd_label">Password:</label>
+          <input type="password" id="auth-password" class="form-control" required placeholder="Minimum 6 characters" oninput="validateAuthInputs()">
+          <div id="auth-pwd-hint" class="input-hint"></div>
+        </div>
+
+        <div class="form-row" id="group-meta" style="display:none;">
+          <div class="form-group">
+            <label data-i18n="auth_loc_label">State / Region:</label>
+            <input type="text" id="auth-location" class="form-control" value="Gujarat, India">
+          </div>
+          <div class="form-group">
+            <label data-i18n="auth_crop_label">Primary Crop:</label>
+            <select id="auth-crop" class="form-control">
+              <option value="Tomato" selected>Tomato</option>
+              <option value="Potato">Potato</option>
+              <option value="Corn (Maize)">Corn (Maize)</option>
+              <option value="Cotton">Cotton</option>
+              <option value="Wheat">Wheat</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label data-i18n="auth_lang_label">Preferred Language:</label>
+          <select id="auth-language" class="form-control" onchange="changeGlobalLanguage(this.value)">
+            <option value="en" selected>English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="mr">मराठी (Marathi)</option>
+          </select>
+        </div>
+
+        <!-- Preferred Appearance Theme / Mode (Asked during login / account setup) -->
+        <div class="form-group" id="group-theme-pref">
+          <label data-i18n="auth_theme_label">🎨 Theme & Display Mode:</label>
+          <select id="auth-theme-select" class="form-control" onchange="applyTheme(this.value, false)">
+            <option value="high-contrast" selected data-i18n="theme_opt_contrast">☀️ High Sunlight Contrast</option>
+            <option value="standard" data-i18n="theme_opt_standard">🌿 Farm Green (Standard)</option>
+            <option value="dark" data-i18n="theme_opt_dark">🌙 Night Mode (Dark)</option>
+            <option value="harvest" data-i18n="theme_opt_harvest">🌾 Golden Harvest (Amber)</option>
+          </select>
+        </div>
+
+        <div id="auth-error-msg" class="auth-error" style="display:none;"></div>
+
+        <button type="submit" class="btn btn-primary" id="btn-auth-submit" style="width:100%; margin-top:14px;">
+          <span id="auth-submit-text" data-i18n="btn_login_submit">Sign In to Farm Account</span>
+        </button>
+
+        <button type="button" class="btn btn-secondary" onclick="closeAuthModal()" style="width:100%; margin-top:8px;">
+          ⬅ <span data-i18n="btn_back_home">Back to Website</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 2: PRINTABLE / DOWNLOADABLE REPORT MODAL -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="report-modal">
+    <div class="modal-card print-report-card">
+      <div class="modal-header">
+        <h3 data-i18n="print_modal_title">📄 Official Plant Diagnostic Certificate</h3>
+        <button class="modal-close" onclick="closeReportModal()" title="Back to Results">✕</button>
+      </div>
+
+      <div class="printable-content" id="printable-report-area">
+        <div class="print-header">
+          <div class="print-logo">🌱 AGRISMART AI — PLANT PATHOLOGY REPORT</div>
+          <div class="print-meta" id="print-report-date">Date: September 2026</div>
+        </div>
+        <hr>
+
+        <div class="print-section">
+          <h4>1. Farmer & Field Coordinates</h4>
+          <p><strong>Farmer Name:</strong> <span id="pr-farmer-name">Registered Farmer</span></p>
+          <p><strong>Location:</strong> <span id="pr-farmer-location">Ahmedabad, Gujarat (GPS Synced)</span></p>
+          <p><strong>Host Crop Analyzed:</strong> <span id="pr-crop">Tomato</span></p>
+        </div>
+
+        <div class="print-section">
+          <h4>2. Visual AI Diagnostic Finding</h4>
+          <div style="display:flex; justify-content:space-between; align-items:center; background:#f0fdf4; padding:12px; border-radius:8px;">
+            <div>
+              <h2 id="pr-disease" style="color:#065f46; margin:0;">Tomato Early Blight</h2>
+              <div id="pr-class-label" style="font-size:0.85rem; color:#475569;">Alternaria solani</div>
+            </div>
+            <div style="text-align:right;">
+              <strong id="pr-confidence" style="font-size:1.4rem; color:#047857;">94%</strong>
+              <div style="font-size:0.75rem;">AI CONFIDENCE</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="print-section">
+          <h4>3. Immediate Cultural Precautions (ICAR Guideline)</h4>
+          <ul id="pr-precautions" style="padding-left:20px; font-size:0.9rem;"></ul>
+        </div>
+
+        <div class="print-section">
+          <h4>4. Recommended Treatment Schedule</h4>
+          <p><strong>🌿 Organic Remedy:</strong> <span id="pr-organic"></span></p>
+          <p><strong>🧪 Chemical Control:</strong> <span id="pr-chemical"></span></p>
+        </div>
+
+        <div class="print-footer">
+          <p><em>Generated by AgriSmart AI Autonomous Diagnostics • Verified with ICAR & FAO Extension Standards</em></p>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="margin-top:18px; display:flex; gap:10px; justify-content:space-between; flex-wrap:wrap;">
+        <button class="btn btn-secondary" onclick="closeReportModal()">
+          ⬅ <span data-i18n="btn_back_scanner">Back to Results</span>
+        </button>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-primary" onclick="downloadDiagnosticReportFile()">
+            📥 <span data-i18n="btn_download_pdf_file">Download File</span>
+          </button>
+          <button class="btn btn-secondary" onclick="printDiagnosticReport()">
+            🖨 <span data-i18n="btn_print_pdf">Print / Save as PDF</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================== -->
+  <!-- MODAL 3: NON-PLANT IMAGE WARNING MODAL                   -->
+  <!-- ======================================================== -->
+  <div class="modal-overlay" id="invalid-plant-modal">
+    <div class="modal-card" style="max-width: 480px; text-align: center;">
+      <div style="font-size: 3.5rem; margin-bottom: 8px;">🚫🍃</div>
+      <h3 style="color: #dc2626; margin-bottom: 8px;" id="invalid-modal-title" data-i18n="invalid_plant_title">
+        Not a Crop or Plant Image
+      </h3>
+      <p id="invalid-modal-reason" style="color: #4b5563; font-size: 0.95rem; line-height: 1.5; margin-bottom: 16px;" data-i18n="invalid_plant_desc">
+        The uploaded photo does not appear to contain an agricultural crop leaf, plant, fruit, or vegetable.
+      </p>
+      <div style="background: #fef2f2; border: 1px dashed #f87171; border-radius: 8px; padding: 12px; margin-bottom: 18px; text-align: left; font-size: 0.85rem; color: #991b1b;">
+        <strong>📌 Instructions for Accurate Diagnosis:</strong>
+        <ul style="margin: 6px 0 0 18px; padding: 0; line-height: 1.5;">
+          <li>Upload a close-up photo of the crop leaf, tree, or plant.</li>
+          <li>Ensure good natural light without heavy shadows.</li>
+          <li>Avoid pictures of people, vehicles, documents, pets, or screens.</li>
+        </ul>
+      </div>
+      <div style="display: flex; gap: 10px; justify-content: center;">
+        <button class="btn btn-secondary" onclick="closeInvalidPlantModal()">
+          ⬅ <span data-i18n="btn_back_scanner">Back</span>
+        </button>
+        <button class="btn btn-primary" onclick="closeInvalidPlantModal(); triggerPhotoUpload();">
+          📸 <span data-i18n="upload_prompt">Choose Plant Photo</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- ======================================================== -->
+  <!-- PROFESSIONAL SEO FOOTER (Syntax squad & Open Source)    -->
+  <!-- ======================================================== -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand & Mission -->
+        <div class="footer-col footer-col-brand">
+          <div class="footer-brand">
+            <img src="images/logo.png" alt="AgriSmart AI Emblem" class="footer-logo-img" onerror="this.onerror=null;this.src='/static/images/logo.png';">
+            <div>
+              <h3>AgriSmart AI</h3>
+              <span class="footer-tagline">Smarter Farming • Brighter Tomorrow</span>
+            </div>
+          </div>
+          <p class="footer-bio">
+            An autonomous agricultural intelligence & plant pathology platform delivering real-time vision disease diagnostics, precision evapotranspiration-based irrigation, and ICAR/FAO agronomic decision intelligence.
+          </p>
+          <div class="footer-badges">
+            <span class="footer-pill">🌿 39 Plant Classes</span>
+            <span class="footer-pill">🛡️ ICAR Grounded</span>
+            <span class="footer-pill">📡 Edge IoT Ready</span>
+          </div>
+        </div>
+
+        <!-- Col 2: Core Platform Modules -->
+        <div class="footer-col">
+          <h4>Agricultural Intelligence Modules</h4>
+          <ul class="footer-links">
+            <li><a href="#tab-core" onclick="switchTab('tab-core'); return false;">🌱 Plant Pathology Lab</a></li>
+            <li><a href="#tab-crop" onclick="switchTab('tab-crop'); return false;">🌾 Smart Crop Planner</a></li>
+            <li><a href="#tab-irrigation" onclick="switchTab('tab-irrigation'); return false;">💧 Precision Irrigation & Weather</a></li>
+            <li><a href="#tab-sustainability" onclick="switchTab('tab-sustainability'); return false;">🌍 Farm Sustainability & Carbon</a></li>
+            <li><a href="#tab-assistant" onclick="switchTab('tab-assistant'); return false;">💬 Grounded Agronomy AI Advisor</a></li>
+            <li><a href="#tab-iot" onclick="switchTab('tab-iot'); return false;">📡 Edge IoT & Smart Actuation</a></li>
+            <li><a href="#tab-settings" onclick="switchTab('tab-settings'); return false;">⚙️ Settings & Farm Profile</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Team, About Us & Contact -->
+        <div class="footer-col">
+          <h4>About & Contact</h4>
+          <div class="footer-team-box">
+            <div class="team-badge">
+              <span>🚀 Developed by</span>
+              <strong>Syntax squad</strong>
+            </div>
+            <ul class="footer-contact-list">
+              <li>
+                <span class="contact-icon">🔗</span>
+                <div>
+                  <strong>About Us & Source Code:</strong><br>
+                  <a href="http://github.com/PrinceAhir68/AGRISMART-AI" target="_blank" rel="noopener noreferrer" class="footer-link-highlight">
+                    github.com/PrinceAhir68/AGRISMART-AI
+                  </a>
+                </div>
+              </li>
+              <li>
+                <span class="contact-icon">✉️</span>
+                <div>
+                  <strong>Contact Email:</strong><br>
+                  <a href="mailto:princeahir688@gmail.com" class="footer-link-highlight">
+                    princeahir688@gmail.com
+                  </a>
+                </div>
+              </li>
+              <li>
+                <span class="contact-icon">📍</span>
+                <div>
+                  <strong>Regional Focus:</strong><br>
+                  <span>Empowering Farmers across Gujarat & Pan-India</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="footer-copy">
+          © 2026 <strong>AgriSmart AI</strong>. Engineered with pride by <strong>Syntax squad</strong>. All rights reserved.
+        </div>
+        <div class="footer-disclaimer">
+          Strictly grounded in verified Indian Council of Agricultural Research (ICAR) and FAO agronomic recommendations.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================== -->
+  <!-- MOBILE BOTTOM NAVIGATION (Section 4 & 10)                 -->
+  <!-- ======================================================== -->
+  <nav class="mobile-bottom-nav">
+    <button class="mob-nav-item active" onclick="switchTab('tab-dashboard')" data-tab="tab-dashboard">
+      <span class="mob-nav-icon">🏠</span>
+      <span class="mob-nav-label" data-i18n="mob_home">Home</span>
+    </button>
+    <button class="mob-nav-item" onclick="switchTab('tab-core')" data-tab="tab-core">
+      <span class="mob-nav-icon">🔬</span>
+      <span class="mob-nav-label" data-i18n="mob_scan">Scan</span>
+    </button>
+    <button class="mob-nav-item" onclick="switchTab('tab-crop')" data-tab="tab-crop">
+      <span class="mob-nav-icon">🌾</span>
+      <span class="mob-nav-label" data-i18n="mob_crops">Crops</span>
+    </button>
+    <button class="mob-nav-item" onclick="switchTab('tab-irrigation')" data-tab="tab-irrigation">
+      <span class="mob-nav-icon">💧</span>
+      <span class="mob-nav-label" data-i18n="mob_water">Water</span>
+    </button>
+    <button class="mob-nav-item" onclick="switchTab('tab-settings')" data-tab="tab-settings">
+      <span class="mob-nav-icon">👤</span>
+      <span class="mob-nav-label" data-i18n="mob_profile">Profile</span>
+    </button>
+  </nav>
+
+  <script src="js/app.js" onerror="this.onerror=null;this.src='/static/js/app.js';"></script>
+</body>
+</html>
