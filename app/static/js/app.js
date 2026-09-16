@@ -101,8 +101,8 @@ const TRANSLATIONS = {
     "card_upload_title": "📷 Upload Leaf / Crop Photo",
     "tag_core": "AI Vision Pathology Lab",
     "card_upload_desc": "AI Vision analyzes visual pathology across 39 classes spanning 14 crops (Tomato, Potato, Corn, Apple, Grape, Pepper, Orange, Blueberry, Cherry, Peach, Raspberry, Soybean, Squash, Strawberry).",
-    "label_target_crop": "Crop Under Inspection (Optional / Auto-Detect):",
-    "crop_opt_auto": "🔍 Auto-Detect Crop (Any Foliage)",
+    "label_target_crop": "Select Crop Under Inspection (Compulsory):",
+    "crop_opt_placeholder": "⚠️ Choose Crop First (Compulsory) ⚠️",
     "crop_opt_tomato": "🍅 Tomato",
     "crop_opt_potato": "🥔 Potato",
     "crop_opt_corn": "🌽 Corn / Maize",
@@ -393,8 +393,8 @@ const TRANSLATIONS = {
     "card_upload_title": "📷 पत्ती या फसल की तस्वीर अपलोड करें",
     "tag_core": "एआई विज़न रोग विज्ञान प्रयोगशाला",
     "card_upload_desc": "एआई विज़न 39 फसल-रोग वर्गों (14 फसलों: टमाटर, आलू, मक्का, सेब, अंगूर, मिर्च, संतरा, ब्लूबेरी, चेरी, आड़ू, रसभरी, सोयाबीन, कद्दू, स्ट्रॉबेरी) में वास्तविक पैथोलॉजी की जांच करता है।",
-    "label_target_crop": "निरीक्षण हेतु चुनी गई फसल (वैकल्पिक / स्वतः पहचान):",
-    "crop_opt_auto": "🔍 स्वतः पहचान (कोई भी फसल / पत्ती)",
+    "label_target_crop": "निरीक्षण हेतु फसल चुनें (अनिवार्य):",
+    "crop_opt_placeholder": "⚠️ पहले फसल चुनें (अनिवार्य) ⚠️",
     "crop_opt_tomato": "🍅 टमाटर (Tomato)",
     "crop_opt_potato": "🥔 आलू (Potato)",
     "crop_opt_corn": "🌽 मक्का (Corn / Maize)",
@@ -685,8 +685,8 @@ const TRANSLATIONS = {
     "card_upload_title": "📷 પાન અથવા પાકની તસવીર અપલોડ કરો",
     "tag_core": "AI વિઝન પાક રોગ વિજ્ઞાન લેબ",
     "card_upload_desc": "AI વિઝન ૩૯ પાક-રોગ વર્ગોમાં રોગની ઓળખ કરે છે (૧૪ પાક: ટામેટા, બટાટા, મકાઈ, સફરજન, દ્રાક્ષ, મરચાં, નારંગી, બ્લુબેરી, ચેરી, પીચ, રાસબરી, સોયાબીન, કોળું, સ્ટ્રોબેરી).",
-    "label_target_crop": "તપાસ માટેનો પાક (વૈકલ્પિક / આપમેળે ઓળખ):",
-    "crop_opt_auto": "🔍 આપમેળે ઓળખ (કોઈપણ પાંદડું / છોડ)",
+    "label_target_crop": "તપાસ માટે પાક પસંદ કરો (ફરજિયાત):",
+    "crop_opt_placeholder": "⚠️ પહેલાં પાક પસંદ કરો (ફરજિયાત) ⚠️",
     "crop_opt_tomato": "🍅 ટામેટાં (Tomato)",
     "crop_opt_potato": "🥔 બટાટા (Potato)",
     "crop_opt_corn": "🌽 મકાઈ (Corn / Maize)",
@@ -977,8 +977,8 @@ const TRANSLATIONS = {
     "card_upload_title": "📷 पानाचा फोटो अपलोड करा",
     "tag_core": "AI व्हिजन वनस्पती रोग निदान लॅब",
     "card_upload_desc": "AI व्हिजन ३९ पिकांच्या रोगांचे अचूक निदान करते (१४ पिके: टोमॅटो, बटाटा, मका, सफरचंद, द्राक्षे, मिरची, संत्रा, ब्लूबेरी, चेरी, पीच, रासबेरी, सोयाबीन, भोपळा, स्ट्रॉबेरी).",
-    "label_target_crop": "तपासणीसाठी पीक निवडा (पर्यायी / आपोआप ओळख):",
-    "crop_opt_auto": "🔍 आपोआप ओळख (कोणतीही वनस्पती / पान)",
+    "label_target_crop": "तपासणीसाठी पीक निवडा (अनिवार्य):",
+    "crop_opt_placeholder": "⚠️ आधी पीक निवडा (अनिवार्य) ⚠️",
     "crop_opt_tomato": "🍅 टोमॅटो (Tomato)",
     "crop_opt_potato": "🥔 बटाटा (Potato)",
     "crop_opt_corn": "🌽 मका (Corn / Maize)",
@@ -1368,6 +1368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     dropZone.addEventListener('drop', (e) => {
       e.preventDefault();
       dropZone.style.borderColor = '#94a3b8';
+      if (!checkCropSelected()) return;
       if (e.dataTransfer.files.length > 0) {
         processSelectedFile(e.dataTransfer.files[0]);
       }
@@ -1407,69 +1408,27 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =================================================================
-// ROLE SWITCHER & PROGRESSIVE DISCLOSURE SYSTEM (Step 17)
+// UNIFIED FARMER VIEW SYSTEM (Expert/Engineer/Research views removed)
 // =================================================================
 let currentAppRole = 'farmer';
 
-function setAppRole(role, notify = true) {
-  currentAppRole = role || 'farmer';
-  localStorage.setItem('agrismart_user_role', currentAppRole);
-  document.body.setAttribute('data-role', currentAppRole);
+function setAppRole(role, notify = false) {
+  currentAppRole = 'farmer';
+  localStorage.setItem('agrismart_user_role', 'farmer');
+  document.body.setAttribute('data-role', 'farmer');
 
-  const pills = document.querySelectorAll('.role-pill');
-  pills.forEach(p => {
-    p.classList.remove('active');
-    p.setAttribute('aria-checked', 'false');
-  });
-
-  const activePill = document.getElementById(`role-btn-${currentAppRole}`);
-  if (activePill) {
-    activePill.classList.add('active');
-    activePill.setAttribute('aria-checked', 'true');
-  }
-
-  // Adjust role-specific visibility & accordions
+  // Both calm summary and physical hardware hub are visible to farmer in IoT tab
   const calmCard = document.getElementById('iot-farmer-calm-view');
-  const engView = document.getElementById('iot-engineer-view');
+  const hwHub = document.getElementById('iot-hardware-hub') || document.getElementById('iot-engineer-view');
   const whyPanel = document.getElementById('why-diagnosis-panel');
 
-  if (currentAppRole === 'farmer') {
-    if (calmCard) calmCard.style.display = 'block';
-    if (engView) engView.style.display = 'none';
-    if (whyPanel) whyPanel.open = false;
-  } else if (currentAppRole === 'engineer') {
-    if (calmCard) calmCard.style.display = 'none';
-    if (engView) engView.style.display = 'grid';
-  } else if (currentAppRole === 'expert' || currentAppRole === 'research') {
-    if (calmCard) calmCard.style.display = 'block';
-    if (engView) engView.style.display = 'grid';
-    if (whyPanel) whyPanel.open = true;
-  }
-
-  const roleNames = {
-    farmer: '👨‍🌾 Farmer View (Simple & Actionable)',
-    expert: '🔬 Expert / KVK View (Foliar Taxonomy & ICAR Citations)',
-    engineer: '📡 IoT Engineer View (Hardware Console & Raw Telemetry)',
-    research: '📊 Research / Admin View (Deep Validation & Model Metrics)'
-  };
-
-  if (notify) {
-    showToast(`Switched to ${roleNames[currentAppRole] || currentAppRole}`, 'success');
-  }
+  if (calmCard) calmCard.style.display = 'block';
+  if (hwHub) hwHub.style.display = 'grid';
+  if (whyPanel) whyPanel.open = false;
 }
 
 function toggleEngineerConsole() {
-  const engView = document.getElementById('iot-engineer-view');
-  const btn = document.getElementById('btn-toggle-engineer');
-  if (!engView) return;
-  const isHidden = (engView.style.display === 'none' || getComputedStyle(engView).display === 'none');
-  if (isHidden) {
-    engView.style.display = 'grid';
-    if (btn) btn.innerHTML = '🌾 <span>Hide Engineer Console</span>';
-  } else {
-    engView.style.display = 'none';
-    if (btn) btn.innerHTML = '⚙️ <span>Switch to Engineer Console</span>';
-  }
+  // Deprecated: Dedicated engineer toggle removed for streamlined farmer experience
 }
 
 // 5-Step Progressive Scan Tracker Helpers
@@ -2362,8 +2321,44 @@ function updateSpeakerButtonState(active) {
 }
 
 // =================================================================
-// 7. CORE TASK: LEAF DISEASE DETECTION WITH CROP SELECTOR
+// 7. CORE TASK: LEAF DISEASE DETECTION WITH COMPULSORY CROP SELECTION
 // =================================================================
+
+function checkCropSelected() {
+  const cropSel = document.getElementById('target-crop-select');
+  if (!cropSel || !cropSel.value || cropSel.value === 'auto' || cropSel.value.trim() === '') {
+    const hint = document.getElementById('crop-select-hint');
+    if (hint) hint.style.display = 'block';
+    if (cropSel) {
+      cropSel.style.borderColor = '#ef4444';
+      cropSel.classList.add('pulse-error');
+      cropSel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      cropSel.focus();
+    }
+    showToast('⚠️ Please choose your crop first! Selecting a crop is compulsory.', 'warning');
+    return false;
+  }
+  return true;
+}
+
+function triggerPhotoUpload() {
+  if (!checkCropSelected()) return;
+  const fileInput = document.getElementById('file-input');
+  if (fileInput) fileInput.click();
+}
+
+function handleCropChange(val) {
+  const hint = document.getElementById('crop-select-hint');
+  const selectEl = document.getElementById('target-crop-select');
+  if (val && val !== 'auto' && val.trim() !== '') {
+    if (hint) hint.style.display = 'none';
+    if (selectEl) {
+      selectEl.style.borderColor = '#10b981';
+      selectEl.classList.remove('pulse-error');
+    }
+    showToast(`✓ Selected Crop: ${val}`, 'info');
+  }
+}
 
 // =================================================================
 // 6.1 FIELD CAMERA / WEBCAM LEAF SCANNER
@@ -2372,6 +2367,7 @@ let cameraStream = null;
 let currentFacingMode = 'environment';
 
 async function openCameraModal() {
+  if (!checkCropSelected()) return;
   const modal = document.getElementById('camera-modal');
   if (!modal) return;
   modal.classList.add('active');
@@ -2464,6 +2460,10 @@ function captureCameraPhoto() {
 }
 
 function handleFileUpload(event) {
+  if (!checkCropSelected()) {
+    event.target.value = '';
+    return;
+  }
   if (event.target.files && event.target.files[0]) {
     processSelectedFile(event.target.files[0]);
   }
@@ -2509,13 +2509,8 @@ function processSelectedFile(file) {
 async function loadSample(filename) {
   try {
     hideInvalidPlantAlert();
-    const resp = await fetch(`/samples/${filename}`);
-    if (!resp.ok) throw new Error('Sample not found');
-    const blob = await resp.blob();
-    const file = new File([blob], filename, { type: 'image/jpeg' });
-    processSelectedFile(file);
 
-    // Auto-select corresponding crop in dropdown
+    // Auto-select corresponding crop in dropdown and clear hints
     const cropSel = document.getElementById('target-crop-select');
     if (cropSel) {
       if (filename.startsWith('tomato')) cropSel.value = 'Tomato';
@@ -2524,7 +2519,14 @@ async function loadSample(filename) {
       else if (filename.startsWith('bell_pepper')) cropSel.value = 'Pepper__bell';
       else if (filename.startsWith('apple')) cropSel.value = 'Apple';
       else if (filename.startsWith('grape')) cropSel.value = 'Grape';
+      handleCropChange(cropSel.value);
     }
+
+    const resp = await fetch(`/samples/${filename}`);
+    if (!resp.ok) throw new Error('Sample not found');
+    const blob = await resp.blob();
+    const file = new File([blob], filename, { type: 'image/jpeg' });
+    processSelectedFile(file);
 
     setTimeout(runAnalysis, 150);
   } catch (e) {
@@ -2533,6 +2535,7 @@ async function loadSample(filename) {
 }
 
 async function runAnalysis() {
+  if (!checkCropSelected()) return;
   if (!currentSelectedImageFile) {
     showToast('Please select or upload a leaf photo first.', 'warning');
     return;
@@ -2797,8 +2800,7 @@ function renderDiagnosis(data) {
     }
   }
   if (whyPanel) {
-    // Only open by default in Expert or Research mode (Progressive Disclosure)
-    whyPanel.open = (currentAppRole === 'expert' || currentAppRole === 'research');
+    whyPanel.open = false;
   }
 
   // Level 6: Low Confidence / Safety Warning

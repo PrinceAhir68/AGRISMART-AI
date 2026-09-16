@@ -3036,25 +3036,23 @@ body.harvest-mode .chat-consensus-bar span, [data-theme="harvest"] .chat-consens
   box-shadow: 0 2px 8px rgba(22, 101, 52, 0.25);
 }
 
-/* Visibility Rules based on data-role */
-body[data-role="farmer"] .role-expert-only,
-body[data-role="farmer"] .role-engineer-only,
-body[data-role="farmer"] .role-research-only {
+/* Legacy role classes permanently hidden */
+.role-expert-only,
+.role-engineer-only,
+.role-research-only,
+.role-switcher-container {
   display: none !important;
 }
 
-body[data-role="expert"] .role-farmer-only,
-body[data-role="expert"] .role-engineer-only {
-  display: none !important;
+/* Compulsory Crop Selection Warning Animation */
+.pulse-error {
+  animation: errorPulse 0.9s ease-in-out infinite alternate !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.35) !important;
 }
 
-body[data-role="engineer"] .role-farmer-only,
-body[data-role="engineer"] .role-expert-only {
-  display: none !important;
-}
-
-body[data-role="research"] .role-farmer-only {
-  display: none !important;
+@keyframes errorPulse {
+  0% { border-color: #ef4444; }
+  100% { border-color: #b91c1c; }
 }
 
 /* 5-Step Progressive Scan Tracker */
